@@ -2,17 +2,47 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+// Définir des routes nommées pour les pages
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/service', function () {
+    return view('service');
+})->name('service');
+
+Route::get('/package', function () {
+    return view('package');
+})->name('package');
+
+Route::get('/destination', function () {
+    return view('destination');
+})->name('destination');
+
+Route::get('/booking', function () {
+    return view('booking');
+})->name('booking');
+
+Route::get('/team', function () {
+    return view('team');
+})->name('team');
+
+Route::get('/testimonial', function () {
+    return view('testimonial');
+})->name('testimonial');
+
+Route::get('/activity', function () {
+    return view('activity');
+})->name('activity');
+
+Route::get('/planification', function () {
+    return view('planification');
+})->name('planification');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
