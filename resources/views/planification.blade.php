@@ -3,35 +3,39 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Tourist - Travel Agency HTML Template</title>
+    <title>Voyage FM-services</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+    {{-- Le chemin vers l'icône du site (favicon) --}}
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap"
         rel="stylesheet">
+    {{-- Polices web de Google --}}
 
-    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    {{-- Feuilles de style pour les icônes Font Awesome --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    {{-- Feuilles de style pour les icônes Bootstrap --}}
 
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
+    {{-- Feuille de style pour les animations --}}
+    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    {{-- Feuille de style pour le carrousel Owl --}}
+    <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    {{-- Feuille de style pour le sélecteur de date et d'heure Tempus Dominus --}}
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- Feuille de style Bootstrap personnalisée --}}
 
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    {{-- Feuille de style principale du template --}}
+
     
     <style>
  
@@ -141,35 +145,35 @@
 
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
-        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
-                <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
-                <!-- <img src="img/logo.png" alt="Logo"> -->
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link ">Accueil</a>
-                    <a href="about.html" class="nav-item nav-link">À propos</a>
-                    <a href="service.html" class="nav-item nav-link">Services</a>
-                    <a href="package.html" class="nav-item nav-link">Offres</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="destination.html" class="dropdown-item">Destination</a>
-                            <a href="booking.html" class="dropdown-item">Réservation</a>
-                            <a href="team.html" class="dropdown-item">Guides de voyage</a>
-                            <a href="testimonial.html" class="dropdown-item">Témoignage</a>
-                           <a href="Activity.html" class="dropdown-item">Activité</a>
-                            <a href="planification.html" class="dropdown-item">Planification de voyage</a>
-                        </div>
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+    <a href="{{ url('/') }}" class="navbar-brand p-0">
+        <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-0">
+            <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
+            <a href="{{ route('about') }}" class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
+            <a href="{{ route('service') }}" class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
+            <a href="{{ route('package') }}" class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                <div class="dropdown-menu m-0">
+                    <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
+                    <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
+                    <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
+                    <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
+                    <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
+                    <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
                 </div>
-                <a href="contact.html" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
             </div>
-        </nav>
+        </div>
+        <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+    </div>
+</nav>
         <div class="container-fluid bg-primary py-5 mb-5 hero-header6">
             <div class="container py-5">
                 <div class="row justify-content-center py-5">
@@ -177,12 +181,12 @@
                         <h1 class="display-3 text-white animated slideInDown">Planification</h1>
                         <h5 style="color: white;">Nous offrons des services complets pour simplifier vos voyages : réservation de vols, d'hôtels, et assurances adaptées à vos besoins, pour une expérience de voyage fluide et sécurisée.</h5>
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Planification</li>
-                            </ol>
-                        </nav>
+    <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item text-white active" aria-current="page">Planification</li>
+    </ol>
+</nav>
                     </div>
                 </div>
             </div>
@@ -263,7 +267,7 @@
 </div>
     <div class="travel-plans-container" id="paris">
         <div class="travel-plan-card">
-            <img src="img/Paris.jpg" alt="Paris" class="plan-image">
+        <img src="{{ asset('assets/img/Paris.jpg') }}" alt="Paris" class="plan-image">
             <div class="plan-details">
                 <h3 class="plan-title">Paris, France</h3>
                 <p class="plan-description">2 jours à Paris pour explorer les incontournables.</p>
@@ -287,8 +291,8 @@
         </div>
     
         <div class="travel-plan-card">
-            <img src="img/Marrakech.jpg" alt="Marrakech" class="plan-image">
-            <div class="plan-details">
+        <img src="{{ asset('assets/img/Marrakech.jpg') }}" alt="Marrakech" class="plan-image">           
+         <div class="plan-details">
                 <h3 class="plan-title">Marrakech, Maroc</h3>
                 <p class="plan-description">2 jours à Marrakech pour une immersion totale.</p>
                 <div class="day">
@@ -311,8 +315,8 @@
         </div>
     
         <div class="travel-plan-card">
-            <img src="img/japan.jpg" alt="Tokyo" class="plan-image">
-            <div class="plan-details">
+        <img src="{{ asset('assets/img/japan.jpg') }}" alt="Tokyo" class="plan-image">
+                    <div class="plan-details">
                 <h3 class="plan-title">Tokyo, Japon</h3>
                 <p class="plan-description">2 jours à Tokyo, entre tradition et modernité.</p>
                 <div class="day">
@@ -336,70 +340,69 @@
     </div>
     
     
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Company</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
+   
+ <!-- Footer Start -->
+ <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Infos</h4>
+                <a class="btn btn-link" href="{{ url('about') }}">À propos</a>
+                <a class="btn btn-link" href="{{ url('contact') }}">Nous contacter</a>
+                <a class="btn btn-link" href="{{ url('about') }}">Politique de confidentialité</a>
+                <a class="btn btn-link" href="{{ url('about') }}">Conditions générales</a>
+                <a class="btn btn-link" href="{{ url('about') }}">FAQ et aide</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Km 5, Route d'Essaouira, B.P 2400, Marrakech, Maroc.</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>VoyageFM@gmail.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3"><a href="{{ url('about') }}#calery" style="color: #fff">Galerie</a></h4>
+                <div class="row g-2 pt-2">
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3" ><a href="about.html.#calery" style="color: #fff">Gallery</a></h4>
-
-                    <div class="row g-2 pt-2">
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                    </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Paiement</h4>
+                <div class="d-flex flex-wrap justify-content-start">
+                    <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Paiement</h4>
-                    <div class="d-flex flex-wrap justify-content-start">
-                        <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
-                    </div>
-                </div>
-                
             </div>
         </div>
-        
     </div>
-    <!-- Footer End -->
+</div>
+<!-- Footer End -->
+
 
 
     <!-- Back to Top -->
@@ -408,17 +411,29 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    {{-- Librairie jQuery --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    {{-- Bundle JavaScript de Bootstrap 5 --}}
+    <script src="{{ asset('assets/lib/wow/wow.min.js') }}"></script>
+    {{-- Librairie WOW.js pour les animations au scroll --}}
+    <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+    {{-- Librairie Easing pour des effets d'animation fluides --}}
+    <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    {{-- Librairie Waypoints pour détecter le scroll des éléments --}}
+    <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    {{-- Librairie Owl Carousel pour les carrousels --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    {{-- Librairie Moment.js pour la manipulation de dates --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    {{-- Librairie Moment Timezone pour la gestion des fuseaux horaires --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    {{-- Librairie Tempus Dominus pour le sélecteur de date et d'heure (version Bootstrap 4) --}}
+
+    
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    {{-- Fichier JavaScript principal du template --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Handle modal content dynamically

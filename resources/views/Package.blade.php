@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>-OffresTourist</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
-    <head>
-        <meta charset="utf-8">
-        <title>-OffresTourist</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
-    
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
-    
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-    
-        <!-- Icon Font Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-        <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-    
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-    
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
         <style
     >.packages-carousel {
@@ -136,35 +129,35 @@
 
    <!-- Navbar & Hero Start -->
    <div class="container-fluid position-relative p-0">
-    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-        <a href="" class="navbar-brand p-0">
-            <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
-            <!-- <img src="img/logo.png" alt="Logo"> -->
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link ">Accueil</a>
-                <a href="about.html" class="nav-item nav-link">À propos</a>
-                <a href="service.html" class="nav-item nav-link ">Services</a>
-                <a href="package.html" class="nav-item nav-link active">Offres</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="destination.html" class="dropdown-item">Destination</a>
-                        <a href="booking.html" class="dropdown-item">Réservation</a>
-                        <a href="team.html" class="dropdown-item">Guides de voyage</a>
-                        <a href="testimonial.html" class="dropdown-item">Témoignage</a>
-                       <a href="Activity.html" class="dropdown-item">Activité</a>
-                        <a href="planification.html" class="dropdown-item">Planification de voyage</a>
-                    </div>
+   <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+    <a href="{{ url('/') }}" class="navbar-brand p-0">
+        <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-0">
+            <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
+            <a href="{{ route('about') }}" class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
+            <a href="{{ route('service') }}" class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
+            <a href="{{ route('package') }}" class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                <div class="dropdown-menu m-0">
+                    <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
+                    <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
+                    <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
+                    <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
+                    <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
+                    <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
                 </div>
             </div>
-            <a href="contact.html" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
         </div>
-    </nav>
+        <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+    </div>
+</nav>
 
         <div class="container-fluid bg-primary py-5 mb-5 hero-header7">
             <div class="container py-5">
@@ -174,11 +167,11 @@
                         <h5 class="mb-2" style="color: aliceblue;">Découvrez des offres exceptionnelles pour des destinations de rêve. Plages paradisiaques, villes historiques ou aventures inoubliables : trouvez le voyage qui vous ressemble et laissez-nous réaliser vos envies d’évasion.</h5>
                         <br>
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Offres</li>
-                            </ol>
+                        <ol class="breadcrumb justify-content-center">
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
+    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+    <li class="breadcrumb-item text-white active" aria-current="page">Offres</li>
+</ol>
                         </nav>
                     </div>
                 </div>
@@ -213,7 +206,8 @@
                 <div class="packages-carousel owl-carousel">
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/offreItaly.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
+                            <img src="{{ asset('assets/img/offreItaly.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
+
                             <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Venise - Italie</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
@@ -247,7 +241,9 @@
 
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/OffreCap.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
+                            <img src="{{ asset('assets/img/OffreCap.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
+
+
                             <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Cape Town</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
@@ -282,7 +278,8 @@
 
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/OffreChefchaouen.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
+                            <img src="{{ asset('assets/img/OffreChefchaouen.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
+                            
                             <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Chefchaouen-Maroc</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>6 Jours</small>
@@ -316,7 +313,7 @@
                     
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/offrethayland.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
+                            <img src="{{ asset('assets/img/offrethayland.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
                             <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i> Bangkok-Thaïlande</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>6 Jours</small>
@@ -349,7 +346,7 @@
                     </div>
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/offreBrésil.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
+                        <img src="{{ asset('assets/img/offreBrésil.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
                             <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Rio de Janeiro-Brésil</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
@@ -383,8 +380,7 @@
                     
                     <div class="packages-item">
                         <div class="packages-img">
-                            <img src="img/offreEgypte.jpeg" class="img-fluid w-100 rounded-top" alt="Image">
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
+                        <img src="{{ asset('assets/img/offreEgypte.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Le Caire, Égypte</small>
                                 <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 days</small>
                                 <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>2 Person</small>
@@ -425,11 +421,11 @@
         <div class="row g-5">
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-3">Company</h4>
-                <a class="btn btn-link" href="">About Us</a>
-                <a class="btn btn-link" href="">Contact Us</a>
-                <a class="btn btn-link" href="">Privacy Policy</a>
-                <a class="btn btn-link" href="">Terms & Condition</a>
-                <a class="btn btn-link" href="">FAQs & Help</a>
+                <a class="btn btn-link" href="{{ route('about') }}">About Us</a>
+                <a class="btn btn-link" href="{{ route('contact') }}">Contact Us</a>
+                <a class="btn btn-link" href="#">Privacy Policy</a>
+                <a class="btn btn-link" href="#">Terms & Condition</a>
+                <a class="btn btn-link" href="#">FAQs & Help</a>
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-3">Contact</h4>
@@ -447,22 +443,22 @@
                 <h4 class="text-white mb-3" ><a href="about.html.#calery" style="color: #fff">Gallery</a></h4>
                 <div class="row g-2 pt-2">
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1"  style="height: 60px ; width: 200px;" src="img/package-1.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;"  src="img/package-2.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;"  src="img/package-3.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1 " style="height: 60px ; width: 200px;" src="img/package-2.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1"  style="height: 60px ; width: 200px;" src="img/package-3.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
                     </div>
                     <div class="col-4">
-                        <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;"  src="img/package-1.jpg" alt="">
+                    <img class="img-fluid bg-light p-1" style="height: 60px ; width: 200px;" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
                     </div>
                 </div>
             </div>
@@ -500,13 +496,21 @@
         
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+    {{-- Librairie JavaScript jQuery (Google CDN) --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- Bundle JavaScript de Bootstrap 5 (inclut Popper.js) --}}
+    <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+    {{-- Librairie JavaScript pour les effets d'animation (Easing) --}}
+    <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    {{-- Librairie JavaScript pour détecter le scroll des éléments (Waypoints) --}}
+    <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    {{-- Librairie JavaScript pour le carrousel Owl Carousel --}}
+    <script src="{{ asset('assets/lib/lightbox/js/lightbox.min.js') }}"></script>
+    {{-- Librairie JavaScript pour la lightbox (affichage d'images) --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- Librairie JavaScript jQuery (CDNJS) - Note: une version de jQuery est déjà chargée ci-dessus --}}
+    <script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+    {{-- Librairie JavaScript pour le carrousel Owl Carousel (CDNJS) - Note: une version d'Owl Carousel est déjà chargée ci-dessus --}}
         
 
         <!-- Template Javascript -->
@@ -548,7 +552,8 @@
         });
     });
         </script>
-        <script src="js/main.js"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+        {{-- Fichier JavaScript principal du template --}}
         
 
     </body>

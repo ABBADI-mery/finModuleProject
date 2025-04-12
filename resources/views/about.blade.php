@@ -8,30 +8,23 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-    <!-- Lightbox2 CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css" rel="stylesheet">
 
 
 
@@ -51,35 +44,35 @@
 
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
-        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
-                <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
-                <!-- <img src="img/logo.png" alt="Logo"> -->
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link ">Accueil</a>
-                    <a href="about.html" class="nav-item nav-link active">À propos</a>
-                    <a href="service.html" class="nav-item nav-link">Services</a>
-                    <a href="package.html" class="nav-item nav-link">Offres</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="destination.html" class="dropdown-item">Destination</a>
-                            <a href="booking.html" class="dropdown-item">Réservation</a>
-                            <a href="team.html" class="dropdown-item">Guides de voyage</a>
-                            <a href="testimonial.html" class="dropdown-item">Témoignage</a>
-                           <a href="Activity.html" class="dropdown-item">Activité</a>
-                            <a href="planification.html" class="dropdown-item">Planification de voyage</a>
-                        </div>
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+    <a href="{{ url('/') }}" class="navbar-brand p-0">
+        <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-0">
+            <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
+            <a href="{{ route('about') }}" class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
+            <a href="{{ route('service') }}" class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
+            <a href="{{ route('package') }}" class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                <div class="dropdown-menu m-0">
+                    <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
+                    <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
+                    <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
+                    <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
+                    <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
+                    <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
                 </div>
-                <a href="contact.html" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
             </div>
-        </nav>
+        </div>
+        <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+    </div>
+</nav>
 
         <div class="container-fluid bg-primary py-5 mb-5 hero-header2" style="height: 600px;">
             <div class="container py-5">
@@ -87,12 +80,12 @@
                     <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
                         <h1 class="display-3 text-white animated slideInDown">À propos </h1>
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">À propos</li>
-                            </ol>
-                        </nav>
+    <ol class="breadcrumb justify-content-center">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item text-white active" aria-current="page">À propos</li>
+    </ol>
+</nav>
                     </div>
                 </div>
             </div>
@@ -107,8 +100,8 @@
             <div class="row">
                 <div class="col-lg-6" style="min-height: 500px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 " src="img/imageabout2.png" style="height: 1000px;">
-                    </div>
+                    <img class="position-absolute w-100 " src="{{ asset('assets/img/imageabout2.png') }}" style="height: 1000px;">
+                                    </div>
                 </div>
                 <div class="col-lg-6 pt-5 pb-lg-5">
                     <div class="about-text bg-white p-3 p-lg-2 my-lg-5">
@@ -120,13 +113,13 @@
                             <br>Nos clients partagent avec nous leurs souvenirs de voyage, remplis d’émotions et d’aventures. Chez VoyageFM, ces moments sont notre fierté
                         </p>
                         <div class="row mb-4">
-                            <div class="col-6">
-                                <img class="img-fluid" src="img/about-1.jpg" alt="">
-                            </div>
-                            <div class="col-6">
-                                <img class="img-fluid" src="img/about-2.jpg" alt="">
-                            </div>
-                        </div>
+    <div class="col-6">
+        <img class="img-fluid" src="{{ asset('assets/img/about-1.jpg') }}" alt="">
+    </div>
+    <div class="col-6">
+        <img class="img-fluid" src="{{ asset('assets/img/about-2.jpg') }}" alt="">
+    </div>
+</div>
                         <a href="#calery" class="btn btn-primary mt-1">Voir plus</a>
                     </div>
                 </div>
@@ -235,167 +228,168 @@
             <h4 class="text-primary">Notre Galerie</h4>
             <h1 class="display-5 mb-4">Moments capturés à VoyageFM</h1>
             <p>Nos clients partagent avec nous leurs souvenirs inoubliables, immortalisant des instants précieux de leurs voyages. Chaque photo raconte
-                 une histoire unique, remplie d’émotions et d’aventures. Chez VoyageFM, ces moments deviennent notre plus grande fierté.</p>
+                une histoire unique, remplie d’émotions et d’aventures. Chez VoyageFM, ces moments deviennent notre plus grande fierté.</p>
         </div>
         <div class="row g-4">
             <div class="col-6 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="gallery-item">
-                    <a href="img/gallery-1.jpg" data-lightbox="gallery" data-title="Image 1">
-                        <img src="img/gallery-1.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-1.jpg') }}" data-lightbox="gallery" data-title="Image 1">
+                        <img src="{{ asset('assets/img/gallery-1.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.4s">
                 <div class="gallery-item">
-                    <a href="img/gallery-2.jpg" data-lightbox="gallery" data-title="Image 2">
-                        <img src="img/gallery-2.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-2.jpg') }}" data-lightbox="gallery" data-title="Image 2">
+                        <img src="{{ asset('assets/img/gallery-2.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-3.jpg" data-lightbox="gallery" data-title="Image 3">
-                        <img src="img/gallery-3.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-3.jpg') }}" data-lightbox="gallery" data-title="Image 3">
+                        <img src="{{ asset('assets/img/gallery-3.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-4.jpg" data-lightbox="gallery" data-title="Image 4">
-                        <img src="img/gallery-4.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-4.jpg') }}" data-lightbox="gallery" data-title="Image 4">
+                        <img src="{{ asset('assets/img/gallery-4.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-5.jpg" data-lightbox="gallery" data-title="Image 5">
-                        <img src="img/gallery-5.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-5.jpg') }}" data-lightbox="gallery" data-title="Image 5">
+                        <img src="{{ asset('assets/img/gallery-5.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-6.jpg" data-lightbox="gallery" data-title="Image 6">
-                        <img src="img/gallery-6.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-6.jpg') }}" data-lightbox="gallery" data-title="Image 6">
+                        <img src="{{ asset('assets/img/gallery-6.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-7.jpg" data-lightbox="gallery" data-title="Image 7">
-                        <img src="img/gallery-7.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-7.jpg') }}" data-lightbox="gallery" data-title="Image 7">
+                        <img src="{{ asset('assets/img/gallery-7.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div>
             <div class="col-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="gallery-item">
-                        <a href="img/gallery-10.jpg" data-lightbox="gallery" data-title="Image 1">
-                            <img src="img/gallery-10.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
-                        </a>
-                    </div>
+                <div class="gallery-item">
+                    <a href="{{ asset('assets/img/gallery-10.jpg') }}" data-lightbox="gallery" data-title="Image 1">
+                        <img src="{{ asset('assets/img/gallery-10.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    </a>
                 </div>
+            </div>
             <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-8.jpg" data-lightbox="gallery" data-title="Image 8">
-                        <img src="img/gallery-8.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-8.jpg') }}" data-lightbox="gallery" data-title="Image 8">
+                        <img src="{{ asset('assets/img/gallery-8.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
             </div><div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
                 <div class="gallery-item">
-                    <a href="img/gallery-9.jpg" data-lightbox="gallery" data-title="Image 9">
-                        <img src="img/gallery-9.jpg" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
+                    <a href="{{ asset('assets/img/gallery-9.jpg') }}" data-lightbox="gallery" data-title="Image 9">
+                        <img src="{{ asset('assets/img/gallery-9.jpg') }}" class="img-fluid rounded w-100 h-100" alt="Gallery Image">
                     </a>
                 </div>
-                
-      
+            </div>
         </div>
     </div>
 </div>
 <!-- Gallery End -->
 
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Infos</h4>
-                    <a class="btn btn-link" href="about.html">À propos</a>
-                    <a class="btn btn-link" href="contact.html">Nous contacter</a>
-                    <a class="btn btn-link" href="about.html">Politique de confidentialité</a>
-                    <a class="btn btn-link" href="about.html">Conditions générales</a>
-                    <a class="btn btn-link" href="about.html">FAQ et aide</a>
+   <!-- Footer Start -->
+ <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Infos</h4>
+                <a class="btn btn-link" href="{{ url('about') }}">À propos</a>
+                <a class="btn btn-link" href="{{ url('contact') }}">Nous contacter</a>
+                <a class="btn btn-link" href="{{ url('about') }}">Politique de confidentialité</a>
+                <a class="btn btn-link" href="{{ url('about') }}">Conditions générales</a>
+                <a class="btn btn-link" href="{{ url('about') }}">FAQ et aide</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Km 5, Route d'Essaouira, B.P 2400, Marrakech, Maroc.</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>VoyageFM@gmail.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Km 5, Route d'Essaouira,
-                        B.P 2400, Marrakech, Maroc.</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>VoyageFM@gmail.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3"><a href="{{ url('about') }}#calery" style="color: #fff">Galerie</a></h4>
+                <div class="row g-2 pt-2">
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                    </div>
+                    <div class="col-4">
+                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3" ><a href="about.html.#calery" style="color: #fff">Galerie</a></h4>
-
-                    <div class="row g-2 pt-2">
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                    </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Paiement</h4>
+                <div class="d-flex flex-wrap justify-content-start">
+                    <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
+                    <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Paiement</h4>
-                    <div class="d-flex flex-wrap justify-content-start">
-                        <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
-                        <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
-                    </div>
-                </div>
-                
             </div>
         </div>
-       
     </div>
-    <!-- Footer End -->
-
-
+</div>
+<!-- Footer End -->
 
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
 
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    {{-- Librairie JavaScript jQuery --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    {{-- Bundle JavaScript de Bootstrap 5 (inclut Popper.js) --}}
+    <script src="{{ asset('assets/lib/wow/wow.min.js') }}"></script>
+    {{-- Librairie JavaScript pour les animations au scroll (WOW.js) --}}
+    <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+    {{-- Librairie JavaScript pour les effets d'animation (Easing) --}}
+    <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    {{-- Librairie JavaScript pour détecter le scroll des éléments (Waypoints) --}}
+    <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    {{-- Librairie JavaScript pour le carrousel (Owl Carousel) --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    {{-- Librairie JavaScript pour la manipulation de dates (Moment.js) --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    {{-- Librairie JavaScript pour la gestion des fuseaux horaires (Moment Timezone) --}}
+    <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    {{-- Librairie JavaScript pour le sélecteur de date et d'heure (Tempus Dominus pour Bootstrap 4) --}}
     <script>
       function toggleAnswer(id) {
        const answer = document.getElementById(`answer-${id}`);
@@ -408,7 +402,8 @@
 
     </script>
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    {{-- Fichier JavaScript principal du template --}}
     <!-- Lightbox2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
 </body>
