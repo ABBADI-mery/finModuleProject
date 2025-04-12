@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,15 +23,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+
+    <!-- Animations & AOS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
 
     <style>
 /* Section des activités */
@@ -218,8 +223,8 @@
    
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
-        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="{{ url('/') }}" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
                 <!-- <img src="img/logo.png" alt="Logo"> -->
             </a>
@@ -228,23 +233,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link ">Accueil</a>
-                    <a href="about.html" class="nav-item nav-link">À propos</a>
-                    <a href="service.html" class="nav-item nav-link">Services</a>
-                    <a href="package.html" class="nav-item nav-link">Offres</a>
+                    <a href="{{ route('home') }}"
+                        class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
+                    <a href="{{ route('about') }}"
+                        class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
+                    <a href="{{ route('service') }}"
+                        class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
+                    <a href="{{ route('package') }}"
+                        class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
-                            <a href="destination.html" class="dropdown-item">Destination</a>
-                            <a href="booking.html" class="dropdown-item">Réservation</a>
-                            <a href="team.html" class="dropdown-item">Guides de voyage</a>
-                            <a href="testimonial.html" class="dropdown-item">Témoignage</a>
-                           <a href="Activity.html" class="dropdown-item">Activité</a>
-                            <a href="planification.html" class="dropdown-item">Planification de voyage</a>
+                            <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
+                            <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
+                            <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
+                            <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
+                            <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
+                            <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
                         </div>
                     </div>
                 </div>
-                <a href="contact.html" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+                <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
             </div>
         </nav>
     <!-- Navbar & Hero End -->
@@ -277,19 +286,19 @@
         <!-- Rangée supérieure -->
         <div class="activity-row">
             <div class="country-card">
-                <img src="img/paris-1.png" alt="Paris">
+                <img src="{{ asset('assets/img/paris-1.png') }}"alt="Paris">
                 <h3>Paris, France</h3>
                 <p>Découvrez les monuments emblématiques de Paris.</p>
                 <button class="btn-primary" onclick="showDetails('paris')">Voir plus</button>
             </div>
             <div class="country-card">
-                <img src="img/italy-1.png" alt="Rome">
+                <img src="{{ asset('assets/img/italy-1.png') }}" alt="Rome">
                 <h3>Rome, Italie</h3>
                 <p>Visitez le Colisée et le Vatican.</p>
                 <button class="btn-primary" onclick="showDetails('rome')">Voir plus</button>
             </div>
             <div class="country-card">
-                <img src="img/newyoek.png" alt="New York">
+                <img src="{{ asset('assets/img/newyoek.png') }}" alt="New York">
                      <h3>New York, USA</h3>
                 <p>Explorez Times Square et Central Park.</p>
                 <button class="btn-primary" onclick="showDetails('newyork')">Voir plus</button>
@@ -299,19 +308,19 @@
         <!-- Rangée inférieure -->
         <div class="activity-row">
             <div class="country-card">
-                <img src="img/london-1.png" alt="Londres">
+                <img src="{{ asset('assets/img/london-1.png') }}" alt="Londres">
                 <h3>Londres, Royaume-Uni</h3>
                 <p>Visitez le British Museum et Big Ben.</p>
                 <button class="btn-primary" onclick="showDetails('londres')">Voir plus</button>
             </div>
             <div class="country-card">
-                <img src="img/barecalone.png " alt="Barcelone">
+                <img src="{{ asset('assets/img/barecalone.png') }}" alt="Barcelone">
                 <h3>Barcelone, Espagne</h3>
                 <p>Explorez la Sagrada Familia et la Rambla.</p>
                 <button class="btn-primary" onclick="showDetails('barcelone')">Voir plus</button>
             </div>
             <div class="country-card">
-                <img src="img/tokyo-1.png" alt="Tokyo">
+                <img src="{{ asset('assets/img/tokyo-1.png') }}"  alt="Tokyo">
                 <h3>Tokyo, Japon</h3>
                 <p>Découvrez les temples et le quartier d'Akihabara.</p>
                 <button class="btn-primary" onclick="showDetails('tokyo')">Voir plus</button>
@@ -358,22 +367,22 @@
 
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src= "{{ asset('assets/img/package-2.jpg') }}" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}"  alt="">
                         </div>
                     </div>
                 </div>
@@ -404,16 +413,15 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+    <script src="{{ asset('assets/lib/wow/wow.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+        <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Handle modal content dynamically
@@ -426,89 +434,92 @@
             });
         });
     </script>
-    <script>
-        // Données des activités
-const activities = {
-    paris: {
-        title: "Paris, France",
-        image: "img/paris-1.png",
-        description: "Découvrez les monuments emblématiques de Paris, tels que la Tour Eiffel, le Louvre et Notre-Dame.",
-        list: ["Visite de la Tour Eiffel", "Promenade sur les Champs-Élysées", "Visite du Louvre","Basilique du Sacré-Cœur","Arc de Triomphe"],
-    },
-    rome: {
-        title: "Rome, Italie",
-        image: "img/italy-1.png",
-        description: "Randonnée et exploration des Cinque Terre",
-        list: [" Monterosso","Vernazza" , "Corniglia", "Manarola", "Riomaggiore","Admirez les maisons colorées perchées sur les falaises"],
-    },
-    newyork: {
-        title: "New York, USA",
-        image: "img/newyoek.png",
-        description: "Plongez dans l'énergie de New York, avec ses monuments iconiques et ses quartiers dynamiques.",
-        list: ["Visite de Times Square", "Promenade à Central Park", "Découverte de l'Empire State Building"],
-    },
-    londres: {
-    title: "Londres, Royaume-Uni",
-    image: "img/london-1.png",
-    description: "Explorez les attractions iconiques de Londres, telles que le Tower Bridge, le Palais de Buckingham et Big Ben.",
-    list: [
-        "Visite de la Tour de Londres",
-        "Promenade sur le Tower Bridge",
-        "Découverte du Palais de Buckingham",
-        "Exploration du British Museum",
-        "Balade dans Hyde Park"
-    ],
-},
-barcelone: {
-    title: "Barcelone, Espagne",
-    image: "img/barecalone.png",
-    description: "Découvrez l'architecture unique de Barcelone, avec des œuvres de Gaudí et des vues spectaculaires sur la mer Méditerranée.",
-    list: [
-        "Visite de la Sagrada Família",
-        "Exploration du Parc Güell",
-        "Balade sur La Rambla",
-        "Découverte du Quartier Gothique",
-        "Détente à la plage de Barceloneta"
-    ],
-},
-tokyo: {
-    title: "Tokyo, Japon",
-    image: "img/tokyo-1.png",
-    description: "Plongez dans la culture dynamique de Tokyo, entre traditions anciennes et modernité éclatante.",
-    list: [
-        "Visite du temple Senso-ji à Asakusa",
-        "Découverte du marché de Tsukiji",
-        "Balade dans le quartier animé de Shibuya",
-        "Exploration du parc Ueno et de ses musées",
-        "Ascension de la Tokyo Skytree pour une vue panoramique"
-    ],
-},
+   <script>
+    const activityData = {
+        paris: {
+            title: "Paris, France",
+            image: "{{ asset('assets/img/paris-1.png') }}",
+            description: "Plongez dans la culture française en explorant la Tour Eiffel, le Louvre, et les charmants cafés parisiens.",
+            list: [
+                "Visite de la Tour Eiffel",
+                "Croisière sur la Seine",
+                "Dégustation de pâtisseries",
+            ]
+        },
+        rome: {
+            title: "Rome, Italie",
+            image: "{{ asset('assets/img/italy-1.png') }}",
+            description: "Découvrez l'histoire de Rome à travers ses monuments mythiques comme le Colisée et la Cité du Vatican.",
+            list: [
+                "Visite du Colisée",
+                "Balade au Forum Romain",
+                "Tour du Vatican",
+            ]
+        },
+        newyork: {
+            title: "New York, USA",
+            image: "{{ asset('assets/img/newyoek.png') }}",
+            description: "Vivez l’énergie de New York en visitant Times Square, Central Park et bien plus encore.",
+            list: [
+                "Balade à Central Park",
+                "Shopping à la 5e avenue",
+                "Visite de la Statue de la Liberté",
+            ]
+        },
+        londres: {
+            title: "Londres, Royaume-Uni",
+            image: "{{ asset('assets/img/london-1.png') }}",
+            description: "Explorez les sites historiques et la culture moderne de Londres.",
+            list: [
+                "Visite de Big Ben",
+                "Tour au British Museum",
+                "Découverte de Camden Market",
+            ]
+        },
+        barcelone: {
+            title: "Barcelone, Espagne",
+            image: "{{ asset('assets/img/barecalone.png') }}",
+            description: "Admirez les œuvres de Gaudí et profitez du soleil espagnol.",
+            list: [
+                "Sagrada Familia",
+                "Promenade sur la Rambla",
+                "Dégustation de tapas",
+            ]
+        },
+        tokyo: {
+            title: "Tokyo, Japon",
+            image: "{{ asset('assets/img/tokyo-1.png') }}",
+            description: "Entre traditions et modernité, Tokyo vous étonnera par sa diversité.",
+            list: [
+                "Visite du temple Senso-ji",
+                "Shopping à Akihabara",
+                "Balade à Shibuya",
+            ]
+        }
+    };
 
-};
+    function showDetails(city) {
+        const details = activityData[city];
+        if (!details) return;
 
-// Fonction pour afficher les détails d'une activité
-function showDetails(country) {
-    const activity = activities[country];
-    
-    // Mettre à jour les détails
-    document.getElementById("activity-title").innerText = activity.title;
-    document.getElementById("activity-image").src = activity.image;
-    document.getElementById("activity-description").innerText = activity.description;
+        document.getElementById('activity-title').textContent = details.title;
+        document.getElementById('activity-image').src = details.image;
+        document.getElementById('activity-description').textContent = details.description;
 
-    // Mettre à jour la liste des activités
-    const list = document.getElementById("activity-list");
-    list.innerHTML = "";
-    activity.list.forEach(item => {
-        const li = document.createElement("li");
-        li.innerText = item;
-        list.appendChild(li);
-    });
+        const listElement = document.getElementById('activity-list');
+        listElement.innerHTML = '';
+        details.list.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            listElement.appendChild(li);
+        });
 
-    // Afficher la section des détails
-    document.getElementById("activity-details").style.display = "block";
-}
+        document.getElementById('activity-details').style.display = 'block';
+        document.getElementById('activity-details').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
 
-    </script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 
 </html>
