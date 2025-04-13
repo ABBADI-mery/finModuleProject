@@ -471,51 +471,51 @@
         </div>
 
         <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-            <form>
+            <form method="POST" action="{{ route('assurance.store') }}">
+                @csrf
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="name" placeholder="nom">
-                            <label for="name">Votre Nom</label>
+                            <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
+                            <label for="nom">Votre Nom</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="name" placeholder="prenom">
-                            <label for="name">Votre Prenom</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom">
+                            <label for="prenom">Votre Prenom</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="date" class="form-control" id="date" placeholder="">
-                            <label for="date">Date de naissance</label>
+                            <input type="date" class="form-control" id="date_naissance" name="date_naissance" placeholder="">
+                            <label for="date_naissance">Date de naissance</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <label for="duration">Durée (en jours)</label>
-                            <input type="number" class="form-control" id="duration" placeholder="Ex : 10">
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="ddes" placeholder="">
-                            <label for="dd">Destination</label>
+                            <input type="number" class="form-control" id="duree" name="duree" placeholder="Ex : 10">
+                            <label for="duree">Durée (en jours)</label>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <select id="plan" class="form-select">
-                                <option>Annulation</option>
-                                <option>Médicale</option>
-                                <option>Bagages</option>
+                            <input type="text" class="form-control" id="ddes" name="destination" placeholder="">
+                            <label for="ddes">Destination</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select id="plan" name="type_assurance" class="form-select">
+                                <option value="Annulation">Annulation</option>
+                                <option value="Médicale">Médicale</option>
+                                <option value="Bagages">Bagages</option>
                             </select>
                             <label for="plan">Type d'Assurance</label>
                         </div>
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary w-100 py-3" type="submit" onclick="fct()">Souscrire maintenant</button>
+                        <button class="btn btn-primary w-100 py-3" type="submit">Souscrire maintenant</button>
                     </div>
                 </div>
             </form>
@@ -595,7 +595,7 @@
                                 </ul>
                                 <div class="room-link">
 
-                                    <a href="booking.html">Réservez</a>
+                                    <a href="{{ route('booking') }}" >Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -630,7 +630,7 @@
                                 </ul>
                                 <div class="room-link">
 
-                                    <a href="booking.html">Réservez</a>
+                                    <a href="{{ route('booking') }}" >Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -669,7 +669,7 @@
                                 </ul>
                                 <div class="room-link">
 
-                                    <a href="booking.html">Réservez</a>
+                                    <a href="{{ route('booking') }}" >Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -704,7 +704,7 @@
                                 </ul>
                                 <div class="room-link">
 
-                                    <a href="booking.html">Réservez</a>
+                                    <a href="{{ route('booking') }}" >Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -743,7 +743,7 @@
                                 </ul>
                                 <div class="room-link">
 
-                                    <a href="booking.html">Réservez</a>
+                                    <a href="{{ route('booking') }}" >Réservez</a>
                                 </div>
                             </div>
                         </div>

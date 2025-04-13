@@ -233,7 +233,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus </a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez </a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez </a>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +269,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus </a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez</a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -305,7 +305,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez</a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -339,7 +339,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez</a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -372,7 +372,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez</a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
                                 </div>
                             </div>
                         </div>
@@ -405,7 +405,7 @@
                                     <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
                                 </div>
                                 <div class="col-6 text-end px-0">
-                                    <a href="booking.html" class="btn-hover btn text-white py-2 px-4">Réservez</a>
+                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AssuranceController;
+
 
 // Définir des routes nommées pour les pages
 Route::get('/', function () {
@@ -46,3 +49,6 @@ Route::get('/planification', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');

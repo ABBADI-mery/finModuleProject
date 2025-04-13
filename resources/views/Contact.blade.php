@@ -136,7 +136,13 @@
                     </iframe>
                 </div>
                 <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                    <form>
+                @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+                <form method="POST" action="{{ route('contact.store') }}">
+                @csrf
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="form-floating">
