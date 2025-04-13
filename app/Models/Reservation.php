@@ -11,6 +11,9 @@ class Reservation extends Model
     protected $primaryKey = 'idReservation';
     protected $fillable = [
         'nom',
+        'email',
+        'date_depart',
+        'date_retour',
         'dateReservation',
         'statut',
         'nbPassagers',
@@ -19,8 +22,9 @@ class Reservation extends Model
         'PréférencesHôtel',
         'paiement_id',
         'assurance_id',
-        'client_id'
+        'client_id',
     ];
+    
 
     public function paiement()
     {
