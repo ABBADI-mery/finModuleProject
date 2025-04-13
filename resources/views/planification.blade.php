@@ -223,7 +223,8 @@
             <div class="col-lg-5">
                 <div class="card border-0" style="background-color: #33333300;">
                     <div class="card-body rounded-bottom bg-white " style="margin-top: -68px; border-radius: 10px;opacity: 0.8;">
-                        <form action="submit_form.php" method="POST" >
+                        <form action="{{ route('planification.store') }}" method="POST">
+                            @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Votre Nom</label>
                                 <input type="text" class="form-control" id="name" name="name" style="border-radius: 10px;" required>
@@ -254,7 +255,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary" >Envoyer</button>
                         </form>  
-
                     </div>
                 </div>
             </div>

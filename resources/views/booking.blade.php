@@ -156,92 +156,114 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h1 class="text-white mb-4">Réserver une visite</h1>
-                                   
-                                        <form >
-                                            <div class="row g-3">
-                                                <!-- Nom -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="text" class="form-control bg-transparent" id="reservationName" placeholder="Entrer votre nom">
-                                                        <label for="reservationName">Votre nom</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Email -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="email" class="form-control bg-transparent" id="reservationEmail" placeholder="Entrer votre email">
-                                                        <label for="reservationEmail">Votre Email</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Date de départ -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="date" class="form-control bg-transparent" id="departureDate" placeholder="Date de départ">
-                                                        <label for="departureDate">Date de départ</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Date de retour -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="date" class="form-control bg-transparent" id="returnDate" placeholder="Date de retour">
-                                                        <label for="returnDate">Date de retour</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Nombre de passagers -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="number" class="form-control bg-transparent" id="passengerCount" min="1" max="10" placeholder="Nombre de passagers">
-                                                        <label for="passengerCount">Nombre de passagers</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Destination -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <select class="form-select bg-transparent" id="destination">
-                                                            <option value="1">Destination 1</option>
-                                                            <option value="2">Destination 2</option>
-                                                            <option value="3">Destination 3</option>
-                                                        </select>
-                                                        <label for="destination">Destination</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Préférences de vol -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <select class="form-select bg-transparent" id="flightPreference">
-                                                            <option value="economy">Économie</option>
-                                                            <option value="business">Affaires</option>
-                                                            <option value="firstClass">Première classe</option>
-                                                        </select>
-                                                        <label for="flightPreference">Préférences de vol</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Préférences d'hôtel -->
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                        <select class="form-select bg-transparent" id="hotelPreference">
-                                                            <option value="3stars">3 étoiles</option>
-                                                            <option value="4stars">4 étoiles</option>
-                                                            <option value="5stars">5 étoiles</option>
-                                                        </select>
-                                                        <label for="hotelPreference">Préférences d'hôtel</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Demande spéciale -->
-                                                <div class="col-12">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control bg-transparent" id="specialRequest" placeholder="Demande spéciale" style="height: 100px;"></textarea>
-                                                        <label for="specialRequest">Demande spéciale</label>
-                                                    </div>
-                                                </div>
-                                                <!-- Bouton de soumission -->
-                                                <div class="col-12">
-                                                    <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        
-                                  
+                                    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<form method="POST" action="{{ route('reservation.store') }}">
+    @csrf
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="text" class="form-control bg-transparent @error('nom') is-invalid @enderror" id="reservationName" name="nom" placeholder="Entrer votre nom" value="{{ old('nom') }}">
+                <label for="reservationName">Votre nom</label>
+                @error('nom')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="email" class="form-control bg-transparent @error('email') is-invalid @enderror" id="reservationEmail" name="email" placeholder="Entrer votre email" value="{{ old('email') }}">
+                <label for="reservationEmail">Votre Email</label>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="date" class="form-control bg-transparent @error('date_depart') is-invalid @enderror" id="departureDate" name="date_depart" placeholder="Date de départ" value="{{ old('date_depart') }}">
+                <label for="departureDate">Date de départ</label>
+                @error('date_depart')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="date" class="form-control bg-transparent @error('date_retour') is-invalid @enderror" id="returnDate" name="date_retour" placeholder="Date de retour" value="{{ old('date_retour') }}">
+                <label for="returnDate">Date de retour</label>
+                @error('date_retour')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="number" class="form-control bg-transparent @error('nombre_passagers') is-invalid @enderror" id="passengerCount" name="nombre_passagers" min="1" max="10" placeholder="Nombre de passagers" value="{{ old('nombre_passagers') }}">
+                <label for="passengerCount">Nombre de passagers</label>
+                @error('nombre_passagers')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select class="form-select bg-transparent @error('destination') is-invalid @enderror" id="destination" name="destination">
+                    <option value="Destination 1" @selected(old('destination') == 'Destination 1')>Destination 1</option>
+                    <option value="Destination 2" @selected(old('destination') == 'Destination 2')>Destination 2</option>
+                    <option value="Destination 3" @selected(old('destination') == 'Destination 3')>Destination 3</option>
+                </select>
+                <label for="destination">Destination</label>
+                @error('destination')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select class="form-select bg-transparent @error('preference_vol') is-invalid @enderror" id="flightPreference" name="preference_vol">
+                    <option value="economy" @selected(old('preference_vol') == 'economy')>Économie</option>
+                    <option value="business" @selected(old('preference_vol') == 'business')>Affaires</option>
+                    <option value="firstClass" @selected(old('preference_vol') == 'firstClass')>Première classe</option>
+                </select>
+                <label for="flightPreference">Préférences de vol</label>
+                @error('preference_vol')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select class="form-select bg-transparent @error('preference_hotel') is-invalid @enderror" id="hotelPreference" name="preference_hotel">
+                    <option value="3stars" @selected(old('preference_hotel') == '3stars')>3 étoiles</option>
+                    <option value="4stars" @selected(old('preference_hotel') == '4stars')>4 étoiles</option>
+                    <option value="5stars" @selected(old('preference_hotel') == '5stars')>5 étoiles</option>
+                </select>
+                <label for="hotelPreference">Préférences d'hôtel</label>
+                @error('preference_hotel')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea class="form-control bg-transparent @error('demande_speciale') is-invalid @enderror" id="specialRequest" name="demande_speciale" placeholder="Demande spéciale" style="height: 100px;">{{ old('demande_speciale') }}</textarea>
+                <label for="specialRequest">Demande spéciale</label>
+                @error('demande_speciale')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
+        </div>
+    </div>
+</form>
+
                                 </div>
                             </div>
                         </div>
