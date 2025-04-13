@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assurance extends Model
 {
+    use HasFactory;
 
-    protected $primaryKey = 'idAssurance';
-    protected $fillable = ['type', 'Duree'];
-
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
-
-
+    protected $fillable = [
+        'nom',
+        'prenom',
+        'date_naissance',
+        'duree',
+        'destination',
+        'type_assurance'
+    ];
 }

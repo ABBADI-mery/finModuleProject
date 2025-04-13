@@ -4,31 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+return new class extends Migration {
+    public function up(): void
     {
         Schema::create('assurances', function (Blueprint $table) {
-            $table->id('idAssurance');
-            $table->string('type');
-            $table->integer('Duree');
-            $table->timestamps();
+            $table->id(); // id auto-incrémenté
+            $table->string('nom');
+            $table->string('prenom');
+            $table->date('date_naissance');
+            $table->integer('duree');
+            $table->string('destination');
+            $table->string('type_assurance');
+            $table->timestamps(); // created_at et updated_at
         });
-    
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('assurences');
+        Schema::dropIfExists('assurances');
     }
 };
