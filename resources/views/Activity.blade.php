@@ -240,7 +240,7 @@
         </div>
         <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
     </div>
-</nav>End -->
+</nav>
 
 
     <!-- Attractions Start -->
