@@ -55,7 +55,7 @@ Route::get('/contact', function () {
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');
-Route::post('/reservation/store', [ReservationController::class, 'store'])->name('reservation.store');
+Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 Route::get('/planification', [PlanificationController::class, 'create'])->name('planification');
 Route::post('/planification', [PlanificationController::class, 'store'])->name('planification.store');
 
