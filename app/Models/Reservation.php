@@ -11,32 +11,13 @@ class Reservation extends Model
         'email',
         'date_depart',
         'date_retour',
-        'dateReservation',
-        'statut',
-        'nbPassagers',
-        'DemandeSpeciale',
-        'PréférencesVol',
-        'PréférencesHôtel',
-        'paiement_id',
-        'assurance_id',
-        'client_id',
+        'nombre_passagers',
+        'destination',
+        'preference_vol',
+        'preference_hotel',
+        'demande_speciale',
     ];
     
-
-    public function paiement()
-    {
-        return $this->belongsTo(Paiement::class, 'paiement_id');
-    }
-
-    public function assurance()
-    {
-        return $this->belongsTo(Assurance::class, 'assurance_id');
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(Client::class);
-    }
 
 
 }

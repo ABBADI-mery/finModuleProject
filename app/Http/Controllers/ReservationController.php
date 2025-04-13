@@ -6,34 +6,36 @@ use Illuminate\Http\Request;
 use App\Models\Reservation;
 
 class ReservationController extends Controller
-{
-    public function store(Request $request)
+{public function store(Request $request)
     {
-        // Validation des champs du formulaire
-        $validated = $request->validate([
+        $request->validate([
             'nom' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'date_depart' => 'required|date|after_or_equal:today',
+            'email' => 'required|email',
+            'date_depart' => 'required|date',
             'date_retour' => 'required|date|after_or_equal:date_depart',
-            'nbPassagers' => 'required|integer|min:1|max:10',
-            'DemandeSpeciale' => 'nullable|string|max:1000',
-            'PréférencesVol' => 'nullable|string|max:255',
-            'PréférencesHôtel' => 'nullable|string|max:255',
-            'paiement_id' => 'nullable|integer',
-            'assurance_id' => 'nullable|integer',
-            'client_id' => 'nullable|integer',
+            'nombre_passagers' => 'required|integer|min:1|max:10',
+            'destination' => 'required|string',
+            'preference_vol' => 'required|string',
+            'preference_hotel' => 'required|string',
+            'demande_speciale' => 'nullable|string',
         ]);
-
-        // Ajout des champs manquants non présents dans le formulaire
-        $validated['statut'] = 'en attente';
-        $validated['dateReservation'] = now();
-
-        // Création de la réservation dans la base de données
-        Reservation::create($validated);
-
-        // Redirection avec un message de succès
-        return redirect()->back()->with('success', 'Réservation enregistrée avec succès !');
+    
+        // Exemple de création de réservation
+        Reservation::create([
+            'nom' => $request->nom,
+            'email' => $request->email,
+            'date_depart' => $request->date_depart,
+            'date_retour' => $request->date_retour,
+            'nombre_passagers' => $request->nombre_passagers,
+            'destination' => $request->destination,
+            'preference_vol' => $request->preference_vol,
+            'preference_hotel' => $request->preference_hotel,
+            'demande_speciale' => $request->demande_speciale,
+        ]);
+    
+        return redirect()->back()->with('success', 'Votre réservation a bien été enregistrée !');
     }
+    
 }
 
 
