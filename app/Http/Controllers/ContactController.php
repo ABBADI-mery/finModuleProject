@@ -7,10 +7,10 @@ use App\Models\Contact;
 
 class ContactController extends Controller
 {
-    // Affiche le formulaire de contact (si nécessaire)
+    // Affiche le formulaire de contact
     public function create()
     {
-        return view('contact');
+        return view('contact'); // Renvoie la vue contact.blade.php
     }
 
     // Enregistre le message envoyé par le formulaire
@@ -32,6 +32,7 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
+        // Redirige avec un message de succès
         return redirect()->back()->with('success', 'Votre message a été envoyé avec succès !');
     }
 }
