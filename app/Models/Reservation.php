@@ -21,4 +21,3 @@ class Reservation extends Model
 
 
 }
-

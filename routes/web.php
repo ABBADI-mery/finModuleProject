@@ -10,6 +10,7 @@ use App\Http\Controllers\PaiementController;
 
 
 
+
 // Définir des routes nommées pour les pages
 Route::get('/', function () {
     return view('welcome');
@@ -58,9 +59,3 @@ Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
-Route::get('/planification', [PlanificationController::class, 'create'])->name('planification');
-Route::post('/planification', [PlanificationController::class, 'store'])->name('planification.store');
-Route::post('/paiement', [PaiementController::class, 'store']);
-
-
-
