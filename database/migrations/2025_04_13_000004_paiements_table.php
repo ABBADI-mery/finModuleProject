@@ -13,20 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        
-            Schema::create('paiements', function (Blueprint $table) {
-                $table->id('id_paiement'); // ID personnalisé, sinon laisse juste ->id()
-                $table->float('montant');
-                $table->date('date_paiement');
-        
-                // Enum pour méthode de paiement (comme dans le diagramme)
-                $table->enum('methode', ['Carte bancaire', 'Virement', 'PayPal']);
-        
-                $table->timestamps();
-            });
-        
-        
+        Schema::create('paiements', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('montant', 8, 2);
+            $table->enum('methode', ['carte', 'virement', 'paypal']);
+            $table->json('details')->nullable(); // Pour stocker les infos spécifiques à chaque méthode
+            $table->timestamps();
+        });
     }
+    
 
     /**
      * Reverse the migrations.

@@ -5,6 +5,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AssuranceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PlanificationController;
+use App\Http\Controllers\PaiementController;
+
 
 
 
@@ -58,5 +60,7 @@ Route::post('/assurance', [AssuranceController::class, 'store'])->name('assuranc
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 Route::get('/planification', [PlanificationController::class, 'create'])->name('planification');
 Route::post('/planification', [PlanificationController::class, 'store'])->name('planification.store');
+Route::post('/paiement', [PaiementController::class, 'store']);
+
 
 
