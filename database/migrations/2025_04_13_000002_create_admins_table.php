@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,10 +12,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('administrateurs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('utilisateur_id')->constrained('utilisateurs')->onDelete('cascade');
+            // Champs spécifiques à l'admin ici si besoin
             $table->timestamps();
         });
+
     }
 
     /**
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('admins');
     }
 };

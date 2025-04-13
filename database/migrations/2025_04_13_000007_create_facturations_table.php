@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('planifications', function (Blueprint $table) {
+        Schema::create('facturations', function (Blueprint $table) {
             $table->id();
+            $table->decimal('montant', 10, 2); // 10 chiffres au total, dont 2 après la virgule
+            $table->string('statut');
             $table->timestamps();
+            
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('planifications');
+        Schema::dropIfExists('facturations');
     }
 };

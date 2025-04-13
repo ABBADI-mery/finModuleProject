@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Planification extends Model
+class Avis extends Model
 {
-    protected $fillable = ['dates_souhaitees', 'nom', 'email', 'destination', 'PréférencesHébergement', 'DemandesSpéciales', 'client_id'];
+
+    protected $primaryKey = 'idAvis';
+    protected $fillable = ['contenu', 'datePublication', 'note', 'client_id'];
 
     public function client()
     {
         return $this->belongsTo(Client::class);
     }
-}
 
+
+}
