@@ -12,9 +12,19 @@ class Assurance extends Model
     protected $fillable = [
         'nom',
         'prenom',
-        'date_naissance',
+        'date_naissance', 
         'duree',
         'destination',
         'type_assurance'
+    ];
+
+    // Active explicitement les timestamps
+    public $timestamps = true;
+
+    // Définit les champs de type date
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'date_naissance' // Pour une bonne gestion des dates
     ];
 }

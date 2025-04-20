@@ -77,30 +77,33 @@
             border-bottom: none;
         }
         
-        /* Styles pour les badges */
+        /* Styles améliorés pour les badges */
         .badge-pill {
             border-radius: 50px;
             padding: 0.5em 0.9em;
             font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .badge-annulation {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #d4a017;
             border: 1px solid rgba(255, 193, 7, 0.3);
         }
         
         .badge-medicale {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.15);
+            color: #c82333;
             border: 1px solid rgba(220, 53, 69, 0.3);
         }
         
         .badge-bagages {
-            background-color: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.15);
+            color: #0b5ed7;
             border: 1px solid rgba(13, 110, 253, 0.3);
         }
         
@@ -135,6 +138,14 @@
             background-color: #f8f9fa;
             border-radius: 10px;
         }
+        
+        /* Animation pour les icônes */
+        .assurance-icon {
+            transition: transform 0.2s ease;
+        }
+        .assurance-icon:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -157,7 +168,6 @@
                         </a>
                     </li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
-
                     <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
                 </ul>
             </nav>
@@ -180,12 +190,12 @@
                         <table class="assurance-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%;"><i class="far fa-user me-2"></i>Client</th>
-                                    <th style="width: 15%;"><i class="far fa-calendar me-2"></i>Date Naiss.</th>
-                                    <th style="width: 10%;"><i class="far fa-clock me-2"></i>Durée</th>
-                                    <th style="width: 15%;"><i class="far fa-map me-2"></i>Destination</th>
-                                    <th style="width: 20%;"><i class="far fa-tag me-2"></i>Type</th>
-                                    <th style="width: 20%;"><i class="far fa-calendar-check me-2"></i>Date</th>
+                                    <th style="width: 20%;"><i class="fas fa-user-tie me-2"></i> Client</th>
+                                    <th style="width: 15%;"><i class="fas fa-birthday-cake me-2"></i> Date Naiss.</th>
+                                    <th style="width: 10%;"><i class="fas fa-calendar-day me-2"></i> Durée</th>
+                                    <th style="width: 15%;"><i class="fas fa-map-marked-alt me-2"></i> Destination</th>
+                                    <th style="width: 20%;"><i class="fas fa-tags me-2"></i> Type</th>
+                                    <th style="width: 20%;"><i class="fas fa-calendar-check me-2"></i> Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -204,18 +214,19 @@
                                         </td>
                                         <td>
                                             <div class="date-indicator">
-                                                <i class="far fa-calendar-alt"></i>
+                                                <i class="fas fa-calendar-day"></i>
                                                 {{ \Carbon\Carbon::parse($assurance->date_naissance)->format('d/m/Y') }}
                                             </div>
                                         </td>
                                         <td>
                                             <span class="badge bg-light text-dark">
+                                                <i class="fas fa-clock"></i>
                                                 {{ $assurance->duree }} jours
                                             </span>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                                <i class="fas fa-map-marker-alt text-primary me-2 assurance-icon"></i>
                                                 <span>{{ $assurance->destination }}</span>
                                             </div>
                                         </td>
@@ -225,18 +236,18 @@
                                                 @elseif($assurance->type_assurance == 'Médicale') badge-medicale
                                                 @else badge-bagages
                                                 @endif">
-                                                <i class="fas 
+                                                <i class="fas assurance-icon
                                                     @if($assurance->type_assurance == 'Annulation') fa-ban
                                                     @elseif($assurance->type_assurance == 'Médicale') fa-heartbeat
-                                                    @else fa-suitcase
-                                                    @endif me-1"></i>
+                                                    @else fa-suitcase-rolling
+                                                    @endif"></i>
                                                 {{ $assurance->type_assurance }}
                                             </span>
                                         </td>
                                         <td>
                                             <div class="date-indicator">
-                                                <i class="far fa-clock"></i>
-                                                {{ $assurance->created_at->format('d/m/Y H:i') }}
+                                                <i class="fas fa-clock"></i>
+                                                {{ $assurance->created_at ? $assurance->created_at->format('d/m/Y H:i') : 'N/A' }}
                                             </div>
                                         </td>
                                     </tr>
