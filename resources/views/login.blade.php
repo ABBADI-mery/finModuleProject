@@ -17,59 +17,43 @@
     <div class="container ">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="" class="sign-in-form">
-                    <h2 class="title">Sign in</h2>
-                    <div class="input-field">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="UserName">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password">
-
-                    </div>
-                    <input type="submit" value="Login" class="btn solid">
-
-                    <h1>
-                        <a href="{{ route('home') }}" class="logo"> <-BACL TO HOME<span class="span">.</span></a>
-                      </h1>
-                 
-                </form>
-
-
-                <form action="" class="sign-up-form">
+                <form method="POST" action="{{ route('register.submit') }}" class="sign-up-form">
+                    @csrf
                     <h2 class="title">Sign up</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="UserName">
+                        <input type="text" name="username" placeholder="UserName" required>
                     </div>
-
-
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email   ">
-
+                        <input type="email" name="email" placeholder="Email" required>
                     </div>
-
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password">
+                        <input type="password" name="password" placeholder="Password" required>
                     </div>
-
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password">
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
                     </div>
                     <input type="submit" value="Sign up" class="btn solid">
-
-                    <h1>
-                        <a href="{{ route('home') }}" class="logo"> <-BACL TO HOME<span class="span">.</span></a>
-                      </h1>
-
-                    
                 </form>
+                
 
+                <form method="POST" action="{{ route('login.submit') }}" class="sign-in-form">
+                    @csrf
+                    <h2 class="title">Sign in</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="username" placeholder="UserName" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <input type="submit" value="Login" class="btn solid">
+                </form>
+                
 
             </div>
         </div>

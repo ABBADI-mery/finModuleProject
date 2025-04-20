@@ -9,17 +9,18 @@ class CreateReservationsTable extends Migration
     public function up()
     {
         Schema::create('reservations', function (Blueprint $table) {
-            $table->id(); // ID auto-incrémenté
-            $table->string('nom'); // Nom du client
-            $table->string('email'); // Email du client
-            $table->date('date_depart'); // Date de départ
-            $table->date('date_retour'); // Date de retour
-            $table->integer('nombre_passagers'); // Nombre de passagers
-            $table->string('destination'); // Destination
-            $table->string('preference_vol'); // Préférence de vol
-            $table->string('preference_hotel'); // Préférence d'hôtel
-            $table->text('demande_speciale')->nullable(); // Demande spéciale, nullable
-            $table->timestamps(); // Création et mise à jour de l'horodatage
+            $table->id();
+            $table->string('nom');
+            $table->string('email');
+            $table->date('date_depart');
+            $table->date('date_retour');
+            $table->integer('nombre_passagers');
+            $table->string('destination');
+            $table->string('preference_vol');
+            $table->string('preference_hotel');
+            $table->text('demande_speciale')->nullable();
+            $table->string('statut')->default('en attente'); // Ajout direct du champ
+            $table->timestamps();
         });
     }
 

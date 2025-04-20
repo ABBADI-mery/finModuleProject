@@ -31,8 +31,16 @@ class ContactController extends Controller
             'sujet' => $request->sujet,
             'message' => $request->message,
         ]);
+        
 
         // Redirige avec un message de succès
         return redirect()->back()->with('success', 'Votre message a été envoyé avec succès !');
     }
+    public function index()
+{
+    $contacts = Contact::all();
+    return view('admin.contacts', compact('contacts'));
+}
+    
+
 }

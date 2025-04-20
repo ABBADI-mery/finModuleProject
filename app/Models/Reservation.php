@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'nom',
         'email',
@@ -16,8 +19,10 @@ class Reservation extends Model
         'preference_vol',
         'preference_hotel',
         'demande_speciale',
+        'statut' // Ajoutez ce champ
     ];
-    
 
-
+    protected $attributes = [
+        'statut' => 'en attente' // Valeur par défaut
+    ];
 }

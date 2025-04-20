@@ -9,7 +9,6 @@ class AssuranceController extends Controller
 {
     public function store(Request $request)
     {
-        // Validation
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
@@ -19,9 +18,14 @@ class AssuranceController extends Controller
             'type_assurance' => 'required|string|in:Annulation,Médicale,Bagages',
         ]);
 
-        // Enregistrement
         Assurance::create($request->all());
 
         return redirect()->back()->with('success', 'Souscription enregistrée avec succès !');
+    }
+
+    public function index()
+    {
+        $assurances = Assurance::orderBy('created_at', 'desc')->get();
+        return view('admin.assurances', compact('assurances'));
     }
 }

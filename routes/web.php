@@ -6,6 +6,7 @@ use App\Http\Controllers\AssuranceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\AuthController;
 
 
 
@@ -52,28 +53,50 @@ Route::get('/planification', function () {
     return view('planification');
 })->name('planification');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 
 
-// Routes pour les pages simples de gestion de voyage
-Route::get('/gestionVoyage', function () {
-    return view('gestionVoyage.index');
-})->name('gestionVoyage');
 
-Route::get('/connexion', function () {
-    return view('login');
-})->name('connexion');
 
-Route::get('/facturation', function () {
-    return view('gestionVoyage.Facturation');
-})->name('facturation');
 
-Route::get('/reservations', function () {
-    return view('gestionVoyage.reservations');
-})->name('reservations');
+
+
+
+
+
+Route::get('/login', function () {
+    return view('login'); // ta page HTML ici
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', function () {
+    return view('admin/dashboard');
+})->middleware('auth')->name('dashboard');
+
+Route::get('/admin/contacts', [ContactController::class, 'index'])->name('contacts.index');
+
+Route::get('/admin/assurances', [AssuranceController::class, 'index'])->name('assurances.index');
+ 
+
+    // Affichage des réservations
+    Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+        
+    
+    // Validation d'une réservation
+    Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve']) ->name('reservations.approve');
+       
+    
+    // Annulation d'une réservation
+    Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject']) ->name('reservations.reject');
+       
+
+

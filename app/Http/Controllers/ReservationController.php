@@ -1,14 +1,15 @@
 <?php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 
 class ReservationController extends Controller
-{public function store(Request $request)
+{
+    public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|email',
             'date_depart' => 'required|date',
@@ -19,21 +20,29 @@ class ReservationController extends Controller
             'preference_hotel' => 'required|string',
             'demande_speciale' => 'nullable|string',
         ]);
-    
-        // Exemple de création de réservation
-        Reservation::create([
-            'nom' => $request->nom,
-            'email' => $request->email,
-            'date_depart' => $request->date_depart,
-            'date_retour' => $request->date_retour,
-            'nombre_passagers' => $request->nombre_passagers,
-            'destination' => $request->destination,
-            'preference_vol' => $request->preference_vol,
-            'preference_hotel' => $request->preference_hotel,
-            'demande_speciale' => $request->demande_speciale,
-        ]);
-    
-        return redirect()->back()->with('success', 'Votre réservation a bien été enregistrée !');
+
+        Reservation::create($validated);
+
+        return back()->with('success', 'Votre réservation a bien été enregistrée !');
     }
-    
+
+    public function index()
+    {
+        $reservations = Reservation::orderBy('created_at', 'desc')->get();
+        return view('admin.reservations', compact('reservations'));
+    }
+
+    public function approve($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $reservation->update(['statut' => 'confirmée']);
+        return back()->with('success', 'Réservation confirmée avec succès !');
+    }
+
+    public function reject($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $reservation->update(['statut' => 'annulée']);
+        return back()->with('success', 'Réservation annulée avec succès !');
+    }
 }
