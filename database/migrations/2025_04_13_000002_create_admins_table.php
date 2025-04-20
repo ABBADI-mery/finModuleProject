@@ -12,10 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('administrateurs', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('utilisateur_id')->constrained('utilisateurs')->onDelete('cascade');
-            // Champs spécifiques à l'admin ici si besoin
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
 

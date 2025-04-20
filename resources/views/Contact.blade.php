@@ -66,6 +66,8 @@
             </div>
         </div>
         <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+        <a href="{{ route('connexion') }}"  class="btn btn-primary rounded-pill py-2 px-4">Login</a>
+
     </div>
 </nav>
         <div class="container-fluid bg-primary py-5 mb-5 hero-header">

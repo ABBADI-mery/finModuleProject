@@ -59,3 +59,21 @@ Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+
+
+// Routes pour les pages simples de gestion de voyage
+Route::get('/gestionVoyage', function () {
+    return view('gestionVoyage.index');
+})->name('gestionVoyage');
+
+Route::get('/connexion', function () {
+    return view('login');
+})->name('connexion');
+
+Route::get('/facturation', function () {
+    return view('gestionVoyage.Facturation');
+})->name('facturation');
+
+Route::get('/reservations', function () {
+    return view('gestionVoyage.reservations');
+})->name('reservations');
