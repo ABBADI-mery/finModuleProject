@@ -5,77 +5,235 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacts | Dashboard Admin</title>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dashboard.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Styles spécifiques à la page Contacts */
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --deep-saffron: #89ca06;
+            --dark-orange: #7ab805;
+            --gray-x-11-gray: hsl(0, 0%, 73%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --cultured: hsl(0, 0%, 93%);
+            --rich-black-fogra-29: hsl(210, 26%, 7%);
         }
-        
-        .contact-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-            margin: 1rem;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-        
-        .page-title {
-            color: var(--dark-color);
-            font-weight: 600;
+
+        body {
+            background: var(--white);
+            color: var(--rich-black-fogra-29);
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "sidebar main";
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            grid-area: header;
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--cultured);
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            color: var(--deep-saffron);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1rem;
+            color: var(--spanish-gray);
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--rich-black-fogra-29);
+            padding: 2rem 1rem;
+            color: var(--white);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin: 0.75rem 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-x-11-gray);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background: var(--deep-saffron);
+            color: var(--black);
+            transform: scale(1.02);
+        }
+
+        .main-content {
+            grid-area: main;
+            padding: 2rem;
+            background: var(--cultured);
+        }
+
+        .contact-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--rich-black-fogra-29);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
-        
-        .badge-email {
-            background-color: #e3f2fd;
-            color: #1976d2;
-            padding: 0.35em 0.65em;
-            border-radius: 50px;
-            font-size: 0.75em;
-            font-weight: 500;
+
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
         }
-        
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--deep-saffron), var(--dark-orange));
+            color: var(--white);
+        }
+
+        .table th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid var(--cultured);
+            transition: background 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: var(--cultured);
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .badge-email {
+            background: var(--cultured);
+            color: var(--dark-orange);
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
         .message-preview {
             max-width: 300px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--spanish-gray);
         }
-        
+
         .date-badge {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
+            background: var(--cultured);
+            color: var(--spanish-gray);
+            padding: 0.4rem 0.8rem;
             border-radius: 50px;
-            padding: 0.35em 0.65em;
-            font-size: 0.75em;
-            color: #495057;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 3rem;
-            color: #6c757d;
+            color: var(--spanish-gray);
         }
-        
-        .table-responsive {
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #f1f3f9;
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--deep-saffron);
         }
-        
-        .table thead {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-badge {
+            background: var(--deep-saffron);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .message-preview {
+                max-width: 150px;
+            }
         }
     </style>
 </head>
@@ -92,18 +250,9 @@
                     <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
                     <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
-                    <li>
-                        <a href="{{ route('assurances.index') }}" >
-                            <i class="fas fa-shield-alt"></i> Assurances
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('contacts.index') }}" class="active">
-                            <i class="fas fa-address-book"></i> Contacts
-                        </a>
-                    </li>
+                    <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
+                    <li><a href="{{ route('contacts.index') }}" class="active"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
-
                     <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
                 </ul>
             </nav>
@@ -119,11 +268,11 @@
                     <div class="empty-state">
                         <i class="far fa-comment-dots"></i>
                         <h3>Aucun message pour le moment</h3>
-                        <p class="text-muted">Lorsque les visiteurs vous contacteront, leurs messages apparaîtront ici.</p>
+                        <p>Lorsque les visiteurs vous contacteront, leurs messages apparaîtront ici.</p>
                     </div>
                 @else
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th><i class="far fa-user me-1"></i> Nom</th>
@@ -139,7 +288,7 @@
                                         <td><strong>{{ $contact->nom }}</strong></td>
                                         <td>
                                             <span class="badge-email">
-                                                <i class="fas fa-at"></i>{{ $contact->email }}
+                                                <i class="fas fa-at"></i> {{ $contact->email }}
                                             </span>
                                         </td>
                                         <td>{{ $contact->sujet }}</td>
@@ -159,7 +308,7 @@
                     </div>
                     
                     <div class="d-flex justify-content-end mt-3">
-                        <span class="badge bg-primary">
+                        <span class="total-badge">
                             <i class="fas fa-database me-1"></i>
                             Total: {{ $contacts->count() }} messages
                         </span>
@@ -170,7 +319,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets/admin/js/dashboard.js') }}"></script>
 </body>
 </html>

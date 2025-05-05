@@ -4,62 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assurances | Dashboard Admin</title>
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dashboard.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #7c3aed;
-            --light-color: #f8fafc;
-            --dark-color: #1e293b;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --deep-saffron: #89ca06;
+            --dark-orange: #7ab805;
+            --gray-x-11-gray: hsl(0, 0%, 73%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --cultured: hsl(0, 0%, 93%);
+            --rich-black-fogra-29: hsl(210, 26%, 7%);
         }
 
-        body {
-            background: var(--light-color);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
         }
 
+        body {
+            background: var(--white);
+            color: var(--rich-black-fogra-29);
+        }
+
         .dashboard-container {
-            display: flex;
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "sidebar main";
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr;
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 250px;
-            background: var(--dark-color);
-            color: white;
-            padding: 1.5rem;
-            transition: width 0.3s ease;
-        }
-
-        .sidebar a {
-            color: white;
-            text-decoration: none;
+        .dashboard-header {
+            grid-area: header;
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--cultured);
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: background 0.2s ease;
+            justify-content: space-between;
         }
 
-        .sidebar a:hover, .sidebar a.active {
-            background: var(--primary-color);
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            color: var(--deep-saffron);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1rem;
+            color: var(--spanish-gray);
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--rich-black-fogra-29);
+            padding: 2rem 1rem;
+            color: var(--white);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin: 0.75rem 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-x-11-gray);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background: var(--deep-saffron);
+            color: var(--black);
+            transform: scale(1.02);
         }
 
         .main-content {
-            flex: 1;
+            grid-area: main;
             padding: 2rem;
+            background: var(--cultured);
         }
 
         .assurance-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: var(--white);
+            border-radius: 12px;
             padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease;
         }
 
@@ -69,12 +118,13 @@
         }
 
         .page-title {
-            color: var(--dark-color);
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--rich-black-fogra-29);
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .search-filter {
@@ -83,76 +133,88 @@
             margin-bottom: 1.5rem;
         }
 
-        .search-filter input, .search-filter select {
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+        .search-filter input,
+        .search-filter select {
             padding: 0.5rem 1rem;
-            transition: border-color 0.2s ease;
+            border: 1px solid var(--cultured);
+            border-radius: 8px;
+            background: var(--white);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .search-filter input:focus, .search-filter select:focus {
-            border-color: var(--primary-color);
+        .search-filter input:focus,
+        .search-filter select:focus {
+            border-color: var(--deep-saffron);
+            box-shadow: 0 0 0 3px rgba(137, 202, 6, 0.1);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         .table-responsive {
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
         }
 
-        .assurance-table thead th {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1rem 1.25rem;
-            font-weight: 500;
+        .assurance-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        .assurance-table thead {
+            background: linear-gradient(135deg, var(--deep-saffron), var(--dark-orange));
+            color: var(--white);
+        }
+
+        .assurance-table th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
             text-transform: uppercase;
             font-size: 0.8rem;
             letter-spacing: 0.5px;
         }
 
         .assurance-table tbody tr {
+            border-bottom: 1px solid var(--cultured);
             transition: background 0.2s ease, transform 0.2s ease;
             cursor: pointer;
         }
 
         .assurance-table tbody tr:hover {
-            background: #f1f5f9;
+            background: var(--cultured);
             transform: translateY(-2px);
         }
 
         .assurance-table td {
-            padding: 1.25rem;
+            padding: 1rem;
             vertical-align: middle;
-            border-bottom: 1px solid #f1f3f9;
             font-size: 0.9rem;
         }
 
         .badge-pill {
             border-radius: 50px;
-            padding: 0.5em 0.9em;
-            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 0.3rem;
         }
 
         .badge-annulation {
-            background: rgba(255, 193, 7, 0.15);
-            color: #d4a017;
-            border: 1px solid rgba(255, 193, 7, 0.3);
+            background: rgba(137, 202, 6, 0.1);
+            color: var(--dark-orange);
+            border: 1px solid rgba(137, 202, 6, 0.3);
         }
 
         .badge-medicale {
-            background: rgba(220, 53, 69, 0.15);
+            background: rgba(220, 53, 69, 0.1);
             color: #c82333;
             border: 1px solid rgba(220, 53, 69, 0.3);
         }
 
         .badge-bagages {
-            background: rgba(13, 110, 253, 0.15);
+            background: rgba(13, 110, 253, 0.1);
             color: #0b5ed7;
             border: 1px solid rgba(13, 110, 253, 0.3);
         }
@@ -160,65 +222,166 @@
         .date-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 0.5rem;
             font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #6c757d;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .assurance-icon {
-            transition: transform 0.2s ease;
-        }
-
-        .assurance-icon:hover {
-            transform: scale(1.1);
+            color: var(--spanish-gray);
         }
 
         .reservation-info {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 0.5rem;
         }
 
         .no-reservation {
-            color: #6c757d;
+            color: var(--spanish-gray);
             font-style: italic;
         }
 
-        .modal-content {
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--spanish-gray);
+            background: var(--cultured);
             border-radius: 12px;
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--deep-saffron);
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-badge {
+            background: var(--deep-saffron);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(137, 202, 6, 0.1);
+            color: var(--dark-orange);
+        }
+
+        .alert button {
+            background: none;
             border: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--dark-orange);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .modal-header {
-            background: var(--primary-color);
-            color: white;
+            background: var(--deep-saffron);
+            color: var(--black);
+            padding: 1rem 2rem;
             border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h5 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--black);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-body h6 {
+            font-size: 1rem;
+            color: var(--spanish-gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+            color: var(--rich-black-fogra-29);
         }
 
         .modal-footer {
-            border-top: none;
             padding: 1rem 2rem;
+            border-top: 1px solid var(--cultured);
+            text-align: right;
+        }
+
+        .modal-footer button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--deep-saffron);
+            color: var(--black);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .modal-footer button:hover {
+            background: var(--dark-orange);
         }
 
         @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+            }
+
             .sidebar {
-                width: 80px;
-            }
-
-            .sidebar a {
-                justify-content: center;
-            }
-
-            .sidebar a span {
                 display: none;
             }
 
@@ -230,21 +393,30 @@
                 font-size: 0.8rem;
                 padding: 0.75rem;
             }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-route"></i> FM Voyage</h1>
+            <p>Votre Passeport Vers l’Évasion</p>
+        </header>
+        
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a></li>
-                    <li><a href="#"><i class="fas fa-hotel"></i><span>Hébergements</span></a></li>
-                    <li><a href="#"><i class="fas fa-users"></i><span>Utilisateurs</span></a></li>
-                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i><span>Contacts</span></a></li>
-                    <li><a href="{{ route('assurances.index') }}" class="active"><i class="fas fa-shield-alt"></i><span>Assurances</span></a></li>
-                    <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i><span>Réservations</span></a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i><span>Paramètres</span></a></li>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li><a href="{{ route('assurances.index') }}" class="active"><i class="fas fa-shield-alt"></i> Assurances</a></li>
+                    <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
                 </ul>
             </nav>
         </aside>
@@ -256,15 +428,15 @@
                 </h1>
 
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert" id="successAlert">
                         {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <button onclick="this.parentElement.style.display='none'">×</button>
                     </div>
                 @endif
 
                 <div class="search-filter">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom ou destination...">
-                    <select id="typeFilter" class="form-select">
+                    <input type="text" id="searchInput" placeholder="Rechercher par nom ou destination...">
+                    <select id="typeFilter">
                         <option value="">Tous les types</option>
                         <option value="Annulation">Annulation</option>
                         <option value="Médicale">Médicale</option>
@@ -274,40 +446,40 @@
 
                 @if($assurances->isEmpty())
                     <div class="empty-state">
-                        <i class="fas fa-shield-virus fa-3x mb-3"></i>
+                        <i class="fas fa-shield-alt"></i>
                         <h3>Aucune assurance enregistrée</h3>
-                        <p class="text-muted">Les souscriptions d'assurances apparaîtront ici.</p>
+                        <p>Les souscriptions d'assurances apparaîtront ici.</p>
                     </div>
                 @else
                     <div class="table-responsive">
                         <table class="assurance-table" id="assurancesTable">
                             <thead>
                                 <tr>
-                                    <th style="width: 18%;"><i class="fas fa-user-tie me-2"></i>Client</th>
-                                    <th style="width: 12%;"><i class="fas fa-calendar-day me-2"></i> Durée</th>
+                                    <th style="width: 18%;"><i class="fas fa-user-tie me-2"></i> Client</th>
+                                    <th style="width: 10%;"><i class="fas fa-calendar-day me-2"></i> Durée</th>
                                     <th style="width: 16%;"><i class="fas fa-map-marked-alt me-2"></i> Destination</th>
                                     <th style="width: 18%;"><i class="fas fa-tags me-2"></i> Type</th>
                                     <th style="width: 16%;"><i class="fas fa-calendar-check me-2"></i> Date</th>
-                                    <th style="width: 20%;"><i class="fas fa-ticket-alt me-2"></i> Réservation</th>
+                                    <th style="width: 22%;"><i class="fas fa-ticket-alt me-2"></i> Réservation</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($assurances as $assurance)
-                                    <tr data-bs-toggle="modal" data-bs-target="#assuranceModal" data-assurance='{{ json_encode($assurance) }}'>
+                                    <tr data-assurance='{{ json_encode($assurance) }}'>
                                         <td>
                                             <div class="fw-semibold">
                                                 {{ $assurance->reservation ? $assurance->reservation->prenom . ' ' . $assurance->reservation->nom : 'N/A' }}
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-light text-dark">
+                                            <span class="badge-pill" style="background: var(--cultured); color: var(--spanish-gray);">
                                                 <i class="fas fa-clock"></i>
                                                 {{ $assurance->duree }} jours
                                             </span>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <i class="fas fa-map-marker-alt text-primary me-2 assurance-icon"></i>
+                                                <i class="fas fa-map-marker-alt me-2" style="color: var(--deep-saffron);"></i>
                                                 <span>{{ $assurance->destination }}</span>
                                             </div>
                                         </td>
@@ -317,7 +489,7 @@
                                                 @elseif($assurance->type_assurance == 'Médicale') badge-medicale
                                                 @else badge-bagages
                                                 @endif">
-                                                <i class="fas assurance-icon
+                                                <i class="fas
                                                     @if($assurance->type_assurance == 'Annulation') fa-ban
                                                     @elseif($assurance->type_assurance == 'Médicale') fa-heartbeat
                                                     @else fa-suitcase-rolling
@@ -334,8 +506,8 @@
                                         <td>
                                             <div class="reservation-info">
                                                 @if($assurance->reservation)
-                                                    <i class="fas fa-ticket-alt text-primary me-2 assurance-icon"></i>
-                                                    <span>Réservation:{{ $assurance->reservation->id }} -> {{ $assurance->reservation->destination }}</span>
+                                                    <i class="fas fa-ticket-alt me-2" style="color: var(--deep-saffron);"></i>
+                                                    <span>Réservation :{{ $assurance->reservation->destination }}</span>
                                                 @else
                                                     <span class="no-reservation">Aucune réservation</span>
                                                 @endif
@@ -347,108 +519,26 @@
                         </table>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <div class="text-muted small">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                        <div style="font-size: 0.85rem; color: var(--spanish-gray);">
                             Affichage de <strong>1</strong> à <strong>{{ $assurances->count() }}</strong> sur <strong>{{ $assurances->count() }}</strong> souscriptions
                         </div>
-                        <div>
-                            <span class="badge bg-primary rounded-pill">
-                                <i class="fas fa-database me-1"></i>
-                                Total: {{ $assurances->count() }}
-                            </span>
-                        </div>
+                        <span class="total-badge">
+                            <i class="fas fa-database me-1"></i>
+                            Total: {{ $assurances->count() }}
+                        </span>
                     </div>
                 @endif
             </div>
 
             <!-- Modal pour les détails de l'assurance -->
-            <div class="modal fade" id="assuranceModal" tabindex="-1" aria-labelledby="assuranceModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="assuranceModalLabel">Détails de l'Assurance</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-user me-1"></i> Nom du client</h6>
-                                    <p id="modalClient"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-calendar-day me-1"></i> Durée</h6>
-                                    <p id="modalDuree"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-map-marked-alt me-1"></i> Destination</h6>
-                                    <p id="modalDestination"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-tags me-1"></i> Type d'Assurance</h6>
-                                    <p id="modalType"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-calendar-check me-1"></i> Date de Souscription</h6>
-                                    <p id="modalDate"></p>
-                                </div>
-                                <div class="col-12">
-                                    <h6><i class="fas fa-ticket-alt me-1"></i> Réservation Associée</h6>
-                                    <p id="modalReservation"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        </div>
+            <div class="modal" id="assuranceModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Détails de l'Assurance</h5>
+                        <button class="modal-close">×</button>
                     </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Initialisation des tooltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-        // Gestion du filtrage et de la recherche
-        const searchInput = document.getElementById('searchInput');
-        const typeFilter = document.getElementById('typeFilter');
-        const tableRows = document.querySelectorAll('#assurancesTable tbody tr');
-
-        function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const typeTerm = typeFilter.value.toLowerCase();
-
-            tableRows.forEach(row => {
-                const client = row.cells[0].textContent.toLowerCase();
-                const destination = row.cells[2].textContent.toLowerCase();
-                const type = row.cells[3].textContent.toLowerCase();
-
-                const matchesSearch = client.includes(searchTerm) || destination.includes(searchTerm);
-                const matchesType = !typeTerm || type.includes(typeTerm);
-
-                row.style.display = matchesSearch && matchesType ? '' : 'none';
-            });
-        }
-
-        searchInput.addEventListener('input', filterTable);
-        typeFilter.addEventListener('change', filterTable);
-
-        // Gestion de la modale des détails
-        document.querySelectorAll('#assurancesTable tbody tr').forEach(row => {
-            row.addEventListener('click', function() {
-                const assurance = JSON.parse(this.dataset.assurance);
-
-                document.getElementById('modalClient').innerHTML = `<strong>${assurance.prenom} ${assurance.nom}</strong>`;
-                document.getElementById('modalDuree').textContent = `${assurance.duree} jours`;
-                document.getElementById('modalDestination').textContent = assurance.destination;
-                document.getElementById('modalType').textContent = assurance.type_assurance;
-                document.getElementById('modalDate').textContent = assurance.created_at ? new Date(assurance.created_at).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                document.getElementById('modalReservation').textContent = assurance.reservation ? `Réservation #${assurance.reservation.id} - ${assurance.reservation.destination}` : 'Aucune réservation';
-            });
-        });
-    </script>
-</body>
-</html>
+                    <div class="modal-body">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <h6><i class="fas bisogno di aiuto con il codice precedente?

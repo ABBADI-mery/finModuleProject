@@ -4,62 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservations | Dashboard Admin</title>
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dashboard.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #7c3aed;
-            --light-color: #f8fafc;
-            --dark-color: #1e293b;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
+            --white: hsl(0, 0%, 100%);
+            --black: hsl(0, 0%, 0%);
+            --deep-saffron: #89ca06;
+            --dark-orange: #7ab805;
+            --gray-x-11-gray: hsl(0, 0%, 73%);
+            --spanish-gray: hsl(0, 0%, 60%);
+            --cultured: hsl(0, 0%, 93%);
+            --rich-black-fogra-29: hsl(210, 26%, 7%);
         }
 
-        body {
-            background: var(--light-color);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
         }
 
+        body {
+            background: var(--white);
+            color: var(--rich-black-fogra-29);
+        }
+
         .dashboard-container {
-            display: flex;
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "sidebar main";
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr;
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 250px;
-            background: var(--dark-color);
-            color: white;
-            padding: 1.5rem;
-            transition: width 0.3s ease;
-        }
-
-        .sidebar a {
-            color: white;
-            text-decoration: none;
+        .dashboard-header {
+            grid-area: header;
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--cultured);
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: background 0.2s ease;
+            justify-content: space-between;
         }
 
-        .sidebar a:hover, .sidebar a.active {
-            background: var(--primary-color);
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            color: var(--deep-saffron);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dashboard-header p {
+            font-size: 1rem;
+            color: var(--spanish-gray);
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--rich-black-fogra-29);
+            padding: 2rem 1rem;
+            color: var(--white);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin: 0.75rem 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-x-11-gray);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background: var(--deep-saffron);
+            color: var(--black);
+            transform: scale(1.02);
         }
 
         .main-content {
-            flex: 1;
+            grid-area: main;
             padding: 2rem;
+            background: var(--cultured);
         }
 
         .reservation-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: var(--white);
+            border-radius: 12px;
             padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             animation: fadeIn 0.5s ease;
         }
 
@@ -69,12 +118,13 @@
         }
 
         .page-title {
-            color: var(--dark-color);
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--rich-black-fogra-29);
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .search-filter {
@@ -83,73 +133,94 @@
             margin-bottom: 1.5rem;
         }
 
-        .search-filter input, .search-filter select {
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+        .search-filter input,
+        .search-filter select {
             padding: 0.5rem 1rem;
-            transition: border-color 0.2s ease;
+            border: 1px solid var(--cultured);
+            border-radius: 8px;
+            background: var(--white);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .search-filter input:focus, .search-filter select:focus {
-            border-color: var(--primary-color);
+        .search-filter input:focus,
+        .search-filter select:focus {
+            border-color: var(--deep-saffron);
+            box-shadow: 0 0 0 3px rgba(137, 202, 6, 0.1);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         .table-responsive {
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
         }
 
         .table thead {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            background: linear-gradient(135deg, var(--deep-saffron), var(--dark-orange));
+            color: var(--white);
+        }
+
+        .table th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
         }
 
         .table tbody tr {
+            border-bottom: 1px solid var(--cultured);
             transition: background 0.2s ease;
             cursor: pointer;
         }
 
         .table tbody tr:hover {
-            background: #f1f5f9;
+            background: var(--cultured);
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
         }
 
         .badge-status {
-            padding: 0.5em 1em;
+            padding: 0.4rem 0.8rem;
             border-radius: 50px;
-            font-size: 0.85em;
-            font-weight: 500;
+            font-size: 0.85rem;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.3rem;
         }
 
         .badge-confirmed {
-            background: #d1fae5;
-            color: #065f46;
+            background: rgba(137, 202, 6, 0.1);
+            color: var(--dark-orange);
         }
 
         .badge-cancelled {
-            background: #fee2e2;
-            color: #991b1b;
+            background: rgba(255, 0, 0, 0.1);
+            color: #d00000;
         }
 
         .badge-pending {
-            background: #fef9c3;
-            color: #854d0e;
+            background: rgba(255, 204, 0, 0.1);
+            color: #cc9900;
         }
 
         .action-btns {
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
         }
 
         .action-btn {
-            padding: 0.5em 1em;
-            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border: none;
             border-radius: 50px;
+            font-size: 0.85rem;
+            cursor: pointer;
             transition: transform 0.2s ease, background 0.2s ease;
         }
 
@@ -157,58 +228,193 @@
             transform: translateY(-2px);
         }
 
+        .action-btn.approve {
+            background: var(--deep-saffron);
+            color: var(--black);
+        }
+
+        .action-btn.reject {
+            background: #d00000;
+            color: var(--white);
+        }
+
         .assurance-list {
             max-height: 80px;
             overflow-y: auto;
-            font-size: 0.85em;
+            font-size: 0.85rem;
+            color: var(--spanish-gray);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--spanish-gray);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--deep-saffron);
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-badge {
+            background: var(--deep-saffron);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
         }
 
         .modal-content {
+            background: var(--white);
             border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .modal-header {
-            background: var(--primary-color);
-            color: white;
+            background: var(--deep-saffron);
+            color: var(--black);
+            padding: 1rem 2rem;
             border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h5 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--black);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-body h6 {
+            font-size: 1rem;
+            color: var(--spanish-gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+            color: var(--rich-black-fogra-29);
         }
 
         .modal-footer {
-            border-top: none;
             padding: 1rem 2rem;
+            border-top: 1px solid var(--cultured);
+            text-align: right;
+        }
+
+        .modal-footer button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--deep-saffron);
+            color: var(--black);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .modal-footer button:hover {
+            background: var(--dark-orange);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(137, 202, 6, 0.1);
+            color: var(--dark-orange);
+        }
+
+        .alert button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--dark-orange);
         }
 
         @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+            }
+
             .sidebar {
-                width: 80px;
-            }
-
-            .sidebar a {
-                justify-content: center;
-            }
-
-            .sidebar a span {
                 display: none;
             }
 
             .search-filter {
                 flex-direction: column;
             }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-route"></i> FM Voyage</h1>
+            <p>Votre Passeport Vers l’Évasion</p>
+        </header>
+        
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a></li>
-                    <li><a href="#"><i class="fas fa-hotel"></i><span>Hébergements</span></a></li>
-                    <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i><span>Assurances</span></a></li>
-                    <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i><span>Réservations</span></a></li>
-                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i><span>Contacts</span></a></li>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
+                    <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
+                    <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
                 </ul>
             </nav>
         </aside>
@@ -220,15 +426,15 @@
                 </h1>
 
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert" id="successAlert">
                         {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <button onclick="this.parentElement.style.display='none'">&times;</button>
                     </div>
                 @endif
 
                 <div class="search-filter">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par client ou destination...">
-                    <select id="statusFilter" class="form-select">
+                    <input type="text" id="searchInput" placeholder="Rechercher par client ou destination...">
+                    <select id="statusFilter">
                         <option value="">Tous les statuts</option>
                         <option value="confirmée">Confirmée</option>
                         <option value="annulée">Annulée</option>
@@ -238,13 +444,13 @@
 
                 @if($reservations->isEmpty())
                     <div class="empty-state">
-                        <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                        <i class="fas fa-calendar-times"></i>
                         <h3>Aucune réservation enregistrée</h3>
-                        <p class="text-muted">Les réservations apparaîtront ici une fois créées.</p>
+                        <p>Les réservations apparaîtront ici une fois créées.</p>
                     </div>
                 @else
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle" id="reservationsTable">
+                        <table class="table" id="reservationsTable">
                             <thead>
                                 <tr>
                                     <th><i class="fas fa-user-tie me-1"></i> Client</th>
@@ -258,28 +464,25 @@
                             </thead>
                             <tbody>
                                 @foreach($reservations as $reservation)
-                                <tr data-bs-toggle="modal" data-bs-target="#reservationModal" data-reservation='{{ json_encode($reservation) }}'>
+                                <tr data-reservation='{{ json_encode($reservation) }}'>
                                     <td>
                                         <strong>{{ $reservation->nom }}</strong>
-                                        <div class="text-muted small">{{ $reservation->email }}</div>
+                                        <div style="font-size: 0.85rem; color: var(--spanish-gray);">{{ $reservation->email }}</div>
                                     </td>
                                     <td>
-                                        <div class="small">
+                                        <div style="font-size: 0.85rem;">
                                             <div>{{ date('d/m/Y', strtotime($reservation->date_depart)) }}</div>
                                             <div>{{ date('d/m/Y', strtotime($reservation->date_retour)) }}</div>
                                         </div>
                                     </td>
                                     <td>{{ $reservation->destination }}</td>
-                                    <td class="text-center">{{ $reservation->nombre_passagers }}</td>
+                                    <td style="text-align: center;">{{ $reservation->nombre_passagers }}</td>
                                     <td>
                                         <div class="assurance-list">
                                             @forelse ($reservation->assurances as $assurance)
-                                                <div class="assurance-item">
-                                                    <i class="fas fa-shield-alt me-1"></i>
-                                                    {{ $assurance->type_assurance }}
-                                                </div>
+                                                <div><i class="fas fa-shield-alt me-1"></i> {{ $assurance->type_assurance }}</div>
                                             @empty
-                                                <div class="no-assurance">Aucune assurance</div>
+                                                <div>Aucune assurance</div>
                                             @endforelse
                                         </div>
                                     </td>
@@ -307,7 +510,7 @@
                                             @if($reservation->statut != 'confirmée')
                                             <form action="{{ route('reservations.approve', $reservation->id) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="btn btn-success btn-sm action-btn" data-bs-toggle="tooltip" title="Confirmer la réservation">
+                                                <button type="submit" class="action-btn approve" title="Confirmer la réservation">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             </form>
@@ -315,7 +518,7 @@
                                             @if($reservation->statut != 'annulée')
                                             <form action="{{ route('reservations.reject', $reservation->id) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm action-btn" data-bs-toggle="tooltip" title="Annuler la réservation">
+                                                <button type="submit" class="action-btn reject" title="Annuler la réservation">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </form>
@@ -328,8 +531,8 @@
                         </table>
                     </div>
 
-                    <div class="d-flex justify-content-end mt-3">
-                        <span class="badge bg-primary">
+                    <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                        <span class="total-badge">
                             <i class="fas fa-database me-1"></i>
                             Total: {{ $reservations->count() }} réservations
                         </span>
@@ -338,64 +541,57 @@
             </div>
 
             <!-- Modal pour les détails de la réservation -->
-            <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reservationModalLabel">Détails de la Réservation</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-user me-1"></i> Client</h6>
-                                    <p id="modalClient"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="far fa-calendar-alt me-1"></i> Dates</h6>
-                                    <p id="modalDates"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-map-marked-alt me-1"></i> Destination</h6>
-                                    <p id="modalDestination"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-user-friends me-1"></i> Passagers</h6>
-                                    <p id="modalPassagers"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-plane me-1"></i> Préférence Vol</h6>
-                                    <p id="modalVol"></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6><i class="fas fa-hotel me-1"></i> Préférence Hôtel</h6>
-                                    <p id="modalHotel"></p>
-                                </div>
-                                <div class="col-12">
-                                    <h6><i class="fas fa-comment me-1"></i> Demande Spéciale</h6>
-                                    <p id="modalDemande"></p>
-                                </div>
-                                <div class="col-12">
-                                    <h6><i class="fas fa-shield-alt me-1"></i> Assurances</h6>
-                                    <div id="modalAssurances"></div>
-                                </div>
+            <div class="modal" id="reservationModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>Détails de la Réservation</h5>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <h6><i class="fas fa-user me-1"></i> Client</h6>
+                                <p id="modalClient"></p>
+                            </div>
+                            <div>
+                                <h6><i class="far fa-calendar-alt me-1"></i> Dates</h6>
+                                <p id="modalDates"></p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-map-marked-alt me-1"></i> Destination</h6>
+                                <p id="modalDestination"></p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-user-friends me-1"></i> Passagers</h6>
+                                <p id="modalPassagers"></p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-plane me-1"></i> Préférence Vol</h6>
+                                <p id="modalVol"></p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-hotel me-1"></i> Préférence Hôtel</h6>
+                                <p id="modalHotel"></p>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <h6><i class="fas fa-comment me-1"></i> Demande Spéciale</h6>
+                                <p id="modalDemande"></p>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <h6><i class="fas fa-shield-alt me-1"></i> Assurances</h6>
+                                <div id="modalAssurances"></div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="document.getElementById('reservationModal').classList.remove('show')">Fermer</button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Initialisation des tooltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
         // Gestion du filtrage et de la recherche
         const searchInput = document.getElementById('searchInput');
         const statusFilter = document.getElementById('statusFilter');
@@ -422,7 +618,8 @@
 
         // Gestion de la modale des détails
         document.querySelectorAll('#reservationsTable tbody tr').forEach(row => {
-            row.addEventListener('click', function() {
+            row.addEventListener('click', function(e) {
+                if (e.target.closest('.action-btn')) return; // Ignore clicks on action buttons
                 const reservation = JSON.parse(this.dataset.reservation);
 
                 document.getElementById('modalClient').innerHTML = `<strong>${reservation.nom}</strong><br>${reservation.email}`;
@@ -437,9 +634,16 @@
                 if (reservation.assurances && reservation.assurances.length > 0) {
                     assurancesDiv.innerHTML = reservation.assurances.map(a => `<div><i class="fas fa-shield-alt me-1"></i> ${a.type_assurance}</div>`).join('');
                 } else {
-                    assurancesDiv.innerHTML = '<div class="no-assurance">Aucune assurance</div>';
+                    assurancesDiv.innerHTML = '<div>Aucune assurance</div>';
                 }
+
+                document.getElementById('reservationModal').classList.add('show');
             });
+        });
+
+        // Fermeture de la modale
+        document.querySelector('.modal-close').addEventListener('click', () => {
+            document.getElementById('reservationModal').classList.remove('show');
         });
 
         // Confirmation avant annulation
