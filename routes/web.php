@@ -30,7 +30,7 @@ Route::get('/destination', function () {
 })->name('destination');
 
 Route::get('/booking', function () {
-    return view('booking');
+    return auth()->check() ? view('booking') : redirect()->route('login');
 })->name('booking');
 
 Route::get('/team', function () {
@@ -52,8 +52,8 @@ Route::get('/planification', function () {
 // Routes pour contact, assurance, et réservation
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store');
-Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
+Route::post('/assurance', [AssuranceController::class, 'store'])->name('assurance.store')->middleware('auth');
+Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store')->middleware('auth');
 
 // Routes d'authentification
 Route::get('/login', function () {

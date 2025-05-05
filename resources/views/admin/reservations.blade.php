@@ -91,6 +91,21 @@
             font-size: 0.75rem;
             border-radius: 50px;
         }
+
+        .assurance-list {
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 0.85em;
+        }
+        
+        .assurance-item {
+            margin-bottom: 0.5em;
+        }
+        
+        .no-assurance {
+            color: #6c757d;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -135,12 +150,13 @@
                         <table class="table table-hover align-middle">
                             <thead>
                                 <tr>
-                                    <th><i class="fas fa-user-tie me-1"></i> Client</th>  <!-- Icône plus professionnelle pour client -->
-                                    <th><i class="far fa-calendar-alt me-1"></i> Dates</th>  <!-- Alternative: fas fa-clock pour durée -->
-                                    <th><i class="fas fa-map-marked-alt me-1"></i> Destination</th>  <!-- Icône plus précise -->
-                                    <th><i class="fas fa-user-friends me-1"></i> Passagers</th>  <!-- Groupe plus visible -->
-                                    <th><i class="fas fa-info-circle me-1"></i> Statut</th>  <!-- Alternative: fas fa-check-circle/times-circle pour statut -->
-                                    <th><i class="fas fa-ellipsis-v me-1"></i> Actions</th>  <!-- Alternative: fas fa-sliders-h -->
+                                    <th><i class="fas fa-user-tie me-1"></i> Client</th>
+                                    <th><i class="far fa-calendar-alt me-1"></i> Dates</th>
+                                    <th><i class="fas fa-map-marked-alt me-1"></i> Destination</th>
+                                    <th><i class="fas fa-user-friends me-1"></i> Passagers</th>
+                                    <th><i class="fas fa-shield-alt me-1"></i> Assurances</th>
+                                    <th><i class="fas fa-info-circle me-1"></i> Statut</th>
+                                    <th><i class="fas fa-ellipsis-v me-1"></i> Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -158,6 +174,18 @@
                                     </td>
                                     <td>{{ $reservation->destination }}</td>
                                     <td class="text-center">{{ $reservation->nombre_passagers }}</td>
+                                    <td>
+                                        <div class="assurance-list">
+                                            @forelse ($reservation->assurances as $assurance)
+                                                <div class="assurance-item">
+                                                    <i class="fas fa-shield-alt me-1"></i>
+                                                    {{ $assurance->type_assurance }} ({{ $assurance->nom }} {{ $assurance->prenom }})
+                                                </div>
+                                            @empty
+                                                <div class="no-assurance">Aucune assurance</div>
+                                            @endforelse
+                                        </div>
+                                    </td>
                                     <td>
                                         @php
                                             $badgeClass = [

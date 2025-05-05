@@ -19,10 +19,23 @@ class Reservation extends Model
         'preference_vol',
         'preference_hotel',
         'demande_speciale',
-        'statut' // Ajoutez ce champ
+        'statut',
+        'user_id',
     ];
 
     protected $attributes = [
-        'statut' => 'en attente' // Valeur par défaut
+        'statut' => 'en attente',
     ];
+
+    // Relation avec l'utilisateur
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Relation avec les assurances
+    public function assurances()
+    {
+        return $this->hasMany(Assurance::class);
+    }
 }

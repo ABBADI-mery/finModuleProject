@@ -35,4 +35,8 @@ class User extends Authenticatable
     {
         return $this->role === 'client';
     }
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

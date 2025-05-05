@@ -10,6 +10,7 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nom');
             $table->string('email');
             $table->date('date_depart');
@@ -19,7 +20,7 @@ class CreateReservationsTable extends Migration
             $table->string('preference_vol');
             $table->string('preference_hotel');
             $table->text('demande_speciale')->nullable();
-            $table->string('statut')->default('en attente'); // Ajout direct du champ
+            $table->string('statut')->default('en attente');
             $table->timestamps();
         });
     }

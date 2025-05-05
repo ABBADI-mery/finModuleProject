@@ -21,6 +21,9 @@ class ReservationController extends Controller
             'demande_speciale' => 'nullable|string',
         ]);
 
+        // Associer l'utilisateur connecté
+        $validated['user_id'] = auth()->id();
+
         Reservation::create($validated);
 
         return back()->with('success', 'Votre réservation a bien été enregistrée !');

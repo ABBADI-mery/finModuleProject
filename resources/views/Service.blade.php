@@ -435,85 +435,113 @@
     <br>
     <br>
     <!-- Call to Action Section -->
-    <!--formulaire assurance-->
+    <!-- formulaire assurance -->
+<div class="formass row g-4 justify-content-center">
+    <div class="text-center">
+        <h5 class="section-title bg-white text-center text-primary px-3">Souscrire à une Assurance</h5>
+    </div>
 
-    <div class=" formass  row g-4 justify-content-center">
-      
-        <div class="text-center">
-            <h5 class="section-title bg-white text-center text-primary px-3">Souscrire à une Assurance</h5>
-        </div>
-       
-        <div class=" col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <h5>Souscrire à une Assurance </h5>
-            <p class="mb-4">Prêt à voyager l'esprit tranquille ?
-                Choisissez une assurance qui répond à vos besoins et partez en toute sécurité.</p>
-            <div class="d-flex align-items-center mb-4">
-                <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary"
-                    style="width: 50px; height: 50px; border-radius: 50%; text-align: center;">
-                    <i class="fa fa-medkit text-white"></i>
-                </div>
-                <div class="ms-3">
-                    <h5 class="text-primary">Assurance Médicale</h5>
-                    <p class="mb-0">
-                        Sécurisez votre santé et votre sécurité.
-                    </p>
-                </div>
+    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <h5>Souscrire à une Assurance</h5>
+        <p class="mb-4">Prêt à voyager l'esprit tranquille ? Choisissez une assurance qui répond à vos besoins et partez en toute sécurité.</p>
+        <div class="d-flex align-items-center mb-4">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px; border-radius: 50%; text-align: center;">
+                <i class="fa fa-medkit text-white"></i>
             </div>
-            <div class="d-flex align-items-center mb-4">
-                <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary"
-                    style="width: 50px; height: 50px; border-radius: 50%; text-align: center;">
-                    <i class="fa fa-suitcase-rolling  text-white"></i>
-                </div>
-                <div class="ms-3">
-                    <h5 class="text-primary">Assurance Bagages</h5>
-                    <p class="mb-0"> Protégez-vous contre les imprévus avec notre couverture d'assurance.</p>
-                </div>
+            <div class="ms-3">
+                <h5 class="text-primary">Assurance Médicale</h5>
+                <p class="mb-0">Sécurisez votre santé et votre sécurité.</p>
             </div>
-
         </div>
+        <div class="d-flex align-items-center mb-4">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px; border-radius: 50%; text-align: center;">
+                <i class="fa fa-suitcase-rolling text-white"></i>
+            </div>
+            <div class="ms-3">
+                <h5 class="text-primary">Assurance Bagages</h5>
+                <p class="mb-0">Protégez-vous contre les imprévus avec notre couverture d'assurance.</p>
+            </div>
+        </div>
+    </div>
 
-        <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+    <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+        @auth
             <form method="POST" action="{{ route('assurance.store') }}">
                 @csrf
-                <div class="row g-4">
+                <div class="row g-3">
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="nom" name="nom" placeholder="nom">
+                            <input type="text" class="form-control" id="nom" name="nom" value="{{ old('nom') }}" placeholder="Votre Nom" required>
                             <label for="nom">Votre Nom</label>
+                            @error('nom')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom">
-                            <label for="prenom">Votre Prenom</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" value="{{ old('prenom') }}" placeholder="Votre Prénom" required>
+                            <label for="prenom">Votre Prénom</label>
+                            @error('prenom')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="date" class="form-control" id="date_naissance" name="date_naissance" placeholder="">
+                            <input type="date" class="form-control" id="date_naissance" name="date_naissance" value="{{ old('date_naissance') }}" placeholder="Date de naissance" required>
                             <label for="date_naissance">Date de naissance</label>
+                            @error('date_naissance')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" id="duree" name="duree" placeholder="Ex : 10">
+                            <input type="number" class="form-control" id="duree" name="duree" value="{{ old('duree') }}" placeholder="Ex : 10" min="1" required>
                             <label for="duree">Durée (en jours)</label>
+                            @error('duree')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="ddes" name="destination" placeholder="">
-                            <label for="ddes">Destination</label>
+                            <input type="text" class="form-control" id="destination" name="destination" value="{{ old('destination') }}" placeholder="Destination" required>
+                            <label for="destination">Destination</label>
+                            @error('destination')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <select id="plan" name="type_assurance" class="form-select">
-                                <option value="Annulation">Annulation</option>
-                                <option value="Médicale">Médicale</option>
-                                <option value="Bagages">Bagages</option>
+                            <select id="type_assurance" name="type_assurance" class="form-select" required>
+                                <option value="" {{ old('type_assurance') ? '' : 'selected' }} disabled>Sélectionnez un type</option>
+                                <option value="Annulation" {{ old('type_assurance') == 'Annulation' ? 'selected' : '' }}>Annulation</option>
+                                <option value="Médicale" {{ old('type_assurance') == 'Médicale' ? 'selected' : '' }}>Médicale</option>
+                                <option value="Bagages" {{ old('type_assurance') == 'Bagages' ? 'selected' : '' }}>Bagages</option>
                             </select>
-                            <label for="plan">Type d'Assurance</label>
+                            <label for="type_assurance">Type d'Assurance</label>
+                            @error('type_assurance')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select id="reservation_id" name="reservation_id" class="form-select" required>
+                                <option value="" {{ old('reservation_id') ? '' : 'selected' }} disabled>Sélectionnez une réservation</option>
+                                @foreach (auth()->user()->reservations as $reservation)
+                                    <option value="{{ $reservation->id }}" {{ old('reservation_id') == $reservation->id ? 'selected' : '' }}>
+                                        Réservation #{{ $reservation->id }} - {{ $reservation->destination }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <label for="reservation_id">Réservation associée</label>
+                            @error('reservation_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-12">
@@ -521,14 +549,14 @@
                     </div>
                 </div>
             </form>
-        </div>
+        @else
+            <div class="text-center">
+                <p class="mb-4">Veuillez <a href="{{ route('login') }}" class="text-primary">vous connecter</a> pour souscrire à une assurance.</p>
+            </div>
+        @endauth
     </div>
-
-    </div>
-
-
-
-    <!-- fin formulaire assurance-->
+</div>
+<!-- fin formulaire assurance -->
     <!-- Modal -->
     <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
         <div class="modal-dialog">

@@ -146,6 +146,18 @@
         .assurance-icon:hover {
             transform: scale(1.1);
         }
+
+        /* Style pour la colonne Réservation */
+        .reservation-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .no-reservation {
+            color: #6c757d;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -190,12 +202,13 @@
                         <table class="assurance-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 20%;"><i class="fas fa-user-tie me-2"></i> Client</th>
-                                    <th style="width: 15%;"><i class="fas fa-birthday-cake me-2"></i> Date Naiss.</th>
+                                    <th style="width: 18%;"><i class="fas fa-user-tie me-2"></i> Client</th>
+                                    <th style="width: 14%;"><i class="fas fa-birthday-cake me-2"></i> Date Naiss.</th>
                                     <th style="width: 10%;"><i class="fas fa-calendar-day me-2"></i> Durée</th>
-                                    <th style="width: 15%;"><i class="fas fa-map-marked-alt me-2"></i> Destination</th>
-                                    <th style="width: 20%;"><i class="fas fa-tags me-2"></i> Type</th>
-                                    <th style="width: 20%;"><i class="fas fa-calendar-check me-2"></i> Date</th>
+                                    <th style="width: 14%;"><i class="fas fa-map-marked-alt me-2"></i> Destination</th>
+                                    <th style="width: 16%;"><i class="fas fa-tags me-2"></i> Type</th>
+                                    <th style="width: 14%;"><i class="fas fa-calendar-check me-2"></i> Date</th>
+                                    <th style="width: 14%;"><i class="fas fa-ticket-alt me-2"></i> Réservation</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -248,6 +261,16 @@
                                             <div class="date-indicator">
                                                 <i class="fas fa-clock"></i>
                                                 {{ $assurance->created_at ? $assurance->created_at->format('d/m/Y H:i') : 'N/A' }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="reservation-info">
+                                                @if($assurance->reservation)
+                                                    <i class="fas fa-ticket-alt text-primary me-2 assurance-icon"></i>
+                                                    <span>Réservation #{{ $assurance->reservation->id }} - {{ $assurance->reservation->destination }}</span>
+                                                @else
+                                                    <span class="no-reservation">Aucune réservation</span>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
