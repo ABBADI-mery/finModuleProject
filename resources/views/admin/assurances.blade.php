@@ -158,7 +158,7 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
                     <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>

@@ -10,6 +10,20 @@
 <link rel="stylesheet" href="{{ asset('assets/css/styleLogin.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/fontawesome-free-6.1.2-web/css/all.css') }}">
 <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .input-field {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+   
 
 
 </head>
@@ -53,11 +67,12 @@
                     <h2 class="title">Sign in</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" name="email" placeholder="Email"" required>
+                        <input type="text" name="email" placeholder="Email" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
                     </div>
                     <input type="submit" value="Login" class="btn solid">
                 </form>
@@ -87,11 +102,21 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <script src="{{ asset('assets/js/mainLogin.js') }}"></script>
-    
 </body>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('password');
+        const toggleIcon = document.querySelector('.toggle-password');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>
+<script src="{{ asset('assets/js/mainLogin.js') }}"></script>
 </html>

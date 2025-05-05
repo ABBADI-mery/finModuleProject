@@ -103,7 +103,7 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
                     <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
