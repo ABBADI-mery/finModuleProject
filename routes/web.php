@@ -7,6 +7,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OffreController;
+
 
 // Pages publiques
 Route::get('/', function () {
@@ -80,3 +82,44 @@ Route::get('/admin/assurances', [AssuranceController::class, 'index'])->name('as
 Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
+
+
+
+
+
+
+
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        
+        // Dashboard
+        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        
+        // Routes pour les offres
+        Route::prefix('offres')
+            ->name('offres.')
+            ->controller(OffreController::class)
+            ->group(function () {
+                
+                // Liste des offres
+                Route::get('/', 'offres')->name('index');  // Changé de 'offres.offres' à 'offres.index'
+                
+                // Formulaire d'ajout/modification
+                Route::get('/ajouteroffres/{id?}', 'ajouteroffres')
+                    ->name('create-or-edit'); // Nom plus explicite
+                
+                // Enregistrement d'une nouvelle offre
+                Route::post('/', 'store')->name('store');
+                
+                // Mise à jour d'une offre existante
+                Route::put('/{offre}', 'update')->name('update');
+                
+                // Suppression d'une offre
+                Route::delete('/{offre}', 'destroy')->name('destroy');
+            });
+
+        // Vous pouvez ajouter d'autres groupes de routes ici...
+    });
