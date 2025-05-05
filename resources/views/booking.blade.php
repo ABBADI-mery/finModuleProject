@@ -140,203 +140,142 @@
     </div>
     <!-- Process Start -->
 
-
-    <!-- Booking Start -->
-    <div id="bookingCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <!-- Formulaire de Réservation -->
-            <div class="carousel-item active">
-                <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="container">
-                        <div class="booking p-5">
-                            <div class="row g-5 align-items-center">
-                                <div class="col-md-6 text-white">
-                                    <h6 class="text-white text-uppercase">Réservation</h6>
-                                    <h1 class="text-white mb-4">Réservation en ligne</h1>
-                                    <p class="mb-4">Organisez votre voyage en toute simplicité grâce à notre service de réservation en ligne.</p>
-                                    <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Voir plus </a>
+<!-- Booking Start -->
+<div id="bookingCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <!-- Formulaire de Réservation -->
+        <div class="carousel-item active">
+            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="container">
+                    <div class="booking p-5">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-md-6 text-white">
+                                <h6 class="text-white text-uppercase">Réservation</h6>
+                                <h1 class="text-white mb-4">Réservation en ligne</h1>
+                                <p class="mb-4">Organisez votre voyage en toute simplicité grâce à notre service de réservation en ligne.</p>
+                                <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Voir plus </a>
+                            </div>
+                            <div class="col-md-6">
+                                <h1 class="text-white mb-4">Réserver une visite</h1>
+                                @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
                                 </div>
-                                <div class="col-md-6">
-                                    <h1 class="text-white mb-4">Réserver une visite</h1>
-                                    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+                                @endif
 
-<form method="POST" action="{{ route('reservation.store') }}">
-    @csrf
-    <div class="row g-3">
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input type="text" class="form-control bg-transparent @error('nom') is-invalid @enderror" id="reservationName" name="nom" placeholder="Entrer votre nom" value="{{ old('nom') }}">
-                <label for="reservationName">Votre nom</label>
-                @error('nom')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input type="email" class="form-control bg-transparent @error('email') is-invalid @enderror" id="reservationEmail" name="email" placeholder="Entrer votre email" value="{{ old('email') }}">
-                <label for="reservationEmail">Votre Email</label>
-                @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input type="date" class="form-control bg-transparent @error('date_depart') is-invalid @enderror" id="departureDate" name="date_depart" placeholder="Date de départ" value="{{ old('date_depart') }}">
-                <label for="departureDate">Date de départ</label>
-                @error('date_depart')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input type="date" class="form-control bg-transparent @error('date_retour') is-invalid @enderror" id="returnDate" name="date_retour" placeholder="Date de retour" value="{{ old('date_retour') }}">
-                <label for="returnDate">Date de retour</label>
-                @error('date_retour')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input type="number" class="form-control bg-transparent @error('nombre_passagers') is-invalid @enderror" id="passengerCount" name="nombre_passagers" min="1" max="10" placeholder="Nombre de passagers" value="{{ old('nombre_passagers') }}">
-                <label for="passengerCount">Nombre de passagers</label>
-                @error('nombre_passagers')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <select class="form-select bg-transparent @error('destination') is-invalid @enderror" id="destination" name="destination">
-                    <option value="Destination 1" @selected(old('destination') == 'Destination 1')>Destination 1</option>
-                    <option value="Destination 2" @selected(old('destination') == 'Destination 2')>Destination 2</option>
-                    <option value="Destination 3" @selected(old('destination') == 'Destination 3')>Destination 3</option>
-                </select>
-                <label for="destination">Destination</label>
-                @error('destination')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <select class="form-select bg-transparent @error('preference_vol') is-invalid @enderror" id="flightPreference" name="preference_vol">
-                    <option value="economy" @selected(old('preference_vol') == 'economy')>Économie</option>
-                    <option value="business" @selected(old('preference_vol') == 'business')>Affaires</option>
-                    <option value="firstClass" @selected(old('preference_vol') == 'firstClass')>Première classe</option>
-                </select>
-                <label for="flightPreference">Préférences de vol</label>
-                @error('preference_vol')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-floating">
-                <select class="form-select bg-transparent @error('preference_hotel') is-invalid @enderror" id="hotelPreference" name="preference_hotel">
-                    <option value="3stars" @selected(old('preference_hotel') == '3stars')>3 étoiles</option>
-                    <option value="4stars" @selected(old('preference_hotel') == '4stars')>4 étoiles</option>
-                    <option value="5stars" @selected(old('preference_hotel') == '5stars')>5 étoiles</option>
-                </select>
-                <label for="hotelPreference">Préférences d'hôtel</label>
-                @error('preference_hotel')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating">
-                <textarea class="form-control bg-transparent @error('demande_speciale') is-invalid @enderror" id="specialRequest" name="demande_speciale" placeholder="Demande spéciale" style="height: 100px;">{{ old('demande_speciale') }}</textarea>
-                <label for="specialRequest">Demande spéciale</label>
-                @error('demande_speciale')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
-        </div>
-    </div>
-</form>
+                                <form method="POST" action="{{ route('reservation.store') }}">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control bg-transparent @error('nom') is-invalid @enderror" id="reservationName" name="nom" placeholder="Entrer votre nom" value="{{ old('nom') }}">
+                                                <label for="reservationName">Votre nom</label>
+                                                @error('nom')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control bg-transparent @error('email') is-invalid @enderror" id="reservationEmail" name="email" placeholder="Entrer votre email" value="{{ old('email') }}">
+                                                <label for="reservationEmail">Votre Email</label>
+                                                @error('email')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control bg-transparent @error('date_depart') is-invalid @enderror" id="departureDate" name="date_depart" placeholder="Date de départ" value="{{ old('date_depart') }}">
+                                                <label for="departureDate">Date de départ</label>
+                                                @error('date_depart')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control bg-transparent @error('date_retour') is-invalid @enderror" id="returnDate" name="date_retour" placeholder="Date de retour" value="{{ old('date_retour') }}">
+                                                <label for="returnDate">Date de retour</label>
+                                                @error('date_retour')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="number" class="form-control bg-transparent @error('nombre_passagers') is-invalid @enderror" id="passengerCount" name="nombre_passagers" min="1" max="10" placeholder="Nombre de passagers" value="{{ old('nombre_passagers') }}">
+                                                <label for="passengerCount">Nombre de passagers</label>
+                                                @error('nombre_passagers')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select bg-transparent @error('destination') is-invalid @enderror" id="destination" name="destination">
+                                                    <option value="Destination 1" @selected(old('destination') == 'Destination 1')>Destination 1</option>
+                                                    <option value="Destination 2" @selected(old('destination') == 'Destination 2')>Destination 2</option>
+                                                    <option value="Destination 3" @selected(old('destination') == 'Destination 3')>Destination 3</option>
+                                                </select>
+                                                <label for="destination">Destination</label>
+                                                @error('destination')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select bg-transparent @error('preference_vol') is-invalid @enderror" id="flightPreference" name="preference_vol">
+                                                    <option value="economy" @selected(old('preference_vol') == 'economy')>Économie</option>
+                                                    <option value="business" @selected(old('preference_vol') == 'business')>Affaires</option>
+                                                    <option value="firstClass" @selected(old('preference_vol') == 'firstClass')>Première classe</option>
+                                                </select>
+                                                <label for="flightPreference">Préférences de vol</label>
+                                                @error('preference_vol')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select bg-transparent @error('preference_hotel') is-invalid @enderror" id="hotelPreference" name="preference_hotel">
+                                                    <option value="3stars" @selected(old('preference_hotel') == '3stars')>3 étoiles</option>
+                                                    <option value="4stars" @selected(old('preference_hotel') == '4stars')>4 étoiles</option>
+                                                    <option value="5stars" @selected(old('preference_hotel') == '5stars')>5 étoiles</option>
+                                                </select>
+                                                <label for="hotelPreference">Préférences d'hôtel</label>
+                                                @error('preference_hotel')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control bg-transparent @error('demande_speciale') is-invalid @enderror" id="specialRequest" name="demande_speciale" placeholder="Demande spéciale" style="height: 100px;">{{ old('demande_speciale') }}</textarea>
+                                                <label for="specialRequest">Demande spéciale</label>
+                                                @error('demande_speciale')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
+                                        </div>
+                                    </div>
+                                </form>
 
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-    
-           <!-- Formulaire de Paiement -->
-<div class="carousel-item">
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="booking p-5">
-                <div class="row g-5 align-items-center">
-                    <div class="col-md-6 text-white">
-                        <h6 class="text-white text-uppercase">Paiement</h6>
-                        <h1 class="text-white mb-4">Effectuez votre paiement</h1>
-                        <p class="mb-4">Sécurisez votre réservation en procédant au paiement.</p>
-                        <a class="btn btn-outline-light py-3 px-5 mt-2" href="#">En savoir plus</a>
-                    </div>
-                    <div class="col-md-6">
-                        <h1 class="text-white mb-4">Formulaire de Paiement</h1>
-                        <form id="paymentForm">
-                            <div class="row g-3">
-                                <!-- Montant -->
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control bg-transparent" id="amount" placeholder="Montant">
-                                        <label for="amount">Montant (€)</label>
-                                    </div>
-                                </div>
-                                <!-- Méthode de paiement -->
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <select class="form-control bg-transparent" id="paymentMethod">
-                                            <option value="" disabled selected>Choisissez une méthode de paiement</option>
-                                            <option value="carte">Carte Bancaire</option>
-                                            <option value="virement">Virement Bancaire</option>
-                                            <option value="paypal">PayPal</option>
-                                        </select>
-                                        <label for="paymentMethod">Méthode de Paiement</label>
-                                    </div>
-                                </div>
-                                <!-- Étapes supplémentaires pour les méthodes de paiement -->
-                                <div id="paymentSteps" class="col-12"></div>
-                                <!-- Bouton de soumission -->
-                                <div class="col-12">
-                                    <button class="btn btn-outline-light w-100 py-3" type="submit">Payer maintenant</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+    <!-- Contrôles du Carousel supprimés car un seul slide -->
 </div>
-    
-        <!-- Contrôles du Carousel -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#bookingCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Précédent</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bookingCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Suivant</span>
-        </button>
-    </div>
-    
-    
-    <!-- Booking End-->
-        
+<!-- Booking End -->
 
      <!-- Footer Start -->
  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
