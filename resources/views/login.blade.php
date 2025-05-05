@@ -20,9 +20,18 @@
                 <form method="POST" action="{{ route('register.submit') }}" class="sign-up-form">
                     @csrf
                     <h2 class="title">Sign up</h2>
+        
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" name="username" placeholder="UserName" required>
+                        <input type="text" name="first_name" placeholder="First Name" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="last_name" placeholder="Last Name" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="phone" placeholder="Phone" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
@@ -38,14 +47,13 @@
                     </div>
                     <input type="submit" value="Sign up" class="btn solid">
                 </form>
-                
 
                 <form method="POST" action="{{ route('login.submit') }}" class="sign-in-form">
                     @csrf
                     <h2 class="title">Sign in</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" name="username" placeholder="UserName" required>
+                        <input type="text" name="email" placeholder="Email"" required>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
