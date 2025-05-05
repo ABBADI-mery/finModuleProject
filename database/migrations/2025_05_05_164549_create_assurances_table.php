@@ -11,12 +11,9 @@ class CreateAssurancesTable extends Migration
         Schema::create('assurances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reservation_id')->constrained()->onDelete('cascade');
-            $table->string('nom');
-            $table->string('prenom');
-            $table->date('date_naissance');
-            $table->integer('duree');
-            $table->string('destination');
             $table->string('type_assurance');
+            $table->string('destination');
+            $table->integer('duree');
             $table->timestamps();
         });
     }

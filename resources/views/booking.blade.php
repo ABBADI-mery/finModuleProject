@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Réservation - Travel Agency </title>
+    <title>Réservation - Travel Agency</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -35,56 +35,57 @@
     </div>
     <!-- Spinner End -->
 
-
-    
-
-
     <!-- Navbar & Hero Start -->
     <div class="container-fluid position-relative p-0">
-    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-    <a href="{{ url('/') }}" class="navbar-brand p-0">
-        <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
-        <!-- <img src="img/logo.png" alt="Logo"> -->
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="fa fa-bars"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ms-auto py-0">
-            <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
-            <a href="{{ route('about') }}" class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
-            <a href="{{ route('service') }}" class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
-            <a href="{{ route('package') }}" class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                <div class="dropdown-menu m-0">
-                    <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
-                    <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
-                    <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
-                    <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
-                    <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
-                    <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
+        <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="{{ url('/') }}" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>VoyageFM</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="{{ route('home') }}" class="nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Accueil</a>
+                    <a href="{{ route('about') }}" class="nav-item nav-link {{ Request::is('about') ? 'active' : '' }}">À propos</a>
+                    <a href="{{ route('service') }}" class="nav-item nav-link {{ Request::is('service') ? 'active' : '' }}">Services</a>
+                    <a href="{{ route('package') }}" class="nav-item nav-link {{ Request::is('package') ? 'active' : '' }}">Offres</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="{{ route('destination') }}" class="dropdown-item">Destination</a>
+                            <a href="{{ route('booking') }}" class="dropdown-item">Réservation</a>
+                            <a href="{{ route('team') }}" class="dropdown-item">Guides de voyage</a>
+                            <a href="{{ route('testimonial') }}" class="dropdown-item">Témoignage</a>
+                            <a href="{{ route('activity') }}" class="dropdown-item">Activité</a>
+                            <a href="{{ route('planification') }}" class="dropdown-item">Planification de voyage</a>
+                        </div>
+                    </div>
                 </div>
+                <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary rounded-pill py-2 px-4">Déconnexion</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-primary rounded-pill py-2 px-4">Connexion</a>
+                @endauth
             </div>
-        </div>
-        <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
-        <a href="{{ route('login') }}"  class="btn btn-primary rounded-pill py-2 px-4">Login</a>
-
-    </div>
-</nav>
+        </nav>
 
         <div class="container-fluid bg-primary py-5 mb-5 hero-header8">
             <div class="container py-5">
                 <div class="row justify-content-center py-5">
                     <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
-                        <h1 class="display-3 text-white animated slideInDown">Réservation en ligne </h1>
+                        <h1 class="display-3 text-white animated slideInDown">Réservation en ligne</h1>
                         <nav aria-label="breadcrumb">
-    <ol class="breadcrumb justify-content-center">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('destination') }}">Destination</a></li>
-        <li class="breadcrumb-item text-white active" aria-current="page">Réservation en ligne</li>
-    </ol>
-</nav>
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Accueil</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('destination') }}">Destination</a></li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Réservation en ligne</li>
+                            </ol>
+                        </nav>
                         <h5 class="mb-2" style="color: aliceblue;">Réservez facilement vos voyages en ligne : choisissez votre destination, vos dates et vos préférences en quelques clics, avec des offres adaptées à vos besoins.</h5>
                     </div>
                 </div>
@@ -93,9 +94,8 @@
     </div>
     <!-- Navbar & Hero End -->
 
-
     <!-- Process Start -->
-    <div class="container-xxl py-5" >
+    <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center text-primary px-3">Processus</h6>
@@ -132,139 +132,147 @@
                         <h5 class="mt-4">Voler aujourd'hui</h5>
                         <hr class="w-25 mx-auto bg-primary mb-1">
                         <hr class="w-50 mx-auto bg-primary mt-0">
-                        <p class="mb-0">Réservez votre vol de dernière minute et partez sans attendre vers votre prochaine aventure, en toute simplicité et sans tracas, grâce à nos services .</p>
+                        <p class="mb-0">Réservez votre vol de dernière minute et partez sans attendre vers votre prochaine aventure, en toute simplicité et sans tracas, grâce à nos services.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Process Start -->
+    <!-- Process End -->
 
-<!-- Booking Start -->
-<div id="bookingCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <!-- Formulaire de Réservation -->
-        <div class="carousel-item active">
-            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="container">
-                    <div class="booking p-5">
-                        <div class="row g-5 align-items-center">
-                            <div class="col-md-6 text-white">
-                                <h6 class="text-white text-uppercase">Réservation</h6>
-                                <h1 class="text-white mb-4">Réservation en ligne</h1>
-                                <p class="mb-4">Organisez votre voyage en toute simplicité grâce à notre service de réservation en ligne.</p>
-                                <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Voir plus </a>
-                            </div>
-                            <div class="col-md-6">
-                                <h1 class="text-white mb-4">Réserver une visite</h1>
-                                @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
+    <!-- Booking Start -->
+    <div id="bookingCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Formulaire de Réservation -->
+            <div class="carousel-item active">
+                <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="container">
+                        <div class="booking p-5">
+                            <div class="row g-5 align-items-center">
+                                <div class="col-md-6 text-white">
+                                    <h6 class="text-white text-uppercase">Réservation</h6>
+                                    <h1 class="text-white mb-4">Réservation en ligne</h1>
+                                    <p class="mb-4">Organisez votre voyage en toute simplicité grâce à notre service de réservation en ligne.</p>
+                                    <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Voir plus</a>
                                 </div>
-                                @endif
-
-                                <form method="POST" action="{{ route('reservation.store') }}">
-                                    @csrf
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control bg-transparent @error('nom') is-invalid @enderror" id="reservationName" name="nom" placeholder="Entrer votre nom" value="{{ old('nom') }}">
-                                                <label for="reservationName">Votre nom</label>
-                                                @error('nom')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                <div class="col-md-6">
+                                    <h1 class="text-white mb-4">Réserver une visite</h1>
+                                    @auth
+                                        @if (session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="email" class="form-control bg-transparent @error('email') is-invalid @enderror" id="reservationEmail" name="email" placeholder="Entrer votre email" value="{{ old('email') }}">
-                                                <label for="reservationEmail">Votre Email</label>
-                                                @error('email')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                        @endif
+                                        <form method="POST" action="{{ route('reservation.store') }}">
+                                            @csrf
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control bg-transparent @error('nom') is-invalid @enderror" id="reservationName" name="nom" placeholder="Entrer votre nom" value="{{ old('nom', auth()->user()->name) }}" required>
+                                                        <label for="reservationName">Votre nom</label>
+                                                        @error('nom')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="email" class="form-control bg-transparent @error('email') is-invalid @enderror" id="reservationEmail" name="email" placeholder="Entrer votre email" value="{{ old('email', auth()->user()->email) }}" required>
+                                                        <label for="reservationEmail">Votre Email</label>
+                                                        @error('email')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="date" class="form-control bg-transparent @error('date_depart') is-invalid @enderror" id="departureDate" name="date_depart" placeholder="Date de départ" value="{{ old('date_depart') }}" required>
+                                                        <label for="departureDate">Date de départ</label>
+                                                        @error('date_depart')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="date" class="form-control bg-transparent @error('date_retour') is-invalid @enderror" id="returnDate" name="date_retour" placeholder="Date de retour" value="{{ old('date_retour') }}" required>
+                                                        <label for="returnDate">Date de retour</label>
+                                                        @error('date_retour')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="number" class="form-control bg-transparent @error('nombre_passagers') is-invalid @enderror" id="passengerCount" name="nombre_passagers" min="1" max="10" placeholder="Nombre de passagers" value="{{ old('nombre_passagers') }}" required>
+                                                        <label for="passengerCount">Nombre de passagers</label>
+                                                        @error('nombre_passagers')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select bg-transparent @error('destination') is-invalid @enderror" id="destination" name="destination" required>
+                                                            <option value="" {{ old('destination') ? '' : 'selected' }} disabled>Sélectionnez une destination</option>
+                                                            <option value="Paris" {{ old('destination') == 'Paris' ? 'selected' : '' }}>Paris</option>
+                                                            <option value="New York" {{ old('destination') == 'New York' ? 'selected' : '' }}>New York</option>
+                                                            <option value="Tokyo" {{ old('destination') == 'Tokyo' ? 'selected' : '' }}>Tokyo</option>
+                                                        </select>
+                                                        <label for="destination">Destination</label>
+                                                        @error('destination')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select bg-transparent @error('preference_vol') is-invalid @enderror" id="flightPreference" name="preference_vol" required>
+                                                            <option value="" {{ old('preference_vol') ? '' : 'selected' }} disabled>Sélectionnez une préférence</option>
+                                                            <option value="Économique" {{ old('preference_vol') == 'Économique' ? 'selected' : '' }}>Économique</option>
+                                                            <option value="Affaires" {{ old('preference_vol') == 'Affaires' ? 'selected' : '' }}>Affaires</option>
+                                                            <option value="Première classe" {{ old('preference_vol') == 'Première classe' ? 'selected' : '' }}>Première classe</option>
+                                                        </select>
+                                                        <label for="flightPreference">Préférences de vol</label>
+                                                        @error('preference_vol')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select bg-transparent @error('preference_hotel') is-invalid @enderror" id="hotelPreference" name="preference_hotel" required>
+                                                            <option value="" {{ old('preference_hotel') ? '' : 'selected' }} disabled>Sélectionnez une préférence</option>
+                                                            <option value="3 étoiles" {{ old('preference_hotel') == '3 étoiles' ? 'selected' : '' }}>3 étoiles</option>
+                                                            <option value="4 étoiles" {{ old('preference_hotel') == '4 étoiles' ? 'selected' : '' }}>4 étoiles</option>
+                                                            <option value="5 étoiles" {{ old('preference_hotel') == '5 étoiles' ? 'selected' : '' }}>5 étoiles</option>
+                                                        </select>
+                                                        <label for="hotelPreference">Préférences d'hôtel</label>
+                                                        @error('preference_hotel')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control bg-transparent @error('demande_speciale') is-invalid @enderror" id="specialRequest" name="demande_speciale" placeholder="Demande spéciale" style="height: 100px;">{{ old('demande_speciale') }}</textarea>
+                                                        <label for="specialRequest">Demande spéciale</label>
+                                                        @error('demande_speciale')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
+                                                </div>
                                             </div>
+                                        </form>
+                                    @else
+                                        <div class="text-center text-white">
+                                            <p class="mb-4">Veuillez <a href="{{ route('login') }}" class="text-primary">vous connecter</a> pour effectuer une réservation.</p>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="date" class="form-control bg-transparent @error('date_depart') is-invalid @enderror" id="departureDate" name="date_depart" placeholder="Date de départ" value="{{ old('date_depart') }}">
-                                                <label for="departureDate">Date de départ</label>
-                                                @error('date_depart')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="date" class="form-control bg-transparent @error('date_retour') is-invalid @enderror" id="returnDate" name="date_retour" placeholder="Date de retour" value="{{ old('date_retour') }}">
-                                                <label for="returnDate">Date de retour</label>
-                                                @error('date_retour')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="number" class="form-control bg-transparent @error('nombre_passagers') is-invalid @enderror" id="passengerCount" name="nombre_passagers" min="1" max="10" placeholder="Nombre de passagers" value="{{ old('nombre_passagers') }}">
-                                                <label for="passengerCount">Nombre de passagers</label>
-                                                @error('nombre_passagers')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <select class="form-select bg-transparent @error('destination') is-invalid @enderror" id="destination" name="destination">
-                                                    <option value="Destination 1" @selected(old('destination') == 'Destination 1')>Destination 1</option>
-                                                    <option value="Destination 2" @selected(old('destination') == 'Destination 2')>Destination 2</option>
-                                                    <option value="Destination 3" @selected(old('destination') == 'Destination 3')>Destination 3</option>
-                                                </select>
-                                                <label for="destination">Destination</label>
-                                                @error('destination')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <select class="form-select bg-transparent @error('preference_vol') is-invalid @enderror" id="flightPreference" name="preference_vol">
-                                                    <option value="economy" @selected(old('preference_vol') == 'economy')>Économie</option>
-                                                    <option value="business" @selected(old('preference_vol') == 'business')>Affaires</option>
-                                                    <option value="firstClass" @selected(old('preference_vol') == 'firstClass')>Première classe</option>
-                                                </select>
-                                                <label for="flightPreference">Préférences de vol</label>
-                                                @error('preference_vol')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <select class="form-select bg-transparent @error('preference_hotel') is-invalid @enderror" id="hotelPreference" name="preference_hotel">
-                                                    <option value="3stars" @selected(old('preference_hotel') == '3stars')>3 étoiles</option>
-                                                    <option value="4stars" @selected(old('preference_hotel') == '4stars')>4 étoiles</option>
-                                                    <option value="5stars" @selected(old('preference_hotel') == '5stars')>5 étoiles</option>
-                                                </select>
-                                                <label for="hotelPreference">Préférences d'hôtel</label>
-                                                @error('preference_hotel')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating">
-                                                <textarea class="form-control bg-transparent @error('demande_speciale') is-invalid @enderror" id="specialRequest" name="demande_speciale" placeholder="Demande spéciale" style="height: 100px;">{{ old('demande_speciale') }}</textarea>
-                                                <label for="specialRequest">Demande spéciale</label>
-                                                @error('demande_speciale')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-outline-light w-100 py-3" type="submit">Réservez maintenant</button>
-                                        </div>
-                                    </div>
-                                </form>
-
+                                    @endauth
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -272,164 +280,89 @@
             </div>
         </div>
     </div>
+    <!-- Booking End -->
 
-    <!-- Contrôles du Carousel supprimés car un seul slide -->
-</div>
-<!-- Booking End -->
-
-     <!-- Footer Start -->
- <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Infos</h4>
-                <a class="btn btn-link" href="{{ url('about') }}">À propos</a>
-                <a class="btn btn-link" href="{{ url('contact') }}">Nous contacter</a>
-                <a class="btn btn-link" href="{{ url('about') }}">Politique de confidentialité</a>
-                <a class="btn btn-link" href="{{ url('about') }}">Conditions générales</a>
-                <a class="btn btn-link" href="{{ url('about') }}">FAQ et aide</a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Km 5, Route d'Essaouira, B.P 2400, Marrakech, Maroc.</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>VoyageFM@gmail.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Infos</h4>
+                    <a class="btn btn-link" href="{{ url('about') }}">À propos</a>
+                    <a class="btn btn-link" href="{{ url('contact') }}">Nous contacter</a>
+                    <a class="btn btn-link" href="{{ url('about') }}">Politique de confidentialité</a>
+                    <a class="btn btn-link" href="{{ url('about') }}">Conditions générales</a>
+                    <a class="btn btn-link" href="{{ url('about') }}">FAQ et aide</a>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3"><a href="{{ url('about') }}#calery" style="color: #fff">Galerie</a></h4>
-                <div class="row g-2 pt-2">
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contact</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i> Km 5, Route d'Essaouira, B.P 2400, Marrakech, Maroc.</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>VoyageFM@gmail.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Paiement</h4>
-                <div class="d-flex flex-wrap justify-content-start">
-                    <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
-                    <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
-                    <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
-                    <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
-                    <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3"><a href="{{ url('about') }}#calery" style="color: #fff">Galerie</a></h4>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Paiement</h4>
+                    <div class="d-flex flex-wrap justify-content-start">
+                        <i class="fab fa-cc-amex fa-2x text-light me-3"></i>
+                        <i class="fab fa-cc-visa fa-2x text-light me-3"></i>
+                        <i class="fab fa-cc-mastercard fa-2x text-light me-3"></i>
+                        <i class="fab fa-cc-paypal fa-2x text-light me-3"></i>
+                        <i class="fab fa-cc-discover fa-2x text-light me-3"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Footer End -->
-
-
-
-
+    <!-- Footer End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    {{-- Librairie JavaScript jQuery --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- Bundle JavaScript de Bootstrap 5 (inclut Popper.js) --}}
     <script src="{{ asset('assets/lib/wow/wow.min.js') }}"></script>
-    {{-- Librairie JavaScript pour les animations au scroll (WOW.js) --}}
     <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
-    {{-- Librairie JavaScript pour les effets d'animation (Easing) --}}
     <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
-    {{-- Librairie JavaScript pour détecter le scroll des éléments (Waypoints) --}}
     <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    {{-- Librairie JavaScript pour le carrousel (Owl Carousel) --}}
     <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
-    {{-- Librairie JavaScript pour la manipulation de dates (Moment.js) --}}
     <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    {{-- Librairie JavaScript pour la gestion des fuseaux horaires (Moment Timezone) --}}
     <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    {{-- Librairie JavaScript pour le sélecteur de date et d'heure (Tempus Dominus pour Bootstrap 4) --}}
-
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    {{-- Fichier JavaScript principal du template --}}
     <script>
-         document.getElementById('paymentMethod').addEventListener('change', function() {
-        const paymentSteps = document.getElementById('paymentSteps');
-        paymentSteps.innerHTML = ''; // Clear previous steps
-
-        switch (this.value) {
-            case 'carte':
-                paymentSteps.innerHTML = `
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control bg-transparent" id="cardName" placeholder="Nom sur la carte">
-                                <label for="cardName">Nom sur la carte</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control bg-transparent" id="cardNumber" placeholder="Numéro de carte">
-                                <label for="cardNumber">Numéro de carte</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control bg-transparent" id="expiryDate" placeholder="Date d'expiration">
-                                <label for="expiryDate">Date d'expiration (MM/AA)</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control bg-transparent" id="cvv" placeholder="CVV">
-                                <label for="cvv">CVV</label>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                break;
-            case 'virement':
-                paymentSteps.innerHTML = `
-                    <div class="form-floating">
-                        <input type="text" class="form-control bg-transparent" id="iban" placeholder="IBAN">
-                        <label for="iban">IBAN</label>
-                    </div>
-                `;
-                break;
-            case 'paypal':
-                paymentSteps.innerHTML = `
-                    <div class="form-floating">
-                        <input type="email" class="form-control bg-transparent" id="paypalEmail" placeholder="Email PayPal">
-                        <label for="paypalEmail">Email PayPal</label>
-                    </div>
-                `;
-                break;
-        }
-    });
-
-    document.getElementById('paymentForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        alert('Paiement effectué avec succès!');
-    });
+        document.getElementById('reservationForm')?.addEventListener('submit', function () {
+            alert('Votre réservation est en cours de traitement.');
+        });
     </script>
-
-
 </body>
 
 </html>

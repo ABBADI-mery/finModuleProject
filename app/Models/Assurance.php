@@ -10,13 +10,13 @@ class Assurance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nom',
-        'prenom',
-        'date_naissance',
-        'duree',
-        'destination',
-        'type_assurance',
         'reservation_id',
+        'type_assurance',
+        'destination',
+        'duree',
+        
+        
+        
     ];
 
     public $timestamps = true;
@@ -24,7 +24,7 @@ class Assurance extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'date_naissance',
+       
     ];
 
     // Relation avec la réservation
