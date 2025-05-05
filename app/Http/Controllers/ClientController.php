@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Reservation;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        return view('client.dashboard'); // La vue du tableau de bord client
+        $this->middleware(['auth', 'role:client']);
+    }
+
+    /**
+     * Display the client dashboard with user information and reservation summary.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function dashboard()
+    {
+        $reservations = Reservation::where('user_id', Auth::id())->get();
+        return view('client.dashboard', compact('reservations'));
     }
 }

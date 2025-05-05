@@ -9,7 +9,6 @@ use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffreController;
 
-
 // Pages publiques
 Route::get('/', function () {
     return view('welcome');
@@ -71,11 +70,6 @@ Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'role:admin'])->name('admin.dashboard');
 
-// Tableau de bord client
-Route::get('/client/dashboard', function () {
-    return view('client.dashboard');
-})->middleware(['auth', 'role:client'])->name('client.dashboard');
-
 // Routes admin pour contacts, assurances, et réservations
 Route::get('/admin/contacts', [ContactController::class, 'index'])->name('contacts.index');
 Route::get('/admin/assurances', [AssuranceController::class, 'index'])->name('assurances.index');
@@ -83,18 +77,9 @@ Route::get('/admin/reservations', [ReservationController::class, 'index'])->name
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
 
-
-
-
-
-
-
-
-
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
-        
         // Dashboard
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
         
@@ -103,13 +88,11 @@ Route::prefix('admin')
             ->name('offres.')
             ->controller(OffreController::class)
             ->group(function () {
-                
                 // Liste des offres
-                Route::get('/', 'offres')->name('index');  // Changé de 'offres.offres' à 'offres.index'
+                Route::get('/', 'offres')->name('index');
                 
                 // Formulaire d'ajout/modification
-                Route::get('/ajouteroffres/{id?}', 'ajouteroffres')
-                    ->name('create-or-edit'); // Nom plus explicite
+                Route::get('/ajouteroffres/{id?}', 'ajouteroffres')->name('create-or-edit');
                 
                 // Enregistrement d'une nouvelle offre
                 Route::post('/', 'store')->name('store');
@@ -120,6 +103,14 @@ Route::prefix('admin')
                 // Suppression d'une offre
                 Route::delete('/{offre}', 'destroy')->name('destroy');
             });
+    });
 
-        // Vous pouvez ajouter d'autres groupes de routes ici...
+// Routes pour le client
+Route::prefix('client')
+    ->name('client.')
+    ->middleware(['auth', 'role:client'])
+    ->group(function () {
+        // Tableau de bord client
+        // Affiche les informations du client et un résumé des réservations
+        Route::get('/dashboard', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('dashboard');
     });

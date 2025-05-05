@@ -458,7 +458,7 @@
                                                 data-destination="{{ $reservation->destination }}"
                                                 data-duree="{{ \Carbon\Carbon::parse($reservation->date_retour)->diffInDays(\Carbon\Carbon::parse($reservation->date_depart)) }}"
                                                 {{ old('reservation_id') == $reservation->id ? 'selected' : '' }}>
-                                                Réservation #{{ $reservation->id }} - {{ $reservation->destination }}
+                                                Réservation de :{{ $reservation->destination }}
                                             </option>
                                         @endforeach
                                     </select>
