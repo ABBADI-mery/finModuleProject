@@ -8,6 +8,7 @@ use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\DashboardController;
 
 
 // Pages publiques
@@ -78,8 +79,8 @@ Route::get('/admin/reservations', [ReservationController::class, 'index'])->name
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
 
-
-
+//Routes pour les statistiques
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
 // Routes pour le client
 Route::prefix('client')
     ->name('client.')
@@ -96,7 +97,6 @@ Route::prefix('client')
 
 
 
-    Route::get('/package', [App\Http\Controllers\PackageController::class, 'index'])->name('package');
 
     Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::resource('offres', OfferController::class)

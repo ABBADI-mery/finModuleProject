@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Système de recommandation d'hébergements</title>
+    <title>Dashboard Admin - FM Voyage</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
     <style>
         :root {
@@ -52,7 +55,9 @@
             justify-content: space-between;
         }
 
-        .dashboard-header h1 {
+      
+
+        .dashboard-header p {
             font-size: 1.8rem;
             color: var(--deep-saffron);
             display: flex;
@@ -60,17 +65,19 @@
             gap: 0.5rem;
         }
 
-        .dashboard-header p {
-            font-size: 1rem;
-            color: var(--spanish-gray);
-        }
-
         .sidebar {
             grid-area: sidebar;
             background: var(--rich-black-fogra-29);
             padding: 2rem 1rem;
             color: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            overflow-y: auto;
             transition: transform 0.3s ease;
+            z-index: 1000;
         }
 
         .sidebar nav ul {
@@ -148,22 +155,35 @@
             color: var(--rich-black-fogra-29);
         }
 
-        .recent-activity {
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
             background: var(--white);
-            border-radius, .recent-activity h2 {
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h3 {
             font-size: 1.25rem;
             color: var(--rich-black-fogra-29);
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            text-align: center;
         }
 
-        .activity-list {
-            min-height: 150px;
-            border: 1px solid var(--cultured);
-            border-radius: 8px;
-            padding: 1rem;
+        .chart-card canvas {
+            max-height: 250px;
         }
 
         @media (max-width: 768px) {
@@ -182,21 +202,24 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <header class="dashboard-header">
-            <h1><i class="fas fa-route"></i> FM Voyage</h1>
-            <p>Votre Passeport Vers l’Évasion</p>
+            <p>FM Voyage</p>
         </header>
         
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
@@ -208,11 +231,11 @@
             <section class="stats-section">
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <i class="fas fa-hotel"></i>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
                     <div>
-                        <h3>Destinations</h3>
-                        <p class="stat-value">1,245</p>
+                        <h3>Assurances</h3>
+                        <p class="stat-value">{{ $stats['assurances'] }}</p>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -221,7 +244,7 @@
                     </div>
                     <div>
                         <h3>Utilisateurs</h3>
-                        <p class="stat-value">3,542</p>
+                        <p class="stat-value">{{ $stats['users'] }}</p>
                     </div>
                 </div>
                 <div class="stat-card">
@@ -230,19 +253,162 @@
                     </div>
                     <div>
                         <h3>Réservations</h3>
-                        <p class="stat-value">8,762</p>
+                        <p class="stat-value">{{ $stats['reservations'] }}</p>
                     </div>
                 </div>
             </section>
-            
-            <section class="recent-activity">
-                <h2><i class="fas fa-history"></i> Activité récente</h2>
-                <div class="activity-list">
-                    <!-- Contenu dynamique chargé par JS -->
+
+            <section class="charts-section">
+                <div class="chart-card">
+                    <h3>Répartition des assurances</h3>
+                    <canvas id="assuranceChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Utilisateurs par rôle</h3>
+                    <canvas id="userChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Réservations par mois</h3>
+                    <canvas id="reservationChart"></canvas>
                 </div>
             </section>
         </main>
     </div>
+
+    <script>
+        // Passer les données PHP à JavaScript
+        const assuranceData = @json($assuranceTypes);
+        const userData = @json($userRoles);
+        const reservationData = @json($reservationsByMonth);
+
+        // Graphique pour les assurances (Doughnut)
+        const assuranceCtx = document.getElementById('assuranceChart').getContext('2d');
+        new Chart(assuranceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(assuranceData),
+                datasets: [{
+                    data: Object.values(assuranceData),
+                    backgroundColor: [
+                        'hsl(210, 26%, 7%)', // --rich-black-fogra-29
+                        'hsl(0, 0%, 93%)',  // --cultured
+                        'hsl(74, 95%, 50%)', // --deep-saffron
+                        'hsl(74, 95%, 40%)'  // --dark-orange
+                    ],
+                    borderColor: 'hsl(0, 0%, 100%)', // --white
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        }
+                    }
+                }
+            }
+        });
+
+        // Graphique pour les utilisateurs (Bar)
+        const userCtx = document.getElementById('userChart').getContext('2d');
+        new Chart(userCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(userData),
+                datasets: [{
+                    label: 'Nombre d’utilisateurs',
+                    data: Object.values(userData),
+                    backgroundColor: 'hsl(74, 95%, 50%)', // --deep-saffron
+                    borderColor: 'hsl(74, 95%, 40%)',     // --dark-orange
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        },
+                        grid: {
+                            color: 'hsl(0, 0%, 93%)' // --cultured
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        }
+                    }
+                }
+            }
+        });
+
+        // Graphique pour les réservations (Line)
+        const reservationCtx = document.getElementById('reservationChart').getContext('2d');
+        new Chart(reservationCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(reservationData),
+                datasets: [{
+                    label: 'Réservations',
+                    data: Object.values(reservationData),
+                    borderColor: 'hsl(74, 95%, 40%)', // --dark-orange
+                    backgroundColor: 'hsl(74, 95%, 50%)', // --deep-saffron
+                    fill: false,
+                    tension: 0.4,
+                    pointBackgroundColor: 'hsl(210, 26%, 7%)', // --rich-black-fogra-29
+                    pointBorderColor: 'hsl(0, 0%, 100%)', // --white
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        },
+                        grid: {
+                            color: 'hsl(0, 0%, 93%)' // --cultured
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'hsl(210, 26%, 7%)' // --rich-black-fogra-29
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
     <!-- Lien JS pour Laravel -->
     <script src="{{ asset('assets/admin/js/dashboard.js') }}"></script>
