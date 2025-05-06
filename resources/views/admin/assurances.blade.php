@@ -410,14 +410,19 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <ul>
-                        <li><a href="{{ route('admin.dashboard') }}" ><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                        <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
-                        <li><a href="{{ route('assurances.index') }}" class="active"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                        <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
-                        <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
-                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                    </ul>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="{{ route('assurances.index') }}" class="active"><i class="fas fa-shield-alt"></i> Assurances</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <a href="#" onclick="this.closest('form').submit(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Déconnexion
+                            </a>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </aside>
@@ -484,7 +489,7 @@
                                                 <span>{{ $assurance->destination }}</span>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td data-type="{{ $assurance->type_assurance }}">
                                             <span class="badge-pill 
                                                 @if($assurance->type_assurance == 'Annulation') badge-annulation
                                                 @elseif($assurance->type_assurance == 'Médicale') badge-medicale
@@ -508,7 +513,7 @@
                                             <div class="reservation-info">
                                                 @if($assurance->reservation)
                                                     <i class="fas fa-ticket-alt me-2" style="color: var(--deep-saffron);"></i>
-                                                    <span>Réservation :{{ $assurance->reservation->destination }}</span>
+                                                    <span>Réservation : {{ $assurance->reservation->destination }}</span>
                                                 @else
                                                     <span class="no-reservation">Aucune réservation</span>
                                                 @endif
@@ -542,4 +547,111 @@
                     <div class="modal-body">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div>
-                                <h6><i class="fas bisogno di aiuto con il codice precedente?
+                                <h6><i class="fas fa-user-tie"></i> Client</h6>
+                                <p id="modal-client">N/A</p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-calendar-day"></i> Durée</h6>
+                                <p id="modal-duree">N/A</p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-map-marked-alt"></i> Destination</h6>
+                                <p id="modal-destination">N/A</p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-tags"></i> Type</h6>
+                                <p id="modal-type">N/A</p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-calendar-check"></i> Date</h6>
+                                <p id="modal-date">N/A</p>
+                            </div>
+                            <div>
+                                <h6><i class="fas fa-ticket-alt"></i> Réservation</h6>
+                                <p id="modal-reservation">N/A</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="document.getElementById('assuranceModal').style.display='none'">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sélection des éléments
+        const searchInput = document.getElementById('searchInput');
+        const typeFilter = document.getElementById('typeFilter');
+        const table = document.getElementById('assurancesTable');
+        const rows = table.querySelectorAll('tbody tr');
+        const modal = document.getElementById('assuranceModal');
+        const modalClose = document.querySelector('.modal-close');
+
+        // Fonction de filtrage
+        function filterTable() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedType = typeFilter.value;
+
+            rows.forEach(row => {
+                const client = row.cells[0].textContent.toLowerCase().trim();
+                const destination = row.cells[2].textContent.toLowerCase().trim();
+                const typeElement = row.cells[3].querySelector('.badge-pill');
+                const type = typeElement ? typeElement.textContent.trim() : '';
+
+                // Débogage : Afficher les valeurs pour vérifier
+                console.log('Type extrait:', type, 'Type sélectionné:', selectedType);
+
+                const matchesSearch = client.includes(searchText) || destination.includes(searchText);
+                const matchesType = selectedType === '' || type === selectedType;
+
+                row.style.display = matchesSearch && matchesType ? '' : 'none';
+            });
+
+            // Mettre à jour le compteur de lignes visibles
+            const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none').length;
+            const countDisplay = document.querySelector('.assurance-container div[style*="font-size: 0.85rem"]');
+            countDisplay.innerHTML = `Affichage de <strong>1</strong> à <strong>${visibleRows}</strong> sur <strong>${rows.length}</strong> souscriptions`;
+
+            const totalBadge = document.querySelector('.total-badge');
+            totalBadge.innerHTML = `<i class="fas fa-database me-1"></i> Total: ${visibleRows}`;
+        }
+
+        // Ajouter des écouteurs d'événements pour la recherche et le filtrage
+        searchInput.addEventListener('input', filterTable);
+        typeFilter.addEventListener('change', filterTable);
+
+        // Gestion du modal
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const assurance = JSON.parse(row.getAttribute('data-assurance'));
+                document.getElementById('modal-client').textContent = assurance.reservation ? 
+                    `${assurance.reservation.prenom} ${assurance.reservation.nom}` : 'N/A';
+                document.getElementById('modal-duree').textContent = `${assurance.duree} jours`;
+                document.getElementById('modal-destination').textContent = assurance.destination;
+                document.getElementById('modal-type').textContent = assurance.type_assurance;
+                document.getElementById('modal-date').textContent = assurance.created_at ? 
+                    new Date(assurance.created_at).toLocaleString('fr-FR') : 'N/A';
+                document.getElementById('modal-reservation').textContent = assurance.reservation ? 
+                    `Réservation: ${assurance.reservation.destination}` : 'Aucune réservation';
+                modal.style.display = 'flex';
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Fermer le modal en cliquant à l'extérieur
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Appeler filterTable au chargement pour initialiser
+        filterTable();
+    </script>
+</body>
+</html>

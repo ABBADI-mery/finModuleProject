@@ -245,8 +245,14 @@
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
                     <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <a href="#" onclick="this.closest('form').submit(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Déconnexion
+                            </a>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </aside>

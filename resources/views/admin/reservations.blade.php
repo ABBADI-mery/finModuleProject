@@ -70,8 +70,6 @@
             background: var(--rich-black-fogra-29);
             padding: 2rem 1rem;
             color: var(--white);
-            
-
         }
 
         .sidebar nav ul {
@@ -412,12 +410,19 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('admin.dashboard') }}" ><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href="{{ route('reservations.index') }}"class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <a href="#" onclick="this.closest('form').submit(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Déconnexion
+                            </a>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </aside>
@@ -431,7 +436,7 @@
                 @if(session('success'))
                     <div class="alert" id="successAlert">
                         {{ session('success') }}
-                        <button onclick="this.parentElement.style.display='none'">&times;</button>
+                        <button onclick="this.parentElement.style.display='none'">×</button>
                     </div>
                 @endif
 
@@ -548,7 +553,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5>Détails de la Réservation</h5>
-                        <button class="modal-close">&times;</button>
+                        <button class="modal-close">×</button>
                     </div>
                     <div class="modal-body">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -601,26 +606,35 @@
         const tableRows = document.querySelectorAll('#reservationsTable tbody tr');
 
         function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const statusTerm = statusFilter.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const statusTerm = statusFilter.value.toLowerCase().trim();
 
             tableRows.forEach(row => {
-                const client = row.cells[0].textContent.toLowerCase();
-                const destination = row.cells[2].textContent.toLowerCase();
-                const status = row.cells[5].textContent.toLowerCase();
+                const client = row.cells[0].textContent.toLowerCase().trim();
+                const destination = row.cells[2].textContent.toLowerCase().trim();
+                const statusElement = row.cells[5].querySelector('.badge-status');
+                const status = statusElement ? statusElement.textContent.trim().toLowerCase() : '';
+
+                // Débogage : Afficher les valeurs pour vérifier
+                console.log('Statut extrait:', status, 'Statut sélectionné:', statusTerm);
 
                 const matchesSearch = client.includes(searchTerm) || destination.includes(searchTerm);
-                const matchesStatus = !statusTerm || status.includes(statusTerm);
+                const matchesStatus = statusTerm === '' || status === statusTerm;
 
                 row.style.display = matchesSearch && matchesStatus ? '' : 'none';
             });
+
+            // Mettre à jour le compteur de lignes visibles
+            const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none').length;
+            const totalBadge = document.querySelector('.total-badge');
+            totalBadge.innerHTML = `<i class="fas fa-database me-1"></i> Total: ${visibleRows} réservations`;
         }
 
         searchInput.addEventListener('input', filterTable);
         statusFilter.addEventListener('change', filterTable);
 
         // Gestion de la modale des détails
-        document.querySelectorAll('#reservationsTable tbody tr').forEach(row => {
+        tableRows.forEach(row => {
             row.addEventListener('click', function(e) {
                 if (e.target.closest('.action-btn')) return; // Ignore clicks on action buttons
                 const reservation = JSON.parse(this.dataset.reservation);
@@ -649,6 +663,13 @@
             document.getElementById('reservationModal').classList.remove('show');
         });
 
+        // Fermer la modale en cliquant à l'extérieur
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('reservationModal')) {
+                document.getElementById('reservationModal').classList.remove('show');
+            }
+        });
+
         // Confirmation avant annulation
         document.querySelectorAll('form[action*="reject"]').forEach(form => {
             form.addEventListener('submit', function(e) {
@@ -657,6 +678,9 @@
                 }
             });
         });
+
+        // Appeler filterTable au chargement pour initialiser
+        filterTable();
     </script>
 </body>
 </html>
