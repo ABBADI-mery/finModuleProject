@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class OfferController extends Controller
 {
+    // Méthodes pour l'administration
+    
     public function index()
     {
         $offers = Offer::all();
@@ -92,5 +93,12 @@ class OfferController extends Controller
         Storage::disk('public')->delete($offer->image_path);
         $offer->delete();
         return redirect()->route('admin.offers.index')->with('success', 'Offre supprimée avec succès!');
+    }
+
+    // Méthode pour l'affichage public des offres
+    public function showOffers()
+    {
+        $offers = Offer::all();
+        return view('package', compact('offers'));
     }
 }

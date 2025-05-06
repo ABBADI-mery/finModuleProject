@@ -110,3 +110,10 @@ Route::prefix('client')
                 'destroy' => 'admin.offers.destroy',
             ]);
     });
+    // Route pour l'affichage public des offres
+Route::get('/package', [OfferController::class, 'showOffers'])->name('package');
+
+// Routes pour l'administration des offres
+Route::prefix('admin')->group(function() {
+    Route::resource('offers', OfferController::class)->except(['show']);
+});

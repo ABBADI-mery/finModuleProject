@@ -190,230 +190,58 @@
         
 
         <!-- Packages Start -->
-        <div class="container-fluid packages py-5">
-            <div class="container py-5">
-                
-                <div class="mx-auto text-center mb-5" style="max-width: 900px; position: relative;">
-                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h6 class="section-title bg-white text-center text-primary px-3">Offres</h6>
-                        <h1 class="mb-5">Offres Incroyables</h1>
-                    </div>
-                   
-                    <!-- Flèches de navigation avec nouvelles icônes -->
-                        <span class="arrow-left"><i class="fa fa-arrow-left"></i></span>
-                        <span class="arrow-right"><i class="fa fa-arrow-right"></i></span>
-                                        </div>
-                <div class="packages-carousel owl-carousel">
-                    <div class="packages-item">
-                        <div class="packages-img">
-                            <img src="{{ asset('assets/img/offreItaly.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
+    <div class="container-fluid packages py-5">
+        <div class="container py-5">
+            <div class="mx-auto text-center mb-5" style="max-width: 900px; position: relative;">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Offres</h6>
+                    <h1 class="mb-5">Offres Incroyables</h1>
+                </div>
+                <!-- Flèches de navigation avec nouvelles icônes -->
+                <span class="arrow-left"><i class="fa fa-arrow-left"></i></span>
+                <span class="arrow-right"><i class="fa fa-arrow-right"></i></span>
+            </div>
+            <div class="packages-carousel owl-carousel">
+                @foreach($offers as $offer)
+                <div class="packages-item">
+                    <div class="packages-img">
+                        <img src="{{ Storage::url($offer->image_path) }}" class="img-fluid w-100 rounded-top" alt="{{ $offer->title }}">
 
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Venise - Italie</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>2 Personne</small>
-                            </div>
-                            <div class="packages-price py-2 px-4">$349.00</div>
+                        <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>{{ $offer->location }}</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>{{ $offer->duration }} Jours</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>{{ $offer->people }} Personne(s)</small>
                         </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Venise - Italie</h5>
-                                <small class="text-uppercase">The Gritti Palace Hôtel</small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Découvrez la magie de Venise, ses canaux romantiques, ses gondoles emblématiques et son patrimoine historique unique.</p>
-                            </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus </a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez </a>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="packages-price py-2 px-4">${{ number_format($offer->price, 2) }}</div>
                     </div>
-
-                    <div class="packages-item">
-                        <div class="packages-img">
-                            <img src="{{ asset('assets/img/OffreCap.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
-
-
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Cape Town</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>5 Personne </small>
+                    <div class="packages-content bg-light">
+                        <div class="p-4 pb-0">
+                            <h5 class="mb-0">{{ $offer->title }}</h5>
+                            <small class="text-uppercase">{{ $offer->hotel_name }}</small>
+                            <div class="mb-3">
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
+                                <small class="fa fa-star text-primary"></small>
                             </div>
-                            <div class="packages-price py-2 px-4">$249.00</div>
+                            <p class="mb-4">{{ $offer->description }}</p>
                         </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Cape Town-Afrique du Sud</h5>
-                                <small class="text-uppercase">The Silo Hotel</small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Cape Town est une ville côtière spectaculaire, célèbre pour sa montagne de la Table, ses plages et son ambiance cosmopolite.</p>
+                        <div class="row bg-primary rounded-bottom mx-0">
+                            <div class="col-6 text-start px-0">
+                                <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
                             </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus </a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="packages-item">
-                        <div class="packages-img">
-                            <img src="{{ asset('assets/img/OffreChefchaouen.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
-                            
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Chefchaouen-Maroc</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>6 Jours</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>2 Personne</small>
-                            </div>
-                            <div class="packages-price py-2 px-4">$149.00</div>
-                        </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Chefchaouen-Maroc</h5>
-                                <small class="text-uppercase">Lina Ryad & Spa</small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Chefchaouen, surnommée la "ville bleue", est un charmant village niché dans les montagnes du Rif, célèbre pour ses rues et bâtiments peints en bleu.</p>
-                            </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="packages-item">
-                        <div class="packages-img">
-                            <img src="{{ asset('assets/img/offrethayland.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i> Bangkok-Thaïlande</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>6 Jours</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>4 Personnne</small>
-                            </div>
-                            <div class="packages-price py-2 px-4">$449.00</div>
-                        </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Bangkok-Thaïlande</h5>
-                                <small class="text-uppercase">The Siam Hotel </small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Bangkok, capitale vibrante de la Thaïlande, offre un mélange de culture, de temples majestueux et de vie nocturne animée,Bangkok est un véritable culturel.</p>
-                            </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="packages-item">
-                        <div class="packages-img">
-                        <img src="{{ asset('assets/img/offreBrésil.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">
-                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Rio de Janeiro-Brésil</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 Jours</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>2 Personne</small>
-                            </div>
-                            <div class="packages-price py-2 px-4">$549.00</div>
-                        </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Rio de Janeiro-Brésil</h5>
-                                <small class="text-uppercase">Copacabana Palace</small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Rio de Janeiro, célèbre pour ses plages spectaculaires, le Christ Rédempteur et le carnaval, est une ville pleine de vie et de couleurs.</p>
-                            </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="packages-item">
-                        <div class="packages-img">
-                        <img src="{{ asset('assets/img/offreEgypte.jpeg') }}" class="img-fluid w-100 rounded-top" alt="Image">                            <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>Le Caire, Égypte</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>3 days</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>2 Person</small>
-                            </div>
-                            <div class="packages-price py-2 px-4">$649.00</div>
-                        </div>
-                        <div class="packages-content bg-light">
-                            <div class="p-4 pb-0">
-                                <h5 class="mb-0">Le Caire, Égypte</h5>
-                                <small class="text-uppercase">Marriott Mena House</small>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                </div>
-                                <p class="mb-4">Le Caire,abrite les célèbres pyramides de Gizeh, le Sphinx et de nombreux trésors antiques qui témoignent de l'ancienne civilisation égyptienne.</p>
-                            </div>
-                            <div class="row bg-primary rounded-bottom mx-0">
-                                <div class="col-6 text-start px-0">
-                                    <a href="#" class="btn-hover btn text-white py-2 px-4">Voir plus</a>
-                                </div>
-                                <div class="col-6 text-end px-0">
-                                    <a href="{{ route('booking') }}"  class="btn-hover btn text-white py-2 px-4">Réservez</a>
-                                </div>
+                            <div class="col-6 text-end px-0">
+                                <a href="{{ route('booking') }}" class="btn-hover btn text-white py-2 px-4">Réservez</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
-        <!-- Packages End -->
+    </div>
+    <!-- Packages End -->
          
 <!-- Footer Start -->
 <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
