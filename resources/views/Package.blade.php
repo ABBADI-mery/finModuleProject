@@ -202,22 +202,22 @@
                 <span class="arrow-right"><i class="fa fa-arrow-right"></i></span>
             </div>
             <div class="packages-carousel owl-carousel">
-                @foreach($offers as $offer)
+                @foreach($offres as $offre)
                 <div class="packages-item">
                     <div class="packages-img">
-                        <img src="{{ Storage::url($offer->image_path) }}" class="img-fluid w-100 rounded-top" alt="{{ $offer->title }}">
+                        <img src="{{ Storage::url($offre->image_path) }}" class="img-fluid w-100 rounded-top" alt="{{ $offre->title }}">
 
                         <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>{{ $offer->location }}</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>{{ $offer->duration }} Jours</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>{{ $offer->people }} Personne(s)</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>{{ $offre->location }}</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>{{ $offre->duration }} Jours</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>{{ $offre->people }} Personne(s)</small>
                         </div>
-                        <div class="packages-price py-2 px-4">${{ number_format($offer->price, 2) }}</div>
+                        <div class="packages-price py-2 px-4">${{ number_format($offre->price, 2) }}</div>
                     </div>
                     <div class="packages-content bg-light">
                         <div class="p-4 pb-0">
-                            <h5 class="mb-0">{{ $offer->title }}</h5>
-                            <small class="text-uppercase">{{ $offer->hotel_name }}</small>
+                            <h5 class="mb-0">{{ $offre->title }}</h5>
+                            <small class="text-uppercase">{{ $offre->hotel_name }}</small>
                             <div class="mb-3">
                                 <small class="fa fa-star text-primary"></small>
                                 <small class="fa fa-star text-primary"></small>
@@ -225,7 +225,7 @@
                                 <small class="fa fa-star text-primary"></small>
                                 <small class="fa fa-star text-primary"></small>
                             </div>
-                            <p class="mb-4">{{ $offer->description }}</p>
+                            <p class="mb-4">{{ $offre->description }}</p>
                         </div>
                         <div class="row bg-primary rounded-bottom mx-0">
                             <div class="col-6 text-start px-0">

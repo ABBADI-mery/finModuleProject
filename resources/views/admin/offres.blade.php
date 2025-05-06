@@ -16,27 +16,35 @@
             </div>
         @endif
 
-        <a href="{{ route('admin.offers.create') }}" class="btn btn-primary mb-3">Ajouter une Offre</a>
+        <a href="{{ route('admin.offres.create') }}" class="btn btn-primary mb-3">Ajouter une Offre</a>
 
         <table class="table">
             <thead>
                 <tr>
                     <th>Titre</th>
                     <th>Destination</th>
+                    <th>Durée</th>
+                    <th>Personnes</th>
+                    <th>Prix</th>
+                    <th>Hôtel</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($offers as $offer)
+                @foreach($offres as $offre)
                     <tr>
-                        <td>{{ $offer->title }}</td>
-                        <td>{{ $offer->location }}</td>
+                        <td>{{ $offre->title }}</td>
+                        <td>{{ $offre->location }}</td>
+                        <td>{{ $offre->duration }} jours</td>
+                        <td>{{ $offre->people }}</td>
+                        <td>{{ number_format($offre->price, 2) }} €</td>
+                        <td>{{ $offre->hotel_name }}</td>
                         <td>
-                            <a href="{{ route('admin.offers.edit', $offer) }}" class="btn btn-warning btn-sm">Modifier</a>
-                            <form action="{{ route('admin.offers.destroy', $offer) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('admin.offres.edit', $offre->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="{{ route('admin.offres.destroy', $offre->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette offre ?')">Supprimer</button>
                             </form>
                         </td>
                     </tr>
@@ -44,5 +52,7 @@
             </tbody>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

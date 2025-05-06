@@ -7,7 +7,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OffreController;
 use App\Http\Controllers\DashboardController;
 
 
@@ -99,21 +99,20 @@ Route::prefix('client')
 
 
     Route::prefix('admin')->middleware(['auth'])->group(function () {
-        Route::resource('offres', OfferController::class)
-            ->parameters(['offres' => 'offer'])
+        Route::resource('offres', offreController::class)
+            ->parameters(['offres' => 'offre'])
             ->names([
-                'index' => 'admin.offers.index',
-                'create' => 'admin.offers.create',
-                'store' => 'admin.offers.store',
-                'edit' => 'admin.offers.edit',
-                'update' => 'admin.offers.update',
-                'destroy' => 'admin.offers.destroy',
+                'index' => 'admin.offres.index',
+                'create' => 'admin.offres.create',
+                'store' => 'admin.offres.store',
+                'edit' => 'admin.offres.edit',
+                'update' => 'admin.offres.update',
+                'destroy' => 'admin.offres.destroy',
             ]);
     });
+    Route::prefix('admin')->name('admin.')->group(function() {
+        Route::resource('offres', OffreController::class)->except(['show']);
+    });
+    
     // Route pour l'affichage public des offres
-Route::get('/package', [OfferController::class, 'showOffers'])->name('package');
-
-// Routes pour l'administration des offres
-Route::prefix('admin')->group(function() {
-    Route::resource('offers', OfferController::class)->except(['show']);
-});
+    Route::get('/package', [OffreController::class, 'showoffres'])->name('package');

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offer;
+use App\Models\offre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class OfferController extends Controller
+class OffreController extends Controller
 {
     // Méthodes pour l'administration
     
     public function index()
     {
-        $offers = Offer::all();
-        return view('admin.offres', compact('offers'));
+        $offres = offre::all();
+        return view('admin.offres', compact('offres'));
     }
 
     public function create()
@@ -34,9 +34,9 @@ class OfferController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = $request->file('image')->store('offers', 'public');
+        $imagePath = $request->file('image')->store('offres', 'public');
 
-        Offer::create([
+        offre::create([
             'title' => $validated['title'],
             'location' => $validated['location'],
             'duration' => $validated['duration'],
@@ -47,15 +47,15 @@ class OfferController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('admin.offers.index')->with('success', 'Offre ajoutée avec succès!');
+        return redirect()->route('admin.offres.index')->with('success', 'Offre ajoutée avec succès!');
     }
 
-    public function edit(Offer $offer)
+    public function edit(offre $offre)
     {
-        return view('admin.ajouteroffre', compact('offer'));
+        return view('admin.ajouteroffre', compact('offre'));
     }
 
-    public function update(Request $request, Offer $offer)
+    public function update(Request $request, offre $offre)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -79,26 +79,26 @@ class OfferController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($offer->image_path);
-            $data['image_path'] = $request->file('image')->store('offers', 'public');
+            Storage::disk('public')->delete($offre->image_path);
+            $data['image_path'] = $request->file('image')->store('offres', 'public');
         }
 
-        $offer->update($data);
+        $offre->update($data);
 
-        return redirect()->route('admin.offers.index')->with('success', 'Offre mise à jour avec succès!');
+        return redirect()->route('admin.offres.index')->with('success', 'Offre mise à jour avec succès!');
     }
 
-    public function destroy(Offer $offer)
+    public function destroy(offre $offre)
     {
-        Storage::disk('public')->delete($offer->image_path);
-        $offer->delete();
-        return redirect()->route('admin.offers.index')->with('success', 'Offre supprimée avec succès!');
+        Storage::disk('public')->delete($offre->image_path);
+        $offre->delete();
+        return redirect()->route('admin.offres.index')->with('success', 'Offre supprimée avec succès!');
     }
 
     // Méthode pour l'affichage public des offres
-    public function showOffers()
+    public function showoffres()
     {
-        $offers = Offer::all();
-        return view('package', compact('offers'));
+        $offres = offre::all();
+        return view('package', compact('offres'));
     }
 }
