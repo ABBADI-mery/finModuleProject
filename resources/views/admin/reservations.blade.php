@@ -70,6 +70,8 @@
             background: var(--rich-black-fogra-29);
             padding: 2rem 1rem;
             color: var(--white);
+            
+
         }
 
         .sidebar nav ul {
@@ -410,11 +412,12 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href="#"><i class="fas fa-hotel"></i> Hébergements</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}" ><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+                    <li><a href="{{ route('reservations.index') }}"class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>

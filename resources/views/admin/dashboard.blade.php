@@ -57,14 +57,6 @@
 
       
 
-        .dashboard-header p {
-            font-size: 1.8rem;
-            color: var(--deep-saffron);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         .sidebar {
             grid-area: sidebar;
             background: var(--rich-black-fogra-29);
@@ -207,22 +199,54 @@
                 grid-template-columns: 1fr;
             }
         }
+        .dashboard-header p {
+    color: var(--deep-saffron);
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: bold; /* Texte en gras */
+    font-family: 'Arial', sans-serif; /* Changement de police */
+    text-transform: uppercase; /* Mise en majuscules pour un style plus fort */
+}
+
+.dashboard-header p:hover {
+    transform: scale(1.05);
+    color: var(--dark-orange);
+}
+
+.dashboard-header p i {
+    transition: all 0.3s ease;
+}
+
+.dashboard-header p:hover i {
+    color: var(--dark-orange);
+    transform: rotate(15deg);
+}
+
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <header class="dashboard-header">
+            <h1><i class="fas fa-route"></i> FM Voyage</h1>
             <p>FM Voyage</p>
         </header>
+        
+        
         
         <aside class="sidebar">
             <nav>
                 <ul>
                     <li><a href="{{ route('admin.dashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
-                    <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
+                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+
                 </ul>
             </nav>
         </aside>
