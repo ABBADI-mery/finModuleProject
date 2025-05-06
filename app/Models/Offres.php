@@ -5,30 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Offres extends Model
+class Offer extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
         'location',
-        'hotel',
-        'price',
         'duration',
-        'persons',
+        'people',
+        'price',
+        'hotel_name',
         'description',
-        'image',
-        'rating'
+        'image_path'
     ];
-
-    // Accessor pour l'URL complète de l'image
-    public function getImageUrlAttribute()
-    {
-        return $this->image ? asset('storage/'.$this->image) : null;
-    }
-
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
 }

@@ -7,7 +7,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OffreController;
+use App\Http\Controllers\OfferController;
+
 
 // Pages publiques
 Route::get('/', function () {
@@ -77,33 +78,7 @@ Route::get('/admin/reservations', [ReservationController::class, 'index'])->name
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
 
-Route::prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        // Dashboard
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
-        
-        // Routes pour les offres
-        Route::prefix('offres')
-            ->name('offres.')
-            ->controller(OffreController::class)
-            ->group(function () {
-                // Liste des offres
-                Route::get('/', 'offres')->name('index');
-                
-                // Formulaire d'ajout/modification
-                Route::get('/ajouteroffres/{id?}', 'ajouteroffres')->name('create-or-edit');
-                
-                // Enregistrement d'une nouvelle offre
-                Route::post('/', 'store')->name('store');
-                
-                // Mise à jour d'une offre existante
-                Route::put('/{offre}', 'update')->name('update');
-                
-                // Suppression d'une offre
-                Route::delete('/{offre}', 'destroy')->name('destroy');
-            });
-    });
+
 
 // Routes pour le client
 Route::prefix('client')
@@ -113,4 +88,25 @@ Route::prefix('client')
         // Tableau de bord client
         // Affiche les informations du client et un résumé des réservations
         Route::get('/dashboard', [App\Http\Controllers\ClientController::class, 'dashboard'])->name('dashboard');
+    });
+
+
+
+
+
+
+
+    Route::get('/package', [App\Http\Controllers\PackageController::class, 'index'])->name('package');
+
+    Route::prefix('admin')->middleware(['auth'])->group(function () {
+        Route::resource('offres', OfferController::class)
+            ->parameters(['offres' => 'offer'])
+            ->names([
+                'index' => 'admin.offers.index',
+                'create' => 'admin.offers.create',
+                'store' => 'admin.offers.store',
+                'edit' => 'admin.offers.edit',
+                'update' => 'admin.offers.update',
+                'destroy' => 'admin.offers.destroy',
+            ]);
     });

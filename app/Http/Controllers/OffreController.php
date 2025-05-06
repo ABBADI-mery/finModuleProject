@@ -2,88 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offres;
+use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class OffreController extends Controller
+class OfferController extends Controller
 {
-    public function offres()
+    public function index()
     {
-        $offres = Offres::latest()->get();
-        return view('admin.offres', compact('offres'));
+        $offers = Offer::all();
+        return view('admin.offers', compact('offers'));
     }
 
-    public function ajouteroffres($id = null)
+    public function create()
     {
-        $offre = $id ? Offres::findOrFail($id) : new Offres();
-        return view('admin.ajouteroffres', compact('offre'));
+        return view('admin.ajouteroffre');
     }
 
     public function store(Request $request)
     {
-        $validated = $this->validateOffre($request, true);
-        
-        if ($request->hasFile('image')) {
-            $validated['image'] = $this->storeImage($request->file('image'));
-        }
-
-        Offres::create($validated);
-
-        return redirect()->route('admin.offres.offres')
-            ->with('success', 'Offre créée avec succès!');
-    }
-
-    public function update(Request $request, Offres $offre)
-    {
-        $validated = $this->validateOffre($request, false);
-        
-        if ($request->hasFile('image')) {
-            $this->deleteImage($offre->image);
-            $validated['image'] = $this->storeImage($request->file('image'));
-        }
-
-        $offre->update($validated);
-
-        return redirect()->route('admin.offres.offres')
-            ->with('success', 'Offre mise à jour avec succès!');
-    }
-
-    public function destroy(Offres $offre)
-    {
-        $this->deleteImage($offre->image);
-        $offre->delete();
-
-        return redirect()->route('admin.offres.offres')
-            ->with('success', 'Offre supprimée avec succès!');
-    }
-
-    private function validateOffre(Request $request, $requireImage)
-    {
-        return $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'hotel' => 'required|string|max:255',
-            'price' => 'required|numeric',
             'duration' => 'required|integer',
-            'persons' => 'required|integer',
+            'people' => 'required|integer',
+            'price' => 'required|numeric',
+            'hotel_name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => $requireImage ? 'required|image|mimes:jpeg,png,jpg,gif|max:2048' : 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'rating' => 'required|integer|min:1|max:5',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        $imagePath = $request->file('image')->store('offers', 'public');
+
+        Offer::create([
+            'title' => $validated['title'],
+            'location' => $validated['location'],
+            'duration' => $validated['duration'],
+            'people' => $validated['people'],
+            'price' => $validated['price'],
+            'hotel_name' => $validated['hotel_name'],
+            'description' => $validated['description'],
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->route('admin.offers.index')->with('success', 'Offre ajoutée avec succès!');
     }
 
-    private function storeImage($image)
+    public function edit(Offer $offer)
     {
-        $imageName = 'offre_'.time().'.'.$image->getClientOriginalExtension();
-        $image->storeAs('public/offres', $imageName);
-        return 'offres/'.$imageName;
+        return view('admin.ajouteroffre', compact('offer'));
     }
 
-    private function deleteImage($imagePath)
+    public function update(Request $request, Offer $offer)
     {
-        if ($imagePath) {
-            Storage::delete('public/'.$imagePath);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'duration' => 'required|integer',
+            'people' => 'required|integer',
+            'price' => 'required|numeric',
+            'hotel_name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = [
+            'title' => $validated['title'],
+            'location' => $validated['location'],
+            'duration' => $validated['duration'],
+            'people' => $validated['people'],
+            'price' => $validated['price'],
+            'hotel_name' => $validated['hotel_name'],
+            'description' => $validated['description'],
+        ];
+
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($offer->image_path);
+            $data['image_path'] = $request->file('image')->store('offers', 'public');
         }
+
+        $offer->update($data);
+
+        return redirect()->route('admin.offers.index')->with('success', 'Offre mise à jour avec succès!');
+    }
+
+    public function destroy(Offer $offer)
+    {
+        Storage::disk('public')->delete($offer->image_path);
+        $offer->delete();
+        return redirect()->route('admin.offers.index')->with('success', 'Offre supprimée avec succès!');
     }
 }
