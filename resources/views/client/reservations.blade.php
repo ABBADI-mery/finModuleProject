@@ -565,7 +565,6 @@
             </div>
             <span>{{ auth()->user()->client->first_name }}</span>
             <div class="user-dropdown">
-                
                 <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </div>
@@ -575,23 +574,23 @@
     <main class="main-content">
         <div class="section-header fade-in">
             <h1><i class="fas fa-suitcase"></i> Mes Réservations</h1>
-            <a href="#new-reservation" class="btn"><i class="fas fa-plus"></i> Nouvelle réservation</a>
+            <a href="{{ route('booking') }}" class="btn"><i class="fas fa-plus"></i> Nouvelle réservation</a>
         </div>
 
         <div class="filters fade-in">
-            <div class="filter-item active">
+            <div class="filter-item active" data-filter="all">
                 <i class="fas fa-globe"></i>
                 <span>Toutes</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" data-filter="confirmée">
                 <i class="fas fa-check-circle"></i>
                 <span>Confirmées</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" data-filter="en attente">
                 <i class="fas fa-clock"></i>
                 <span>En attente</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" data-filter="annulée">
                 <i class="fas fa-times-circle"></i>
                 <span>Annulées</span>
             </div>
@@ -606,19 +605,19 @@
                             <th>Destination</th>
                             <th>Dates</th>
                             <th>Voyageurs</th>
-                            <th>Prix</th>
+                    
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($reservations as $reservation)
-                        <tr>
+                        <tr data-status="{{ $reservation->statut }}">
                             <td>#{{ $reservation->id }}</td>
                             <td>{{ $reservation->destination }}</td>
                             <td>{{ $reservation->date_depart }} - {{ $reservation->date_retour }}</td>
                             <td>2 adultes</td>
-                            <td>{{ number_format($reservation->prix, 2, ',', ' ') }} €</td>
+                          
                             <td>
                                 @if($reservation->statut == 'confirmée')
                                     <span class="status-badge status-confirmed">Confirmée</span>
@@ -630,15 +629,21 @@
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="#" class="action-btn view-btn" title="Voir les détails">
+                                    <a href="{{ route('client.reservation.show', $reservation) }}" class="action-btn view-btn" title="Voir les détails">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="#" class="action-btn view-btn" title="Modifier">
+                                    <a href="{{ route('client.reservation.edit', $reservation) }}" class="action-btn view-btn" title="Modifier">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="#" class="action-btn cancel-btn" title="Annuler">
-                                        <i class="fas fa-times"></i>
-                                    </a>
+                                    @if($reservation->statut == 'en attente')
+                                        <form action="{{ route('client.reservation.cancel', $reservation) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" class="action-btn cancel-btn" title="Annuler" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -649,7 +654,7 @@
 
             <!-- Version mobile des réservations -->
             @foreach($reservations as $reservation)
-            <div class="reservation-card fade-in">
+            <div class="reservation-card fade-in" data-status="{{ $reservation->statut }}">
                 <div class="reservation-card-header">
                     <div class="reservation-card-title">{{ $reservation->destination }}</div>
                     @if($reservation->statut == 'confirmée')
@@ -673,15 +678,16 @@
                         <div class="reservation-card-label">Voyageurs</div>
                         <div class="reservation-card-value">2 adultes</div>
                     </div>
-                    <div class="reservation-card-info">
-                        <div class="reservation-card-label">Prix</div>
-                        <div class="reservation-card-value">{{ number_format($reservation->prix, 2, ',', ' ') }} €</div>
-                    </div>
+                   
                 </div>
                 <div class="reservation-card-footer">
-                    <a href="#" class="btn btn-outline btn-sm">Voir les détails</a>
-                    @if($reservation->statut != 'annulée')
-                        <a href="#" class="btn btn-sm" style="background-color: var(--danger);">Annuler</a>
+                    <a href="{{ route('client.reservation.show', $reservation) }}" class="btn btn-outline btn-sm">Voir les détails</a>
+                    @if($reservation->statut == 'en attente')
+                        <form action="{{ route('client.reservation.cancel', $reservation) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('POST')
+                            <button type="submit" class="btn btn-sm" style="background-color: var(--danger);" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">Annuler</button>
+                        </form>
                     @endif
                 </div>
             </div>
@@ -701,7 +707,7 @@
                 </div>
                 <h2 class="empty-state-title">Aucune réservation trouvée</h2>
                 <p class="empty-state-text">Vous n'avez pas encore effectué de réservation. Commencez votre aventure dès maintenant !</p>
-                <a href="#new-reservation" class="btn">Réserver un voyage</a>
+                <a href="{{ route('booking') }}" class="btn">Réserver un voyage</a>
             </div>
         @endif
     </main>
@@ -710,11 +716,37 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Gestion des filtres
             const filterItems = document.querySelectorAll('.filter-item');
-            
+            const tableRows = document.querySelectorAll('.reservation-table tr[data-status]');
+            const mobileCards = document.querySelectorAll('.reservation-card[data-status]');
+
             filterItems.forEach(item => {
                 item.addEventListener('click', function() {
+                    // Mettre à jour la classe active
                     filterItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
+
+                    // Obtenir le filtre sélectionné
+                    const filter = this.getAttribute('data-filter');
+
+                    // Filtrer les lignes du tableau
+                    tableRows.forEach(row => {
+                        const status = row.getAttribute('data-status');
+                        if (filter === 'all' || status === filter) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    // Filtrer les cartes mobiles
+                    mobileCards.forEach(card => {
+                        const status = card.getAttribute('data-status');
+                        if (filter === 'all' || status === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 });
             });
         });

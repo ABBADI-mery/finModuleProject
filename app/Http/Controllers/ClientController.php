@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Reservation;
+use App\Models\Assurance;
 
 class ClientController extends Controller
 {
@@ -36,13 +37,16 @@ class ClientController extends Controller
     }
 
     /**
-     * Display the client's insurance options.
+     * Display the client's enrolled assurances and insurance options.
      *
      * @return \Illuminate\View\View
      */
     public function assurances()
     {
-        return view('client.assurances');
+        $assurances = Assurance::whereHas('reservation', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->with('reservation')->orderBy('created_at', 'desc')->get();
+        return view('client.assurances', compact('assurances'));
     }
 
     /**
@@ -116,5 +120,83 @@ class ClientController extends Controller
         $client->save();
 
         return redirect()->route('client.profil')->with('success', 'Profil mis à jour avec succès');
+    }
+
+    /**
+     * Cancel a client's reservation if it is in 'en attente' status.
+     *
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancelReservation(Reservation $reservation)
+    {
+        // Vérifier que la réservation appartient à l'utilisateur authentifié
+        if ($reservation->user_id !== Auth::id()) {
+            return redirect()->route('client.reservations')->with('error', 'Vous n\'êtes pas autorisé à annuler cette réservation.');
+        }
+
+        // Vérifier que la réservation est en attente
+        if ($reservation->statut !== 'en attente') {
+            return redirect()->route('client.reservations')->with('error', 'Cette réservation ne peut pas être annulée car elle n\'est pas en attente.');
+        }
+
+        // Mettre à jour le statut à 'annulée'
+        $reservation->statut = 'annulée';
+        $reservation->save();
+
+        return redirect()->route('client.reservations')->with('success', 'Réservation annulée avec succès.');
+    }
+
+    /**
+     * Display a specific reservation's details.
+     *
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\View\View
+     */
+    public function showReservation(Reservation $reservation)
+    {
+        if ($reservation->user_id !== Auth::id()) {
+            return redirect()->route('client.reservations')->with('error', 'Vous n\'êtes pas autorisé à voir cette réservation.');
+        }
+        return view('client.reservation-show', compact('reservation'));
+    }
+
+    /**
+     * Show the form for editing a specific reservation.
+     *
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\View\View
+     */
+    public function editReservation(Reservation $reservation)
+    {
+        if ($reservation->user_id !== Auth::id()) {
+            return redirect()->route('client.reservations')->with('error', 'Vous n\'êtes pas autorisé à modifier cette réservation.');
+        }
+        return view('client.reservation-edit', compact('reservation'));
+    }
+
+    /**
+     * Update a specific reservation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateReservation(Request $request, Reservation $reservation)
+    {
+        if ($reservation->user_id !== Auth::id()) {
+            return redirect()->route('client.reservations')->with('error', 'Vous n\'êtes pas autorisé à modifier cette réservation.');
+        }
+
+        $validated = $request->validate([
+            'destination' => 'required|string|max:255',
+            'date_depart' => 'required|date',
+            'date_retour' => 'required|date|after:date_depart',
+            'prix' => 'required|numeric|min:0',
+        ]);
+
+        $reservation->update($validated);
+
+        return redirect()->route('client.reservations')->with('success', 'Réservation mise à jour avec succès.');
     }
 }

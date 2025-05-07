@@ -192,6 +192,15 @@
             gap: 0.75rem;
         }
 
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
         .btn {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -220,6 +229,61 @@
 
         .btn-outline:hover {
             background: var(--primary-light);
+        }
+
+        /* Table for Enrolled Assurances */
+        .assurance-table {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .assurance-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .assurance-table th,
+        .assurance-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .assurance-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .assurance-table td {
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .assurance-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        .assurance-table .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .assurance-table .status-active {
+            background: var(--success);
+        }
+
+        .assurance-table .btn-outline {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
         }
 
         /* Cartes */
@@ -297,6 +361,10 @@
             .nav-menu {
                 gap: 1rem;
             }
+
+            .assurance-table {
+                overflow-x: auto;
+            }
         }
 
         @media (max-width: 768px) {
@@ -331,6 +399,12 @@
 
             .card-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .assurance-table th,
+            .assurance-table td {
+                font-size: 0.8rem;
+                padding: 0.75rem;
             }
         }
 
@@ -489,7 +563,7 @@
 
         .insurance-banner .btn:hover {
             background: rgba(255, 255, 255, 0.9);
-        }
+    }
     </style>
 </head>
 <body>
@@ -514,7 +588,6 @@
             </div>
             <span>{{ auth()->user()->client->first_name }}</span>
             <div class="user-dropdown">
-               
                 <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </div>
@@ -530,232 +603,185 @@
 
         <div class="section-header fade-in">
             <h1><i class="fas fa-shield-alt"></i> Mes Assurances</h1>
-            <a href="#new-insurance" class="btn"><i class="fas fa-plus"></i> Souscrire une assurance</a>
-        </div>
-        
-        <div class="card-grid fade-in">
-            <div class="insurance-card">
-                <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-umbrella-beach" style="color: var(--success);"></i>
-                        Assurance Annulation
-                    </div>
-                    <div class="insurance-card-subtitle">Protection contre les annulations imprévues</div>
-                </div>
-                <div class="insurance-card-body">
-                    <div class="insurance-card-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Annulation sans frais jusqu'à 48h avant le départ</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Remboursement jusqu'à 100% du prix du voyage</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Couverture des frais d'annulation pour raisons médicales</div>
-                        </div>
-                    </div>
-                    <div class="insurance-card-price">Incluse</div>
-                    <div class="insurance-card-price-period">avec votre réservation</div>
-                </div>
-                <div class="insurance-card-footer">
-                    <div class="insurance-status">
-                        <div class="status-indicator status-active"></div>
-                        <div class="status-text">Active</div>
-                    </div>
-                    <a href="#details" class="btn btn-outline">Détails</a>
-                </div>
-            </div>
-            
-            <div class="insurance-card">
-                <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-briefcase-medical" style="color: var(--danger);"></i>
-                        Assurance Médicale
-                    </div>
-                    <div class="insurance-card-subtitle">Couverture médicale à l'étranger</div>
-                </div>
-                <div class="insurance-card-body">
-                    <div class="insurance-card-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Prise en charge des frais médicaux à l'étranger</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Rapatriement sanitaire en cas de nécessité</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Assistance médicale 24h/24 et 7j/7</div>
-                        </div>
-                    </div>
-                    <div class="insurance-card-price">Incluse</div>
-                    <div class="insurance-card-price-period">avec votre réservation</div>
-                </div>
-                <div class="insurance-card-footer">
-                    <div class="insurance-status">
-                        <div class="status-indicator status-active"></div>
-                        <div class="status-text">Active</div>
-                    </div>
-                    <a href="#details" class="btn btn-outline">Détails</a>
-                </div>
-            </div>
-            
-            <div class="insurance-card">
-                <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-suitcase-rolling" style="color: var(--warning);"></i>
-                        Assurance Bagages
-                    </div>
-                    <div class="insurance-card-subtitle">Protection de vos bagages</div>
-                </div>
-                <div class="insurance-card-body">
-                    <div class="insurance-card-features">
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Indemnisation en cas de perte ou vol de bagages</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Remboursement des achats de première nécessité</div>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Assistance pour le remplacement des documents perdus</div>
-                        </div>
-                    </div>
-                    <div class="insurance-card-price">29,90 €</div>
-                    <div class="insurance-card-price-period">par voyage</div>
-                </div>
-                <div class="insurance-card-footer">
-                    <div class="insurance-status">
-                        <div class="status-indicator status-inactive"></div>
-                        <div class="status-text">Non active</div>
-                    </div>
-                    <a href="#add" class="btn">Ajouter</a>
-                </div>
-            </div>
+            <a href="{{ route('service') }}" class="btn"><i class="fas fa-plus"></i> Souscrire une assurance</a>
         </div>
 
-        <div class="section-header" style="margin-top: 2rem;">
-            <h1><i class="fas fa-plus-circle"></i> Assurances complémentaires</h1>
-        </div>
+       
 
-        <div class="card-grid fade-in">
+        <!-- Cartes des types d'assurances -->
+        <div class="section-header fade-in">
+            <h2><i class="fas fa-info-circle"></i> Types d'Assurances Disponibles</h2>
+        </div>
+        <div class="card-grid">
+            <!-- Assurance Annulation -->
             <div class="insurance-card">
                 <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-plane-slash" style="color: var(--danger);"></i>
-                        Assurance Retard de Vol
+                    <div>
+                        <h3 class="insurance-card-title"><i class="fas fa-ban"></i> Assurance Annulation</h3>
+                        <p class="insurance-card-subtitle">Protection contre les annulations imprévues</p>
                     </div>
-                    <div class="insurance-card-subtitle">Compensation pour les retards</div>
                 </div>
                 <div class="insurance-card-body">
                     <div class="insurance-card-features">
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Indemnisation pour les retards de plus de 3 heures</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                <strong>Remboursement complet</strong> en cas d'annulation pour raisons médicales ou personnelles graves.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Prise en charge des frais d'hébergement et de repas</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Couverture des frais de transport et d'hébergement non remboursables.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Assistance pour la réorganisation du voyage</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Assistance 24/7 pour gérer les modifications de voyage.
+                            </div>
                         </div>
                     </div>
-                    <div class="insurance-card-price">19,90 €</div>
-                    <div class="insurance-card-price-period">par voyage</div>
+                    
                 </div>
                 <div class="insurance-card-footer">
                     <div class="insurance-status">
-                        <div class="status-indicator status-inactive"></div>
-                        <div class="status-text">Non active</div>
+                        <span class="status-indicator status-active"></span>
+                        <span class="status-text">Disponible</span>
                     </div>
-                    <a href="#add" class="btn">Ajouter</a>
+                    <a href="{{ route('service') }}" class="btn btn-outline">Souscrire</a>
                 </div>
             </div>
 
+            <!-- Assurance Bagage -->
             <div class="insurance-card">
                 <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-car-crash" style="color: var(--warning);"></i>
-                        Assurance Activités
+                    <div>
+                        <h3 class="insurance-card-title"><i class="fas fa-suitcase"></i> Assurance Bagage</h3>
+                        <p class="insurance-card-subtitle">Protection de vos effets personnels</p>
                     </div>
-                    <div class="insurance-card-subtitle">Protection pour les activités sportives</div>
                 </div>
                 <div class="insurance-card-body">
                     <div class="insurance-card-features">
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Couverture des activités sportives à risque</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                <strong>Indemnisation</strong> en cas de perte, vol ou détérioration des bagages.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Remboursement des frais médicaux liés aux activités</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Couverture des objets de valeur jusqu'à 1000€.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Indemnisation pour le matériel sportif endommagé</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Remboursement des articles essentiels en cas de retard de bagage.
+                            </div>
                         </div>
                     </div>
-                    <div class="insurance-card-price">24,90 €</div>
-                    <div class="insurance-card-price-period">par voyage</div>
+                    
                 </div>
                 <div class="insurance-card-footer">
                     <div class="insurance-status">
-                        <div class="status-indicator status-inactive"></div>
-                        <div class="status-text">Non active</div>
+                        <span class="status-indicator status-active"></span>
+                        <span class="status-text">Disponible</span>
                     </div>
-                    <a href="#add" class="btn">Ajouter</a>
+                    <a href="{{ route('service') }}" class="btn btn-outline">Souscrire</a>
                 </div>
             </div>
 
+            <!-- Assurance Médicale -->
             <div class="insurance-card">
                 <div class="insurance-card-header">
-                    <div class="insurance-card-title">
-                        <i class="fas fa-globe" style="color: var(--primary);"></i>
-                        Assurance Premium
+                    <div>
+                        <h3 class="insurance-card-title"><i class="fas fa-heartbeat"></i> Assurance Médicale</h3>
+                        <p class="insurance-card-subtitle">Soins médicaux à l'étranger</p>
                     </div>
-                    <div class="insurance-card-subtitle">Protection complète tout-en-un</div>
                 </div>
                 <div class="insurance-card-body">
                     <div class="insurance-card-features">
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Toutes les assurances incluses</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                <strong>Couverture des frais médicaux</strong> jusqu'à 500 000€.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Couverture étendue et plafonds plus élevés</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Rapatriement médical d'urgence si nécessaire avec prise en charge des frais de transport.
+                            </div>
                         </div>
                         <div class="feature-item">
-                            <i class="fas fa-check feature-icon"></i>
-                            <div class="feature-text">Service de conciergerie dédié 24h/24</div>
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <div class="feature-text">
+                                Assistance médicale téléphonique 24/7.
+                            </div>
                         </div>
+                        
                     </div>
-                    <div class="insurance-card-price">59,90 €</div>
-                    <div class="insurance-card-price-period">par voyage</div>
+                   
                 </div>
                 <div class="insurance-card-footer">
                     <div class="insurance-status">
-                        <div class="status-indicator status-inactive"></div>
-                        <div class="status-text">Non active</div>
+                        <span class="status-indicator status-active"></span>
+                        <span class="status-text">Disponible</span>
                     </div>
-                    <a href="#add" class="btn">Ajouter</a>
+                    <a href="{{ route('service') }}" class="btn btn-outline">Souscrire</a>
                 </div>
             </div>
         </div>
+         <!-- Mes Assurances Souscrites -->
+         <div class="section-header fade-in">
+            <h2><i class="fas fa-file-contract"></i> Assurances Souscrites</h2>
+        </div>
+        @if($assurances->isEmpty())
+            <p class="fade-in">Vous n'avez souscrit à aucune assurance pour le moment.</p>
+        @else
+            <div class="assurance-table fade-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Destination</th>
+                            <th>Durée</th>
+                            <th>Réservation</th>
+                            <th>Date de souscription</th>
+                            
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($assurances as $assurance)
+                            <tr>
+                                <td>
+                                    <i class="fas {{ $assurance->type_assurance === 'Annulation' ? 'fa-ban' : ($assurance->type_assurance === 'Bagages' ? 'fa-suitcase' : 'fa-heartbeat') }}"></i>
+                                    {{ $assurance->type_assurance }}
+                                </td>
+                                <td>{{ $assurance->destination }}</td>
+                                <td>{{ $assurance->duree }} jour{{ $assurance->duree > 1 ? 's' : '' }}</td>
+                                <td>{{ $assurance->reservation_id }}</td>
+                                <td>{{ $assurance->created_at->format('d/m/Y') }}</td>
+                               
+                                <td>
+                                    <a href="{{ route('service') }}" class="btn btn-outline">Détails</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </main>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Animation des cartes au défilement
-            const cards = document.querySelectorAll('.insurance-card');
+            // Animation des cartes et de la table au défilement
+            const elements = document.querySelectorAll('.insurance-card, .assurance-table');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -765,8 +791,8 @@
                 });
             }, { threshold: 0.1 });
             
-            cards.forEach(card => {
-                observer.observe(card);
+            elements.forEach(element => {
+                observer.observe(element);
             });
         });
     </script>
