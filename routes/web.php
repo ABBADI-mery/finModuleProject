@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientController;
 
 
 // Pages publiques
@@ -123,3 +124,37 @@ Route::prefix('client')
     
     // Route pour l'affichage public des offres
     Route::get('/package', [OffreController::class, 'showoffres'])->name('package');
+
+
+
+
+
+
+
+
+
+
+
+// Routes protégées par l'authentification
+Route::middleware(['auth'])->group(function () {
+    // Routes pour le client
+    Route::prefix('client')->group(function () {
+        // Tableau de bord
+        Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard');
+        
+        // Réservations
+        Route::get('/reservations', [ClientController::class, 'reservations'])->name('client.reservations');
+        
+        // Assurances
+        Route::get('/assurances', [ClientController::class, 'assurances'])->name('client.assurances');
+        Route::get('/assurances/compare', [ClientController::class, 'compareAssurances'])->name('assurances.compare');
+        
+        // Planification
+        Route::get('/planification', [ClientController::class, 'planification'])->name('client.planification');
+        
+        // Profil
+        Route::get('/profil', [ClientController::class, 'profil'])->name('client.profil');
+        Route::put('/profil', [ClientController::class, 'updateProfile'])->name('client.updateProfile');
+        
+    });
+});

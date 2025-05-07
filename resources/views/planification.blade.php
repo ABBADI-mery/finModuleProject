@@ -10,25 +10,25 @@
 
     <!-- Favicon -->
     <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Icon Libraries -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    
+
     <!-- CSS Libraries -->
     <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
-    
+
     <!-- Custom CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-    
+
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -118,7 +118,7 @@
         }
 
         .bg-registration {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset("assets/img/planification-bg.jpg") }}');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset("assets/img/bac.jpeg") }}');
             background-size: cover;
             background-position: center;
             padding: 100px 0;
@@ -386,15 +386,15 @@
                 width: 100%;
                 max-width: 400px;
             }
-            
+
             .personalized-plan {
                 padding: 25px;
             }
-            
+
             .plan-actions {
                 flex-direction: column;
             }
-            
+
             .btn-plan {
                 width: 100%;
             }
@@ -440,7 +440,7 @@
                 <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-2 px-4">Contact</a>
             </div>
         </nav>
-        
+
         <!-- Hero Section -->
         <div class="container-fluid bg-primary py-5 mb-5 hero-header6">
             <div class="container py-5">
@@ -493,9 +493,9 @@
                 <div class="col-lg-5">
                     <div class="card border-0" style="background-color: rgba(255, 255, 255, 0.1);">
                         <div class="card-body rounded-bottom bg-white" style="border-radius: 10px; opacity: 0.9;">
-                        <form id="planificationForm" method="POST">
-    @csrf
-    @auth
+                            <form id="planificationForm" method="POST">
+                                @csrf
+                                @auth
                                 <div class="mb-3">
                                     <label for="nom" class="form-label">Votre Nom</label>
                                     <input type="text" class="form-control" id="nom" name="nom" style="border-radius: 10px;" required>
@@ -545,13 +545,12 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100" style="border-radius: 30px; padding: 10px;">Générer Mon Plan</button>
                                 @else
-    <div class="alert alert-warning">
-        <i class="fas fa-exclamation-triangle me-2"></i>
-        Vous devez <a href="{{ route('login') }}">vous connecter</a> ou 
-        <a href="{{ route('register') }}">créer un compte</a> pour générer un plan de voyage.
-    </div>
-    @endauth
-
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Vous devez <a href="{{ route('login') }}">vous connecter</a> ou 
+                                    <a href="{{ route('register') }}">créer un compte</a> pour générer un plan de voyage.
+                                </div>
+                                @endauth
                             </form>  
                         </div>
                     </div>
@@ -564,7 +563,7 @@
     <div id="personalizedPlanContainer" class="personalized-plan hidden">
         <h2 class="text-center mb-4">Votre Plan de Voyage Personnalisé</h2>
         <div id="personalizedPlanContent"></div>
-        
+
         <div class="plan-actions">
             <button class="btn btn-plan btn-save" id="savePlanBtn">
                 <i class="far fa-save me-2"></i>Sauvegarder
@@ -625,7 +624,7 @@
                     </button>
                 </div>
             </div>
-        
+
             <!-- Plan Marrakech -->
             <div class="travel-plan-card" data-destination="marrakech">
                 <div class="price-badge">À partir de 450€</div>
@@ -659,7 +658,7 @@
                     </button>
                 </div>
             </div>
-        
+
             <!-- Plan Tokyo -->
             <div class="travel-plan-card" data-destination="tokyo">
                 <div class="price-badge">À partir de 1200€</div>
@@ -798,7 +797,7 @@
             searchInput.addEventListener("input", function () {
                 const searchTerm = this.value.trim().toLowerCase();
                 let hasResults = false;
-                
+
                 travelPlans.forEach(plan => {
                     const planTitle = plan.querySelector(".plan-title").textContent.toLowerCase();
                     if (planTitle.includes(searchTerm)) {
@@ -808,7 +807,7 @@
                         plan.style.display = "none";
                     }
                 });
-                
+
                 noResults.style.display = hasResults ? "none" : "block";
             });
 
@@ -824,10 +823,10 @@
             // Soumission du formulaire
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
-                
+
                 // Afficher le spinner
                 document.getElementById("spinner").classList.add("show");
-                
+
                 // Simuler un délai pour la génération du plan (à remplacer par une requête AJAX en production)
                 setTimeout(function() {
                     // Récupérer les données du formulaire
@@ -845,11 +844,20 @@
 
                     // Générer un plan personnalisé
                     const plan = genererPlanPersonnalise(formData);
-                    
+
                     // Afficher le plan personnalisé
                     personalizedPlanContent.innerHTML = plan;
                     personalizedPlanContainer.classList.remove("hidden");
-                    
+
+                    // Stocker le plan pour sauvegarde
+                    localStorage.setItem('savedPlan', JSON.stringify({
+                        destination: formData.destination,
+                        date_depart: formData.date_depart,
+                        duree: formData.duree,
+                        nombre_personnes: formData.nombre_personnes,
+                        planContent: plan
+                    }));
+
                     // Faire défiler jusqu'au plan
                     personalizedPlanContainer.scrollIntoView({ behavior: 'smooth' });
 
@@ -860,8 +868,13 @@
 
             // Bouton Sauvegarder
             savePlanBtn.addEventListener("click", function() {
-                // Envoyer les données au serveur pour sauvegarde
-                alert("Votre plan a été sauvegardé avec succès !");
+                const savedPlan = JSON.parse(localStorage.getItem('savedPlan'));
+                if (savedPlan) {
+                    // Confirmer la sauvegarde
+                    alert("Votre plan a été sauvegardé avec succès ! Il sera visible dans votre liste de voyages.");
+                } else {
+                    alert("Aucun plan à sauvegarder. Veuillez générer un plan d'abord.");
+                }
             });
 
             // Bouton Imprimer
@@ -883,9 +896,12 @@
                 const budgetParPersonne = data.budget / data.nombre_personnes;
                 const budgetParJour = data.budget / data.duree;
                 const dateDepart = new Date(data.date_depart);
+                const dateFin = new Date(dateDepart);
+                dateFin.setDate(dateDepart.getDate() + parseInt(data.duree));
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
                 const dateFormatee = dateDepart.toLocaleDateString('fr-FR', options);
-                
+                const dateFinFormatee = dateFin.toLocaleDateString('fr-FR', options);
+
                 // Déterminer la saison
                 const mois = dateDepart.getMonth() + 1;
                 let saison = "";
@@ -942,22 +958,22 @@
 
                 // Analyser les préférences
                 const preferences = analyserPreferences(data.preferences);
-                
+
                 // Déterminer le type de voyage
                 const typeVoyage = determinerTypeVoyage(data.type_voyage, preferences);
-                
+
                 // Recommandations d'hébergement
                 const hebergement = recommanderHebergement(data, destinationInfo);
-                
+
                 // Activités recommandées
                 const activites = recommanderActivites(data, preferences, destinationInfo);
-                
+
                 // Itinéraire quotidien
                 const itineraire = genererItineraire(data, preferences, destinationInfo);
-                
+
                 // Conseils personnalisés
                 const conseils = genererConseils(data, preferences, destinationInfo, saison);
-                
+
                 // Estimation de budget
                 const estimationBudget = genererEstimationBudget(data, destinationInfo);
 
@@ -989,7 +1005,7 @@
                             </div>
                             <div class="plan-feature-content">
                                 <div class="plan-feature-title">Dates</div>
-                                <div class="plan-feature-desc">Du ${dateFormatee} pour ${data.duree} jour${data.duree > 1 ? 's' : ''}</div>
+                                <div class="plan-feature-desc">Du ${dateFormatee} au ${dateFinFormatee}</div>
                             </div>
                         </div>
                         <div class="plan-feature">
@@ -1073,21 +1089,21 @@
                     'culturel': "Voyage culturel",
                     'gastronomique': "Voyage gastronomique"
                 };
-                
+
                 let type = types[typeSelectionne] || "Voyage découverte";
-                
+
                 // Affiner en fonction des préférences textuelles
                 if (preferences.romantique) type = "Voyage romantique";
                 if (preferences.aventure) type = "Voyage d'aventure";
                 if (preferences.famille) type += " en famille";
-                
+
                 return type;
             }
 
             function recommanderHebergement(data, destinationInfo) {
                 const budgetParJour = data.budget / data.duree / data.nombre_personnes;
                 let recommandation = '';
-                
+
                 if (budgetParJour > 200) {
                     recommandation = `
                         <div class="plan-feature">
@@ -1149,7 +1165,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Ajouter des conseils spécifiques selon la destination
                 if (destinationInfo.tags.includes('romantique')) {
                     recommandation += `
@@ -1160,7 +1176,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.nombre_personnes > 2) {
                     recommandation += `
                         <div class="alert alert-info mt-3" role="alert">
@@ -1170,13 +1186,13 @@
                         </div>
                     `;
                 }
-                
+
                 return recommandation;
             }
 
             function recommanderActivites(data, preferences, destinationInfo) {
                 let activites = '<div class="row">';
-                
+
                 // Activités basées sur le type de voyage
                 if (data.type_voyage === 'romantique' || preferences.romantique) {
                     activites += `
@@ -1198,7 +1214,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.type_voyage === 'aventure' || preferences.aventure) {
                     activites += `
                         <div class="col-md-6">
@@ -1219,7 +1235,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.type_voyage === 'culturel' || preferences.culture) {
                     activites += `
                         <div class="col-md-6">
@@ -1240,7 +1256,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.type_voyage === 'gastronomique' || preferences.gastronomie) {
                     activites += `
                         <div class="col-md-6">
@@ -1261,7 +1277,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.type_voyage === 'detente' || preferences.détente) {
                     activites += `
                         <div class="col-md-6">
@@ -1282,7 +1298,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Activités spécifiques à la destination
                 if (destinationInfo.tags.includes('culture')) {
                     activites += `
@@ -1304,23 +1320,23 @@
                         </div>
                     `;
                 }
-                
+
                 activites += '</div>';
-                
+
                 return activites;
             }
 
             function genererItineraire(data, preferences, destinationInfo) {
                 let itineraire = '<div class="timeline">';
                 const jours = parseInt(data.duree);
-                
+
                 for (let i = 1; i <= jours; i++) {
                     itineraire += `
                         <div class="timeline-item">
                             <div class="timeline-title">Jour ${i}: ${i === 1 ? 'Arrivée' : (i === jours ? 'Départ' : 'Exploration')}</div>
                             <div class="timeline-desc">
                     `;
-                    
+
                     if (i === 1) {
                         itineraire += `
                             - Transfert à votre hébergement<br>
@@ -1342,25 +1358,25 @@
                                 - Déjeuner dans un restaurant local typique<br>
                             `;
                         }
-                        
+
                         if (preferences.aventure || data.type_voyage === 'aventure') {
                             itineraire += `
                                 - Activité d'aventure ou excursion en nature<br>
                             `;
                         }
-                        
+
                         if (preferences.détente || data.type_voyage === 'detente') {
                             itineraire += `
                                 - Temps libre pour détente (spa, plage, piscine)<br>
                             `;
                         }
-                        
+
                         if (preferences.gastronomie || data.type_voyage === 'gastronomique') {
                             itineraire += `
                                 - Expérience gastronomique le soir<br>
                             `;
                         }
-                        
+
                         if (!preferences.culture && !preferences.aventure && !preferences.détente) {
                             itineraire += `
                                 - Matinée libre pour exploration personnelle<br>
@@ -1370,15 +1386,15 @@
                             `;
                         }
                     }
-                    
+
                     itineraire += `
                             </div>
                         </div>
                     `;
                 }
-                
+
                 itineraire += '</div>';
-                
+
                 // Ajouter une note sur la flexibilité
                 itineraire += `
                     <div class="alert alert-info mt-3" role="alert">
@@ -1388,7 +1404,7 @@
                         et des événements locaux.
                     </div>
                 `;
-                
+
                 return itineraire;
             }
 
@@ -1396,13 +1412,13 @@
                 const budgetTotal = parseInt(data.budget);
                 const nombrePersonnes = parseInt(data.nombre_personnes);
                 const duree = parseInt(data.duree);
-                
+
                 // Calcul des pourcentages approximatifs
                 let pourcentageHebergement = 40;
                 let pourcentageTransport = 25;
                 let pourcentageActivites = 20;
                 let pourcentageRepas = 15;
-                
+
                 // Ajustements selon la destination
                 if (destinationInfo.budget === 'élevé') {
                     pourcentageHebergement = 50;
@@ -1411,7 +1427,7 @@
                     pourcentageHebergement = 35;
                     pourcentageActivites = 25;
                 }
-                
+
                 // Ajustements selon le type de voyage
                 if (data.type_voyage === 'romantique') {
                     pourcentageHebergement += 10;
@@ -1425,19 +1441,19 @@
                     pourcentageHebergement -= 5;
                     pourcentageActivites -= 5;
                 }
-                
+
                 // Calcul des montants
                 const hebergement = Math.round(budgetTotal * pourcentageHebergement / 100);
                 const transport = Math.round(budgetTotal * pourcentageTransport / 100);
                 const activites = Math.round(budgetTotal * pourcentageActivites / 100);
                 const repas = Math.round(budgetTotal * pourcentageRepas / 100);
-                
+
                 // Calcul par jour/personne
                 const hebergementJourPers = Math.round(hebergement / duree / nombrePersonnes);
                 const transportJourPers = Math.round(transport / duree / nombrePersonnes);
                 const activitesJourPers = Math.round(activites / duree / nombrePersonnes);
                 const repasJourPers = Math.round(repas / duree / nombrePersonnes);
-                
+
                 return `
                     <div class="row">
                         <div class="col-md-6">
@@ -1508,7 +1524,7 @@
 
             function genererConseils(data, preferences, destinationInfo, saison) {
                 let conseils = '';
-                
+
                 // Conseils généraux
                 conseils += `
                     <div class="plan-feature">
@@ -1525,7 +1541,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 // Conseils spécifiques à la destination
                 if (destinationInfo.conseils && destinationInfo.conseils[saison]) {
                     conseils += `
@@ -1542,7 +1558,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Conseils selon le type de voyage
                 if (data.type_voyage === 'romantique') {
                     conseils += `
@@ -1561,7 +1577,7 @@
                         </div>
                     `;
                 }
-                
+
                 if (data.type_voyage === 'aventure') {
                     conseils += `
                         <div class="plan-feature">
@@ -1579,7 +1595,7 @@
                         </div>
                     `;
                 }
-                
+
                 // Conseils budget
                 conseils += `
                     <div class="plan-feature">
@@ -1596,7 +1612,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 return conseils;
             }
         });
