@@ -251,7 +251,9 @@
                     <li><a href="{{ route('admin.dashboard') }}" ><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href=#><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('admin.offres.index') }}"><i class="fas fa-plane"></i> Offres</a></li>                   
+                    <li><a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Utilisateurs</a></li>
+
                     <li><a href="{{ route('contacts.index') }}"class="active"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
@@ -260,7 +262,8 @@
                                 <i class="fas fa-sign-out-alt"></i> Déconnexion
                             </a>
                         </form>
-                    </li>                </ul>
+                    </li>               
+                 </ul>
             </nav>
         </aside>
         

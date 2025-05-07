@@ -413,7 +413,8 @@
                     <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="{{ route('reservations.index') }}"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="{{ route('assurances.index') }}" class="active"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('admin.offres.index') }}"><i class="fas fa-plane"></i> Offres</a></li>                  
+                    <li><a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
@@ -461,12 +462,12 @@
                         <table class="assurance-table" id="assurancesTable">
                             <thead>
                                 <tr>
-                                    <th style="width: 18%;"><i class="fas fa-user-tie me-2"></i> Client</th>
-                                    <th style="width: 10%;"><i class="fas fa-calendar-day me-2"></i> Durée</th>
-                                    <th style="width: 16%;"><i class="fas fa-map-marked-alt me-2"></i> Destination</th>
-                                    <th style="width: 18%;"><i class="fas fa-tags me-2"></i> Type</th>
-                                    <th style="width: 16%;"><i class="fas fa-calendar-check me-2"></i> Date</th>
-                                    <th style="width: 22%;"><i class="fas fa-ticket-alt me-2"></i> Réservation</th>
+                                    <th style="width: 18%;"> Client</th>
+                                    <th style="width: 16%;">Durée</th>
+                                    <th style="width: 10%;"> Destination</th>
+                                    <th style="width: 18%;"> Type</th>
+                                    <th style="width: 16%;"> Date</th>
+                                    <th style="width: 22%;"> Réservation</th>
                                 </tr>
                             </thead>
                             <tbody>

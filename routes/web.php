@@ -9,6 +9,7 @@ use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 
 // Pages publiques
@@ -78,6 +79,12 @@ Route::get('/admin/assurances', [AssuranceController::class, 'index'])->name('as
 Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
+
+// Gestion des utilisateurs
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::post('/users/{id}', [UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
 
 //Routes pour les statistiques
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');

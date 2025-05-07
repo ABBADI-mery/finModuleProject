@@ -413,7 +413,9 @@
                     <li><a href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
                     <li><a href="{{ route('reservations.index') }}" class="active"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="{{ route('assurances.index') }}"><i class="fas fa-shield-alt"></i> Assurances</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                    <li><a href="{{ route('admin.offres.index') }}"><i class="fas fa-plane"></i> Offres</a></li>                    
+
+                    <li><a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Utilisateurs</a></li>
                     <li><a href="{{ route('contacts.index') }}"><i class="fas fa-address-book"></i> Contacts</a></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
@@ -461,13 +463,13 @@
                         <table class="table" id="reservationsTable">
                             <thead>
                                 <tr>
-                                    <th><i class="fas fa-user-tie me-1"></i> Client</th>
-                                    <th><i class="far fa-calendar-alt me-1"></i> Dates</th>
-                                    <th><i class="fas fa-map-marked-alt me-1"></i> Destination</th>
-                                    <th><i class="fas fa-user-friends me-1"></i> Passagers</th>
-                                    <th><i class="fas fa-shield-alt me-1"></i> Assurances</th>
-                                    <th><i class="fas fa-info-circle me-1"></i> Statut</th>
-                                    <th><i class="fas fa-ellipsis-v me-1"></i> Actions</th>
+                                    <th> Client</th>
+                                    <th> Dates</th>
+                                    <th> Destination</th>
+                                    <th> Passagers</th>
+                                    <th> Assurances</th>
+                                    <th> Statut</th>
+                                    <th> Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
