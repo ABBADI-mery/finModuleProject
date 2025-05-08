@@ -1,11 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Models\Reservation;
 use App\Models\Assurance;
+use App\Models\Client;
 
 class ClientController extends Controller
 {
@@ -64,9 +67,9 @@ class ClientController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function planification()
+    public function voyages()
     {
-        return view('client.planification');
+        return view('client.voyages');
     }
 
     /**
@@ -88,38 +91,71 @@ class ClientController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $validated = $request->validate([
+        $user = Auth::user();
+        $client = $user->client ?? new Client(['user_id' => $user->id]);
+
+        // Validation rules
+        $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
             'birth_date' => 'nullable|date',
-            'gender' => 'nullable|string|in:male,female,other',
+            'gender' => 'nullable|in:male,female',
             'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'zip_code' => 'nullable|string|max:20',
-            'country' => 'nullable|string|max:255',
-        ]);
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password' => 'nullable|string|min:8|confirmed',
+        ];
 
-        // Mettre à jour l'utilisateur
-        $user = Auth::user();
+        // Require current password if email or password is changed
+        if ($request->email !== $user->email || $request->filled('password')) {
+            $rules['current_password'] = ['required', function ($attribute, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
+                    $fail('Le mot de passe actuel est incorrect.');
+                }
+            }];
+        }
+
+        $validated = $request->validate($rules);
+
+        // Update User model (only email and password)
         $user->email = $validated['email'];
+        if (isset($validated['password']) && $validated['password']) {
+            $user->password = Hash::make($validated['password']);
+        }
         $user->save();
 
-        // Mettre à jour le client
-        $client = $user->client;
-        $client->first_name = $validated['first_name'];
-        $client->last_name = $validated['last_name'];
-        $client->phone = $validated['phone'] ?? $client->phone;
-        $client->birth_date = $validated['birth_date'] ?? $client->birth_date;
-        $client->gender = $validated['gender'] ?? $client->gender;
-        $client->address = $validated['address'] ?? $client->address;
-        $client->city = $validated['city'] ?? $client->city;
-        $client->zip_code = $validated['zip_code'] ?? $client->zip_code;
-        $client->country = $validated['country'] ?? $client->country;
+        // Update or create Client model
+        $client->fill([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'phone' => $validated['phone'],
+        ]);
         $client->save();
 
-        return redirect()->route('client.profil')->with('success', 'Profil mis à jour avec succès');
+        // Handle non-database fields (birth_date, gender, address) using session
+        if ($validated['birth_date'] && !Session::has('profile.birth_date')) {
+            Session::put('profile.birth_date', $validated['birth_date']);
+        }
+        if ($validated['gender'] && !Session::has('profile.gender')) {
+            Session::put('profile.gender', $validated['gender']);
+        }
+        if ($validated['address'] && !Session::has('profile.address')) {
+            Session::put('profile.address', $validated['address']);
+        }
+
+        // Handle profile picture (store temporarily, not in database)
+        if ($request->hasFile('profile_picture')) {
+            if (Session::has('profile.profile_picture')) {
+                Storage::delete('public/profiles/' . Session::get('profile.profile_picture'));
+            }
+            $file = $request->file('profile_picture');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/profiles', $filename);
+            Session::put('profile.profile_picture', $filename);
+        }
+
+        return redirect()->route('client.profil')->with('success', 'Profil mis à jour avec succès !');
     }
 
     /**
@@ -130,17 +166,14 @@ class ClientController extends Controller
      */
     public function cancelReservation(Reservation $reservation)
     {
-        // Vérifier que la réservation appartient à l'utilisateur authentifié
         if ($reservation->user_id !== Auth::id()) {
             return redirect()->route('client.reservations')->with('error', 'Vous n\'êtes pas autorisé à annuler cette réservation.');
         }
 
-        // Vérifier que la réservation est en attente
         if ($reservation->statut !== 'en attente') {
             return redirect()->route('client.reservations')->with('error', 'Cette réservation ne peut pas être annulée car elle n\'est pas en attente.');
         }
 
-        // Mettre à jour le statut à 'annulée'
         $reservation->statut = 'annulée';
         $reservation->save();
 

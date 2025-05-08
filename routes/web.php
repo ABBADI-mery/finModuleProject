@@ -101,7 +101,30 @@ Route::prefix('client')->name('client.')->middleware(['auth', 'role:client'])->g
     Route::post('/reservations/{reservation}/cancel', [ClientController::class, 'cancelReservation'])->name('reservation.cancel');
     Route::get('/assurances', [ClientController::class, 'assurances'])->name('assurances');
     Route::get('/assurances/compare', [ClientController::class, 'compareAssurances'])->name('assurances.compare');
-    Route::get('/planification', [ClientController::class, 'planification'])->name('planification');
+    Route::get('/voyages', [ClientController::class, 'voyages'])->name('voyages');
     Route::get('/profil', [ClientController::class, 'profil'])->name('profil');
     Route::put('/profil', [ClientController::class, 'updateProfile'])->name('updateProfile');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use App\Http\Controllers\PlanificationController;
+
+Route::middleware('auth')->group(function () {
+    Route::post('/travel-plans', [PlanificationController::class, 'store'])->name('travel-plans.store');
+    Route::get('/travel-plans', [PlanificationController::class, 'index'])->name('travel-plans.index');
 });

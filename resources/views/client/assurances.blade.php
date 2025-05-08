@@ -578,7 +578,7 @@
             <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
             <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
             <a href="{{ route('client.assurances') }}" class="active"><i class="fas fa-shield-alt"></i> Assurance</a>
-            <a href="{{ route('client.planification') }}"><i class="fas fa-calendar-alt"></i> Planification</a>
+            <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
             <a href="{{ route('client.profil') }}"><i class="fas fa-user-cog"></i> Profil</a>
         </div>
         

@@ -10,6 +10,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
@@ -18,6 +20,7 @@
             --primary: #89ca06;
             --primary-dark: #7ab805;
             --primary-light: rgba(137, 202, 6, 0.1);
+            --primary-extra-light: rgba(137, 202, 6, 0.05);
             --gray-light: hsl(0, 0%, 93%);
             --gray-medium: hsl(0, 0%, 73%);
             --gray-dark: hsl(0, 0%, 60%);
@@ -28,8 +31,10 @@
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 15px 30px rgba(137, 202, 6, 0.2);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --border-radius: 12px;
+            --border-radius: 16px;
+            --glass: rgba(255, 255, 255, 0.2);
         }
 
         * {
@@ -44,9 +49,10 @@
             color: var(--dark);
             line-height: 1.6;
             padding-top: 80px;
+            min-height: 100vh;
         }
 
-        /* Navigation Horizontale Fixe */
+        /* Navigation */
         .navbar {
             position: fixed;
             top: 0;
@@ -132,6 +138,13 @@
             justify-content: center;
             color: var(--primary);
             font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover .user-avatar {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
         }
 
         .user-dropdown {
@@ -203,18 +216,19 @@
             background: var(--primary);
             color: var(--white);
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(137, 202, 6, 0.3);
         }
 
         .btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-xl);
         }
 
         .btn-outline {
@@ -241,11 +255,24 @@
             padding: 1.5rem;
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(137, 202, 6, 0.1);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
         }
 
         .card-header {
@@ -277,9 +304,29 @@
             justify-content: space-between;
             align-items: center;
             transition: opacity 0.3s ease;
+            border-left: 4px solid var(--primary);
         }
 
         /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -336,23 +383,23 @@
         }
 
         /* Améliorations visuelles */
-        .notification-item {
+        .activity-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 1rem;
             border-bottom: 1px solid var(--gray-light);
             transition: background-color 0.2s ease;
         }
 
-        .notification-item:hover {
+        .activity-item:hover {
             background-color: var(--primary-light);
         }
 
-        .notification-item:last-child {
+        .activity-item:last-child {
             border-bottom: none;
         }
 
-        .notification-icon {
+        .activity-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -360,23 +407,31 @@
             align-items: center;
             justify-content: center;
             margin-right: 1rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            transition: var(--transition);
         }
 
-        .notification-content {
+        .activity-item:hover .activity-icon {
+            background: var(--primary);
+            color: white;
+        }
+
+        .activity-content {
             flex: 1;
         }
 
-        .notification-title {
+        .activity-title {
             font-weight: 600;
             margin-bottom: 0.25rem;
         }
 
-        .notification-text {
+        .activity-text {
             color: var(--gray-dark);
             font-size: 0.9rem;
         }
 
-        .notification-time {
+        .activity-time {
             color: var(--gray-dark);
             font-size: 0.8rem;
         }
@@ -389,6 +444,7 @@
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-xl);
         }
 
         .welcome-banner::before {
@@ -402,23 +458,212 @@
             border-radius: 50%;
         }
 
+        .welcome-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
         .welcome-banner h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         .welcome-banner p {
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
         }
 
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--primary);
         }
 
         .stat-label {
             color: var(--gray-dark);
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Travel destinations */
+        .destinations {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .destination-card {
+            min-width: 200px;
+            height: 120px;
+            border-radius: var(--border-radius);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .destination-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+
+        .destination-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .destination-date {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            margin-top: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            width: 75%;
+            transition: width 1s ease;
+        }
+
+        /* 3D Card effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(5deg) rotateX(2deg);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Travel tips */
+        .travel-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tip-image {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tip-content {
+            padding: 1.5rem;
+        }
+
+        .tip-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .tip-text {
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            color: var(--primary-dark);
         }
     </style>
 </head>
@@ -434,7 +679,7 @@
             <a href="{{ route('client.dashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
             <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
             <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
-            <a href="{{ route('client.planification') }}"><i class="fas fa-calendar-alt"></i> Planification</a>
+            <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
             <a href="{{ route('client.profil') }}"><i class="fas fa-user-cog"></i> Profil</a>
         </div>
         
@@ -444,7 +689,6 @@
             </div>
             <span>{{ auth()->user()->client->first_name }}</span>
             <div class="user-dropdown">
-              
                 <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </div>
@@ -453,114 +697,219 @@
     <!-- Contenu Principal -->
     <main class="main-content">
         <!-- Section Tableau de Bord -->
-        <div class="welcome-banner fade-in">
-            <h2>Bienvenue, {{ auth()->user()->client->first_name }} !</h2>
-            <p>Voici un aperçu de vos voyages et activités récentes.</p>
+        <div class="welcome-banner fade-in" data-aos="fade-up">
+            <div class="floating-element" style="width: 100px; height: 100px; top: 20px; left: 30px;"></div>
+            <div class="floating-element" style="width: 150px; height: 150px; bottom: -50px; right: 50px;"></div>
+            
+            <h2>Bonjour, {{ auth()->user()->client->first_name }} ! ✈️</h2>
+            <p>Prêt pour votre prochaine aventure ? Découvrez ce qui vous attend.</p>
+            
+            <div style="margin-top: 1.5rem;">
+                <a href="#" class="btn floating" style="animation-delay: 0.2s;">
+                    <i class="fas fa-plus"></i> Nouveau voyage
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
-            <div class="alert fade-in">
+            <div class="alert fade-in" data-aos="fade-up">
                 <div>
                     <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
                     {{ session('success') }}
                 </div>
-                <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.remove(), 300)" style="background: none; border: none; cursor: pointer;">×</button>
+                <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.remove(), 300)" style="background: none; border: none; cursor: pointer; color: inherit;">×</button>
             </div>
         @endif
 
-        <div class="section-header">
-            <h1><i class="fas fa-chart-line"></i> Aperçu</h1>
-            <a href="{{ route('client.reservations') }}" class="btn">Voir mes réservations</a>
+        <div class="section-header" data-aos="fade-up">
+            <h1><i class="fas fa-chart-pie"></i> Votre activité</h1>
+            <a href="{{ route('client.reservations') }}" class="btn">
+                <i class="fas fa-arrow-right"></i> Explorer
+            </a>
         </div>
 
-        <div class="card-grid fade-in">
-            <div class="card">
+        <div class="card-grid">
+            <div class="card card-3d" data-aos="fade-up" data-aos-delay="100">
                 <div class="card-header">
                     <h3 class="card-title">Réservations confirmées</h3>
                     <i class="fas fa-check-circle card-icon"></i>
                 </div>
                 <div class="card-body">
-                    <div class="stat-value" style="color: var(--primary);">{{ $reservations->where('statut', 'confirmée')->count() }}</div>
+                    <div class="stat-value">{{ $reservations->where('statut', 'confirmée')->count() }}</div>
                     <div class="stat-label">Voyages à venir</div>
                 </div>
             </div>
             
-            <div class="card">
+            <div class="card card-3d" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-header">
                     <h3 class="card-title">En attente</h3>
-                    <i class="fas fa-hourglass-half card-icon" style="color: var(--warning);"></i>
+                    <i class="fas fa-hourglass-half card-icon"></i>
                 </div>
                 <div class="card-body">
-                    <div class="stat-value" style="color: var(--warning);">{{ $reservations->where('statut', 'en attente')->count() }}</div>
+                    <div class="stat-value" style="color: var(--warning);">
+                        {{ $reservations->where('statut', 'en attente')->count() }}
+                    </div>
                     <div class="stat-label">En cours de traitement</div>
                 </div>
             </div>
             
-            <div class="card">
+            <div class="card card-3d" data-aos="fade-up" data-aos-delay="300">
                 <div class="card-header">
                     <h3 class="card-title">Prochaine réservation</h3>
-                    <i class="fas fa-calendar-day card-icon" style="color: var(--danger);"></i>
+                    <i class="fas fa-calendar-day card-icon"></i>
                 </div>
                 <div class="card-body">
                     <div class="stat-value" style="font-size: 1.5rem; color: var(--dark);">15 Juin 2023</div>
                     <div class="stat-label">Paris → New York</div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="badge">
+                            <i class="fas fa-plane"></i> Vol + Hôtel
+                        </span>
+                    </div>
                 </div>
             </div>
             
-            <div class="card">
+            <div class="card card-3d" data-aos="fade-up" data-aos-delay="400">
                 <div class="card-header">
                     <h3 class="card-title">Points fidélité</h3>
-                    <i class="fas fa-gem card-icon" style="color: var(--success);"></i>
+                    <i class="fas fa-gem card-icon"></i>
                 </div>
                 <div class="card-body">
-                    <div class="stat-value" style="color: var(--success);">1,250</div>
+                    <div class="stat-value" style="color: var(--success);">
+                        1,250
+                    </div>
                     <div class="stat-label">Points disponibles</div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Niveau Silver</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="section-header" style="margin-top: 2rem;">
-            <h1><i class="fas fa-bell"></i> Notifications récentes</h1>
+        <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
+            <h1><i class="fas fa-map-marked-alt"></i> Vos prochaines destinations</h1>
         </div>
         
-        <div class="card fade-in">
-            <div class="notification-item">
-                <div class="notification-icon" style="background: var(--primary-light); color: var(--primary);">
-                    <i class="fas fa-check"></i>
+        <div class="destinations">
+            <div class="destination-card" style="background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');" data-aos="fade-right">
+                <div class="destination-overlay">
+                    <div class="destination-name">New York</div>
+                    <div class="destination-date">15-22 Juin 2023</div>
                 </div>
-                <div class="notification-content">
-                    <h3 class="notification-title">Réservation confirmée</h3>
-                    <p class="notification-text">Votre voyage à New York a été confirmé</p>
-                </div>
-                <span class="notification-time">Il y a 2 jours</span>
             </div>
             
-            <div class="notification-item">
-                <div class="notification-icon" style="background: rgba(255, 193, 7, 0.1); color: var(--warning);">
-                    <i class="fas fa-clock"></i>
+            <div class="destination-card" style="background-image: url('https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');" data-aos="fade-right" data-aos-delay="100">
+                <div class="destination-overlay">
+                    <div class="destination-name">Tokyo</div>
+                    <div class="destination-date">10-20 Août 2023</div>
                 </div>
-                <div class="notification-content">
-                    <h3 class="notification-title">Paiement reçu</h3>
-                    <p class="notification-text">Nous avons reçu votre paiement pour Tokyo</p>
-                </div>
-                <span class="notification-time">Il y a 5 jours</span>
             </div>
             
-            <div class="notification-item">
-                <div class="notification-icon" style="background: rgba(137, 202, 6, 0.1); color: var(--primary);">
-                    <i class="fas fa-user-edit"></i>
+            <div class="destination-card" style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');" data-aos="fade-right" data-aos-delay="200">
+                <div class="destination-overlay">
+                    <div class="destination-name">Bali</div>
+                    <div class="destination-date">5-15 Décembre 2023</div>
                 </div>
-                <div class="notification-content">
-                    <h3 class="notification-title">Profil mis à jour</h3>
-                    <p class="notification-text">Vous avez modifié votre numéro de téléphone</p>
+            </div>
+            
+            <div class="destination-card" style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');" data-aos="fade-right" data-aos-delay="300">
+                <div class="destination-overlay">
+                    <div class="destination-name">Paris</div>
+                    <div class="destination-date">Mars 2024</div>
                 </div>
-                <span class="notification-time">Il y a 1 semaine</span>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
+            <h1><i class="fas fa-clock-rotate-left"></i> Dernières activités</h1>
+        </div>
+        
+        <div class="card fade-in" data-aos="fade-up">
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="activity-content">
+                    <h3 class="activity-title">Réservation effectuée</h3>
+                    <p class="activity-text">Vous avez réservé un vol pour New York (JFK) le 15 juin 2023</p>
+                </div>
+                <span class="activity-time">Il y a 2 jours</span>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(255, 193, 7, 0.1); color: var(--warning);">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <div class="activity-content">
+                    <h3 class="activity-title">Hôtel réservé</h3>
+                    <p class="activity-text">Hôtel The Ritz-Carlton New York pour 7 nuits</p>
+                </div>
+                <span class="activity-time">Il y a 5 jours</span>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon" style="background: rgba(40, 167, 69, 0.1); color: var(--success);">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <div class="activity-content">
+                    <h3 class="activity-title">Paiement confirmé</h3>
+                    <p class="activity-text">Votre paiement de 1 250€ a été accepté</p>
+                </div>
+                <span class="activity-time">Il y a 1 semaine</span>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 3rem;" data-aos="fade-up">
+            <h1><i class="fas fa-lightbulb"></i> Conseils de voyage</h1>
+        </div>
+
+        <div class="travel-tips" data-aos="fade-up">
+            <div class="tip-card">
+                <div class="tip-image" style="background-image: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="tip-content">
+                    <h3 class="tip-title">Préparer sa valise</h3>
+                    <p class="tip-text">Découvrez notre checklist ultime pour ne rien oublier avant votre départ en voyage.</p>
+                    <a href="{{ route('about') }}" class="read-more">Lire plus <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-image" style="background-image: url('https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="tip-content">
+                    <h3 class="tip-title">Voyager avec des enfants</h3>
+                    <p class="tip-text">Nos astuces pour un voyage en famille serein et agréable.</p>
+                    <a href="{{ route('about') }}" class="read-more">Lire plus <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <div class="tip-image" style="background-image: url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="tip-content">
+                    <h3 class="tip-title">Assurances voyage</h3>
+                    <p class="tip-text">Tout ce qu'il faut savoir pour bien choisir votre assurance voyage.</p>
+                    <a href="{{ route('service') }}" class="read-more">Lire plus <i class="fas fa-arrow-right"></i></a>
+                </div>
             </div>
         </div>
     </main>
 
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
             // Auto-hide success alert after 5 seconds
             const successAlert = document.querySelector('.alert');
             if (successAlert) {
@@ -569,6 +918,43 @@
                     setTimeout(() => successAlert.remove(), 300);
                 }, 5000);
             }
+
+            // Add floating elements to welcome banner
+            const banner = document.querySelector('.welcome-banner');
+            for (let i = 0; i < 5; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.width = `${Math.random() * 100 + 50}px`;
+                element.style.height = element.style.width;
+                element.style.top = `${Math.random() * 100}%`;
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.opacity = Math.random() * 0.3 + 0.1;
+                element.style.animation = `float ${Math.random() * 5 + 3}s ease-in-out infinite`;
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                banner.appendChild(element);
+            }
+
+            // Add sparkle effect to cards on hover
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = `${e.clientX - card.getBoundingClientRect().left}px`;
+                    sparkle.style.top = `${e.clientY - card.getBoundingClientRect().top}px`;
+                    card.appendChild(sparkle);
+                    
+                    // Animate sparkle
+                    setTimeout(() => {
+                        sparkle.style.opacity = '0.8';
+                        sparkle.style.transform = 'scale(1.5)';
+                        setTimeout(() => {
+                            sparkle.style.opacity = '0';
+                            setTimeout(() => sparkle.remove(), 300);
+                        }, 200);
+                    }, 10);
+                });
+            });
         });
     </script>
 </body>

@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Mon Profil | FM Voyage</title>
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --white: hsl(0, 0%, 100%);
@@ -131,6 +128,17 @@
             justify-content: center;
             color: var(--primary);
             font-weight: 600;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar span {
+            font-size: 1.2rem;
         }
 
         .user-dropdown {
@@ -245,6 +253,12 @@
             margin: 0 auto 1.5rem;
             position: relative;
             overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-avatar-text {
@@ -375,6 +389,11 @@
             box-shadow: 0 0 0 3px var(--primary-light);
         }
 
+        .form-control:disabled {
+            background: var(--gray-light);
+            cursor: not-allowed;
+        }
+
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -439,6 +458,10 @@
             padding-left: 2.5rem;
         }
 
+        .hidden {
+            display: none;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -497,16 +520,19 @@
             <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
             <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
             <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
-            <a href="{{ route('client.planification') }}"><i class="fas fa-calendar-alt"></i> Planification</a>
+            <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
             <a href="{{ route('client.profil') }}" class="active"><i class="fas fa-user-cog"></i> Profil</a>
         </div>
         <div class="user-profile">
             <div class="user-avatar">
-                {{ strtoupper(substr(auth()->user()->client->first_name, 0, 1)) }}
+                @if (auth()->user()->client && auth()->user()->client->profile_picture)
+                    <img src="{{ asset('storage/profiles/' . auth()->user()->client->profile_picture) }}" alt="Profile Picture">
+                @else
+                    <span>{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                @endif
             </div>
-            <span>{{ auth()->user()->client->first_name }}</span>
+            <span>{{ auth()->user()->name }}</span>
             <div class="user-dropdown">
-              
                 <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </div>
@@ -519,18 +545,21 @@
         <div class="profile-container fade-in">
             <div class="profile-sidebar">
                 <div class="profile-avatar">
-                    <div class="profile-avatar-text">
-                        {{ strtoupper(substr(auth()->user()->client->first_name, 0, 1)) }}
-                    </div>
-                    <div class="profile-avatar-upload">
+                    @if (auth()->user()->client && auth()->user()->client->profile_picture)
+                        <img src="{{ asset('storage/profiles/' . auth()->user()->client->profile_picture) }}" alt="Profile Picture">
+                    @else
+                        <span class="profile-avatar-text">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                    @endif
+                    <label for="profile_picture" class="profile-avatar-upload">
                         <i class="fas fa-camera"></i> Changer la photo
-                    </div>
+                    </label>
+                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="hidden">
                 </div>
-                <h2 class="profile-name">{{ auth()->user()->client->first_name }} {{ auth()->user()->client->last_name }}</h2>
+                <h2 class="profile-name">{{ auth()->user()->name }}</h2>
                 <p class="profile-email">{{ auth()->user()->email }}</p>
                 <div class="profile-stats">
                     <div class="profile-stat">
-                        <div class="profile-stat-value">5</div>
+                        <div class="profile-stat-value">{{ auth()->user()->reservations ? auth()->user()->reservations->count() : 0 }}</div>
                         <div class="profile-stat-label">Voyages</div>
                     </div>
                     <div class="profile-stat">
@@ -554,41 +583,72 @@
                         <p class="profile-header-subtitle">Gérez vos informations personnelles et vos coordonnées</p>
                     </div>
                 </div>
-                <form action="{{ route('client.updateProfile') }}" method="POST" class="profile-form">
+                <form action="{{ route('client.updateProfile') }}" method="POST" class="profile-form" enctype="multipart/form-data" id="profileForm">
                     @csrf
                     @method('PUT')
                     <div class="form-group-header">
-                        <h3 class="form-group-title">Informations de base</h3>
-                        <p class="form-group-subtitle">Ces informations seront utilisées pour vos réservations</p>
+                        <h3 class="form-group-title">Compte</h3>
+                        <p class="form-group-subtitle">Modifiez vos informations de connexion</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="current_password">Mot de passe actuel</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="current_password" name="current_password" class="form-control">
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="first_name">Prénom</label>
                             <div class="input-with-icon">
                                 <i class="fas fa-user input-icon"></i>
-                                <input type="text" id="first_name" name="first_name" class="form-control" value="{{ auth()->user()->client->first_name }}" required>
+                                <input type="text" id="first_name" name="first_name" class="form-control" 
+                                       value="{{ auth()->user()->client ? auth()->user()->client->first_name : old('first_name') }}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="last_name">Nom</label>
                             <div class="input-with-icon">
                                 <i class="fas fa-user input-icon"></i>
-                                <input type="text" id="last_name" name="last_name" class="form-control" value="{{ auth()->user()->client->last_name }}" required>
+                                <input type="text" id="last_name" name="last_name" class="form-control" 
+                                       value="{{ auth()->user()->client ? auth()->user()->client->last_name : old('last_name') }}" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-%EC                <div class="input-with-icon">
+                        <div class="input-with-icon">
                             <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" id="email" name="email" class="form-control" value="{{ auth()->user()->email }}" required>
+                            <input type="email" id="email" name="email" class="form-control" 
+                                   value="{{ auth()->user()->email }}" required>
                         </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Nouveau mot de passe</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="password" name="password" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirmer le mot de passe</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-header">
+                        <h3 class="form-group-title">Informations supplémentaires</h3>
+                        <p class="form-group-subtitle">Certaines informations ne peuvent être saisies qu'une seule fois</p>
                     </div>
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
                         <div class="input-with-icon">
                             <i class="fas fa-phone input-icon"></i>
-                            <input type="tel" id="phone" name="phone" class="form-control" value="{{ auth()->user()->client->phone ?? '' }}">
+                            <input type="tel" id="phone" name="phone" class="form-control" 
+                                   value="{{ auth()->user()->client ? auth()->user()->client->phone : old('phone') }}">
                         </div>
                     </div>
                     <div class="form-row">
@@ -596,60 +656,113 @@
                             <label for="birth_date">Date de naissance</label>
                             <div class="input-with-icon">
                                 <i class="fas fa-calendar-alt input-icon"></i>
-                                <input type="date" id="birth_date" name="birth_date" class="form-control" value="{{ auth()->user()->client->birth_date ?? '' }}">
+                                <input type="date" id="birth_date" name="birth_date" class="form-control" 
+                                       value="{{ auth()->user()->client ? auth()->user()->client->birth_date : old('birth_date') }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="gender">Genre</label>
                             <select id="gender" name="gender" class="form-control">
-                                <option value="">Sélectionner</option>
-                                <option value="male" {{ auth()->user()->client->gender == 'male' ? 'selected' : '' }}>Masculin</option>
-                                <option value="female" {{ auth()->user()->client->gender == 'female' ? 'selected' : '' }}>Féminin</option>
-                                <option value="other" {{ auth()->user()->client->gender == 'other' ? 'selected' : '' }}>Autre</option>
+                                <option value="" {{ !auth()->user()->client || !auth()->user()->client->gender ? 'selected' : '' }}>Sélectionner</option>
+                                <option value="male" {{ auth()->user()->client && auth()->user()->client->gender == 'male' ? 'selected' : '' }}>Masculin</option>
+                                <option value="female" {{ auth()->user()->client && auth()->user()->client->gender == 'female' ? 'selected' : '' }}>Féminin</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group-header">
-                        <h3 class="form-group-title">Adresse</h3>
-                        <p class="form-group-subtitle">Votre adresse de facturation et de livraison</p>
                     </div>
                     <div class="form-group">
                         <label for="address">Adresse</label>
                         <div class="input-with-icon">
                             <i class="fas fa-home input-icon"></i>
-                            <input type="text" id="address" name="address" class="form-control" value="{{ auth()->user()->client->address ?? '' }}">
+                            <input type="text" id="address" name="address" class="form-control" 
+                                   value="{{ auth()->user()->client ? auth()->user()->client->address : old('address') }}">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="city">Ville</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-city input-icon"></i>
-                                <input type="text" id="city" name="city" class="form-control" value="{{ auth()->user()->client->city ?? '' }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="zip_code">Code postal</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-map-marker-alt input-icon"></i>
-                                <input type="text" id="zip_code" name="zip_code" class="form-control" value="{{ auth()->user()->client->zip_code ?? '' }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="country">Pays</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-globe input-icon"></i>
-                                <input type="text" id="country" name="country" class="form-control" value="{{ auth()->user()->client->country ?? '' }}">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="profile_picture">Photo de profil</label>
+                        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="form-control">
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="btn btn-outline">Annuler</button>
+                        <button type="button" class="btn btn-outline" onclick="window.location.href='{{ route('client.profil') }}'">Annuler</button>
                         <button type="submit" class="btn">Enregistrer les modifications</button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const avatarUpload = document.querySelector('.profile-avatar-upload');
+        const avatarInput = document.querySelector('#profile_picture');
+        const sidebarAvatar = document.querySelector('.profile-avatar');
+        const navbarAvatar = document.querySelector('.user-avatar');
+
+        if (avatarUpload && avatarInput) {
+            avatarUpload.addEventListener('click', function() {
+                avatarInput.click();
+            });
+
+            avatarInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    if (!file.type.startsWith('image/')) {
+                        alert('Veuillez sélectionner une image valide.');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Profile Picture';
+
+                        // Update sidebar avatar
+                        const sidebarImg = sidebarAvatar.querySelector('img');
+                        const sidebarText = sidebarAvatar.querySelector('.profile-avatar-text');
+                        if (sidebarImg) {
+                            sidebarImg.src = e.target.result;
+                        } else if (sidebarText) {
+                            sidebarAvatar.replaceChild(img.cloneNode(), sidebarText);
+                        }
+
+                        // Update navbar avatar
+                        const navbarImg = navbarAvatar.querySelector('img');
+                        const navbarText = navbarAvatar.querySelector('span');
+                        if (navbarImg) {
+                            navbarImg.src = e.target.result;
+                        } else if (navbarText) {
+                            navbarAvatar.replaceChild(img.cloneNode(), navbarText);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        const form = document.querySelector('#profileForm');
+        const emailInput = document.querySelector('#email');
+        const passwordInput = document.querySelector('#password');
+        const currentPasswordInput = document.querySelector('#current_password');
+        const originalEmail = emailInput.value;
+
+        form.addEventListener('submit', function(event) {
+            const isEmailChanged = emailInput.value !== originalEmail;
+            const isPasswordChanged = passwordInput.value.trim() !== '';
+
+            if ((isEmailChanged || isPasswordChanged) && !currentPasswordInput.value.trim()) {
+                event.preventDefault();
+                alert('Veuillez entrer votre mot de passe actuel pour modifier l\'email ou le mot de passe.');
+                currentPasswordInput.focus();
+            }
+        });
+
+        @if (session('success'))
+            alert('{{ session('success') }}');
+        @endif
+        @if ($errors->any())
+            alert('Erreur : {{ $errors->first() }}');
+        @endif
+    });
+    </script>
 </body>
 </html>

@@ -548,7 +548,7 @@
                                 <div class="alert alert-warning">
                                     <i class="fas fa-exclamation-triangle me-2"></i>
                                     Vous devez <a href="{{ route('login') }}">vous connecter</a> ou 
-                                    <a href="{{ route('register') }}">créer un compte</a> pour générer un plan de voyage.
+                                    
                                 </div>
                                 @endauth
                             </form>  
@@ -822,60 +822,108 @@
 
             // Soumission du formulaire
             form.addEventListener("submit", function(event) {
-                event.preventDefault();
+    event.preventDefault();
 
-                // Afficher le spinner
-                document.getElementById("spinner").classList.add("show");
+    // Afficher le spinner
+    document.getElementById("spinner").classList.add("show");
 
-                // Simuler un délai pour la génération du plan (à remplacer par une requête AJAX en production)
-                setTimeout(function() {
-                    // Récupérer les données du formulaire
-                    const formData = {
-                        nom: document.getElementById("nom").value,
-                        email: document.getElementById("email").value,
-                        destination: document.getElementById("destination").value,
-                        date_depart: document.getElementById("date_depart").value,
-                        duree: document.getElementById("duree").value,
-                        budget: document.getElementById("budget").value,
-                        nombre_personnes: document.getElementById("nombre_personnes").value,
-                        type_voyage: document.getElementById("type_voyage").value,
-                        preferences: document.getElementById("preferences").value
-                    };
+    // Récupérer les données du formulaire
+    const formData = {
+        nom: document.getElementById("nom").value,
+        email: document.getElementById("email").value,
+        destination: document.getElementById("destination").value,
+        date_depart: document.getElementById("date_depart").value,
+        duree: document.getElementById("duree").value,
+        budget: document.getElementById("budget").value,
+        nombre_personnes: document.getElementById("nombre_personnes").value,
+        type_voyage: document.getElementById("type_voyage").value,
+        preferences: document.getElementById("preferences").value,
+        plan_content: '', // Sera rempli après génération
+        _token: document.querySelector('input[name="_token"]').value // CSRF token
+    };
 
-                    // Générer un plan personnalisé
-                    const plan = genererPlanPersonnalise(formData);
+    // Générer le plan personnalisé
+    const plan = genererPlanPersonnalise(formData);
+    formData.plan_content = plan;
 
-                    // Afficher le plan personnalisé
-                    personalizedPlanContent.innerHTML = plan;
-                    personalizedPlanContainer.classList.remove("hidden");
+    // Envoyer la requête AJAX
+    fetch('{{ route("travel-plans.store") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': formData._token
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Afficher le plan personnalisé
+        personalizedPlanContent.innerHTML = plan;
+        personalizedPlanContainer.classList.remove("hidden");
 
-                    // Stocker le plan pour sauvegarde
-                    localStorage.setItem('savedPlan', JSON.stringify({
-                        destination: formData.destination,
-                        date_depart: formData.date_depart,
-                        duree: formData.duree,
-                        nombre_personnes: formData.nombre_personnes,
-                        planContent: plan
-                    }));
+        // Stocker le plan pour sauvegarde
+        localStorage.setItem('savedPlan', JSON.stringify({
+            destination: formData.destination,
+            date_depart: formData.date_depart,
+            duree: formData.duree,
+            nombre_personnes: formData.nombre_personnes,
+            planContent: plan
+        }));
 
-                    // Faire défiler jusqu'au plan
-                    personalizedPlanContainer.scrollIntoView({ behavior: 'smooth' });
+        // Faire défiler jusqu'au plan
+        personalizedPlanContainer.scrollIntoView({ behavior: 'smooth' });
 
-                    // Cacher le spinner
-                    document.getElementById("spinner").classList.remove("show");
-                }, 1500);
-            });
+        // Afficher un message de succès
+        alert(data.message);
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de la sauvegarde du plan.');
+    })
+    .finally(() => {
+        // Cacher le spinner
+        document.getElementById("spinner").classList.remove("show");
+    });
+});
 
             // Bouton Sauvegarder
-            savePlanBtn.addEventListener("click", function() {
-                const savedPlan = JSON.parse(localStorage.getItem('savedPlan'));
-                if (savedPlan) {
-                    // Confirmer la sauvegarde
-                    alert("Votre plan a été sauvegardé avec succès ! Il sera visible dans votre liste de voyages.");
-                } else {
-                    alert("Aucun plan à sauvegarder. Veuillez générer un plan d'abord.");
-                }
-            });
+savePlanBtn.addEventListener("click", function() {
+    const savedPlan = JSON.parse(localStorage.getItem('savedPlan'));
+    if (!savedPlan) {
+        alert("Aucun plan à sauvegarder. Veuillez générer un plan d'abord.");
+        return;
+    }
+
+    // Envoyer la requête AJAX
+    fetch('{{ route("travel-plans.store") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+        },
+        body: JSON.stringify({
+            nom: savedPlan.nom || document.getElementById("nom").value,
+            email: savedPlan.email || document.getElementById("email").value,
+            destination: savedPlan.destination,
+            date_depart: savedPlan.date_depart,
+            duree: savedPlan.duree,
+            budget: savedPlan.budget || document.getElementById("budget").value,
+            nombre_personnes: savedPlan.nombre_personnes,
+            type_voyage: savedPlan.type_voyage || document.getElementById("type_voyage").value,
+            preferences: savedPlan.preferences || document.getElementById("preferences").value,
+            plan_content: savedPlan.planContent
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        localStorage.removeItem('savedPlan'); // Supprimer après sauvegarde
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert("Erreur lors de la sauvegarde.");
+    });
+});
 
             // Bouton Imprimer
             printPlanBtn.addEventListener("click", function() {
