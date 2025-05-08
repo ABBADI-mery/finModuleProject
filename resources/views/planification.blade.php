@@ -213,53 +213,6 @@
             font-size: 0.9rem;
         }
 
-        .plan-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn-plan {
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-save {
-            background-color: #86B817;
-            color: white;
-            border: 2px solid #86B817;
-        }
-
-        .btn-save:hover {
-            background-color: #76a80e;
-            border-color: #76a80e;
-        }
-
-        .btn-print {
-            background-color: white;
-            color: #3498db;
-            border: 2px solid #3498db;
-        }
-
-        .btn-print:hover {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .btn-email {
-            background-color: white;
-            color: #e74c3c;
-            border: 2px solid #e74c3c;
-        }
-
-        .btn-email:hover {
-            background-color: #e74c3c;
-            color: white;
-        }
-
         .search-container {
             text-align: center;
             margin: 40px auto;
@@ -389,14 +342,6 @@
 
             .personalized-plan {
                 padding: 25px;
-            }
-
-            .plan-actions {
-                flex-direction: column;
-            }
-
-            .btn-plan {
-                width: 100%;
             }
         }
     </style>
@@ -563,18 +508,6 @@
     <div id="personalizedPlanContainer" class="personalized-plan hidden">
         <h2 class="text-center mb-4">Votre Plan de Voyage Personnalisé</h2>
         <div id="personalizedPlanContent"></div>
-
-        <div class="plan-actions">
-            <button class="btn btn-plan btn-save" id="savePlanBtn">
-                <i class="far fa-save me-2"></i>Sauvegarder
-            </button>
-            <button class="btn btn-plan btn-print" id="printPlanBtn">
-                <i class="fas fa-print me-2"></i>Imprimer
-            </button>
-            <button class="btn btn-plan btn-email" id="emailPlanBtn">
-                <i class="far fa-envelope me-2"></i>Envoyer par Email
-            </button>
-        </div>
     </div>
 
     <!-- Plans Recommandés -->
@@ -789,9 +722,6 @@
             const personalizedPlanContent = document.getElementById("personalizedPlanContent");
             const searchInput = document.getElementById("searchInput");
             const noResults = document.getElementById("noResults");
-            const savePlanBtn = document.getElementById("savePlanBtn");
-            const printPlanBtn = document.getElementById("printPlanBtn");
-            const emailPlanBtn = document.getElementById("emailPlanBtn");
 
             // Gestion de la recherche
             searchInput.addEventListener("input", function () {
@@ -822,120 +752,37 @@
 
             // Soumission du formulaire
             form.addEventListener("submit", function(event) {
-    event.preventDefault();
+                event.preventDefault();
 
-    // Afficher le spinner
-    document.getElementById("spinner").classList.add("show");
+                // Afficher le spinner
+                document.getElementById("spinner").classList.add("show");
 
-    // Récupérer les données du formulaire
-    const formData = {
-        nom: document.getElementById("nom").value,
-        email: document.getElementById("email").value,
-        destination: document.getElementById("destination").value,
-        date_depart: document.getElementById("date_depart").value,
-        duree: document.getElementById("duree").value,
-        budget: document.getElementById("budget").value,
-        nombre_personnes: document.getElementById("nombre_personnes").value,
-        type_voyage: document.getElementById("type_voyage").value,
-        preferences: document.getElementById("preferences").value,
-        plan_content: '', // Sera rempli après génération
-        _token: document.querySelector('input[name="_token"]').value // CSRF token
-    };
+                // Récupérer les données du formulaire
+                const formData = {
+                    nom: document.getElementById("nom").value,
+                    email: document.getElementById("email").value,
+                    destination: document.getElementById("destination").value,
+                    date_depart: document.getElementById("date_depart").value,
+                    duree: document.getElementById("duree").value,
+                    budget: document.getElementById("budget").value,
+                    nombre_personnes: document.getElementById("nombre_personnes").value,
+                    type_voyage: document.getElementById("type_voyage").value,
+                    preferences: document.getElementById("preferences").value,
+                    _token: document.querySelector('input[name="_token"]').value // CSRF token
+                };
 
-    // Générer le plan personnalisé
-    const plan = genererPlanPersonnalise(formData);
-    formData.plan_content = plan;
+                // Générer le plan personnalisé
+                const plan = genererPlanPersonnalise(formData);
 
-    // Envoyer la requête AJAX
-    fetch('{{ route("travel-plans.store") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': formData._token
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Afficher le plan personnalisé
-        personalizedPlanContent.innerHTML = plan;
-        personalizedPlanContainer.classList.remove("hidden");
+                // Afficher le plan personnalisé
+                personalizedPlanContent.innerHTML = plan;
+                personalizedPlanContainer.classList.remove("hidden");
 
-        // Stocker le plan pour sauvegarde
-        localStorage.setItem('savedPlan', JSON.stringify({
-            destination: formData.destination,
-            date_depart: formData.date_depart,
-            duree: formData.duree,
-            nombre_personnes: formData.nombre_personnes,
-            planContent: plan
-        }));
+                // Faire défiler jusqu'au plan
+                personalizedPlanContainer.scrollIntoView({ behavior: 'smooth' });
 
-        // Faire défiler jusqu'au plan
-        personalizedPlanContainer.scrollIntoView({ behavior: 'smooth' });
-
-        // Afficher un message de succès
-        alert(data.message);
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        alert('Une erreur est survenue lors de la sauvegarde du plan.');
-    })
-    .finally(() => {
-        // Cacher le spinner
-        document.getElementById("spinner").classList.remove("show");
-    });
-});
-
-            // Bouton Sauvegarder
-savePlanBtn.addEventListener("click", function() {
-    const savedPlan = JSON.parse(localStorage.getItem('savedPlan'));
-    if (!savedPlan) {
-        alert("Aucun plan à sauvegarder. Veuillez générer un plan d'abord.");
-        return;
-    }
-
-    // Envoyer la requête AJAX
-    fetch('{{ route("travel-plans.store") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-        },
-        body: JSON.stringify({
-            nom: savedPlan.nom || document.getElementById("nom").value,
-            email: savedPlan.email || document.getElementById("email").value,
-            destination: savedPlan.destination,
-            date_depart: savedPlan.date_depart,
-            duree: savedPlan.duree,
-            budget: savedPlan.budget || document.getElementById("budget").value,
-            nombre_personnes: savedPlan.nombre_personnes,
-            type_voyage: savedPlan.type_voyage || document.getElementById("type_voyage").value,
-            preferences: savedPlan.preferences || document.getElementById("preferences").value,
-            plan_content: savedPlan.planContent
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        localStorage.removeItem('savedPlan'); // Supprimer après sauvegarde
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        alert("Erreur lors de la sauvegarde.");
-    });
-});
-
-            // Bouton Imprimer
-            printPlanBtn.addEventListener("click", function() {
-                window.print();
-            });
-
-            // Bouton Email
-            emailPlanBtn.addEventListener("click", function() {
-                const email = prompt("Entrez votre adresse email pour recevoir votre plan:");
-                if (email) {
-                    alert(`Votre plan de voyage a été envoyé à ${email}`);
-                }
+                // Cacher le spinner
+                document.getElementById("spinner").classList.remove("show");
             });
 
             // Fonction pour générer un plan personnalisé

@@ -705,7 +705,7 @@
             <p>Prêt pour votre prochaine aventure ? Découvrez ce qui vous attend.</p>
             
             <div style="margin-top: 1.5rem;">
-                <a href="#" class="btn floating" style="animation-delay: 0.2s;">
+                <a href="{{ route('package') }}" class="btn floating" style="animation-delay: 0.2s;">
                     <i class="fas fa-plus"></i> Nouveau voyage
                 </a>
             </div>
@@ -794,6 +794,7 @@
 
         <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
             <h1><i class="fas fa-map-marked-alt"></i> Vos prochaines destinations</h1>
+            
         </div>
         
         <div class="destinations">
@@ -828,6 +829,9 @@
 
         <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
             <h1><i class="fas fa-clock-rotate-left"></i> Dernières activités</h1>
+            <a href="{{ route('planification') }}" class="btn">
+                <i class="fas fa-arrow-right"></i> gérer votre plan préfére
+            </a>
         </div>
         
         <div class="card fade-in" data-aos="fade-up">
@@ -867,6 +871,9 @@
 
         <div class="section-header" style="margin-top: 3rem;" data-aos="fade-up">
             <h1><i class="fas fa-lightbulb"></i> Conseils de voyage</h1>
+            <a href="{{ route('package') }}" class="btn floating" style="animation-delay: 0.2s;">
+                    <i class="fas fa-plus"></i> Nouveau voyage
+                </a>
         </div>
 
         <div class="travel-tips" data-aos="fade-up">

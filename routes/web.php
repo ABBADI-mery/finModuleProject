@@ -9,6 +9,7 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\TestimonialController;
 
 // Pages publiques
 Route::get('/', function () {
@@ -128,3 +129,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/travel-plans', [PlanificationController::class, 'store'])->name('travel-plans.store');
     Route::get('/travel-plans', [PlanificationController::class, 'index'])->name('travel-plans.index');
 });
+
+
+
+
+
+
+
+
+Route::get('/testimonial', [TestimonialController::class, 'index'])->name('testimonial');
+Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
