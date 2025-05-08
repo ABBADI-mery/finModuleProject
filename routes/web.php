@@ -73,7 +73,7 @@ Route::get('/admin/assurances', [AssuranceController::class, 'index'])->name('as
 Route::get('/admin/reservations', [ReservationController::class, 'index'])->name('reservations.index');
 Route::post('/reservations/{reservation}/approve', [ReservationController::class, 'approve'])->name('reservations.approve');
 Route::post('/reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
-
+Route::get('/offre/{offre}/reservation', [ReservationController::class, 'create'])->name('reservation.create')->middleware('auth');
 // Gestion des utilisateurs
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::post('/users/{id}', [UserController::class, 'update'])->name('users.update');

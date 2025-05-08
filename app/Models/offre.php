@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class offre extends Model
+class Offre extends Model
 {
     use HasFactory;
 
@@ -17,6 +17,11 @@ class offre extends Model
         'price',
         'hotel_name',
         'description',
-        'image_path'
+        'image_path',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

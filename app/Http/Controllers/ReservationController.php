@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use App\Models\Offre;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -11,32 +12,31 @@ class ReservationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except('store'); // Utiliser 'role:admin' au lieu de 'admin'
+        $this->middleware('role:admin')->except(['store', 'create']);
     }
 
-    /**
-     * Display a listing of the reservations.
-     */
     public function index()
     {
-        $reservations = Reservation::with('assurances')->get();
+        $reservations = Reservation::with(['assurances', 'offre'])->get();
         return view('admin.reservations', compact('reservations'));
     }
 
-    /**
-     * Store a newly created reservation in storage.
-     */
+    public function create(Offre $offre)
+    {
+        return view('booking', compact('offre'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'destination' => 'required|string|max:255',
+            'preference_hotel' => 'required|string|max:255',
+            'nombre_passagers' => 'required|integer|min:1',
             'date_depart' => 'required|date|after_or_equal:today',
             'date_retour' => 'required|date|after:date_depart',
-            'nombre_passagers' => 'required|integer|min:1|max:10',
-            'destination' => 'required|string|max:255',
-            'preference_vol' => 'required|string|in:Économique,Affaires,Première classe',
-            'preference_hotel' => 'required|string|in:3 étoiles,4 étoiles,5 étoiles',
+            'offre_id' => 'required|exists:offres,id',
             'demande_speciale' => 'nullable|string|max:1000',
         ]);
 
@@ -44,39 +44,30 @@ class ReservationController extends Controller
             'user_id' => Auth::id(),
             'nom' => $validated['nom'],
             'email' => $validated['email'],
+            'destination' => $validated['destination'],
+            'preference_hotel' => $validated['preference_hotel'],
+            'nombre_passagers' => $validated['nombre_passagers'],
             'date_depart' => $validated['date_depart'],
             'date_retour' => $validated['date_retour'],
-            'nombre_passagers' => $validated['nombre_passagers'],
-            'destination' => $validated['destination'],
-            'preference_vol' => $validated['preference_vol'],
-            'preference_hotel' => $validated['preference_hotel'],
             'demande_speciale' => $validated['demande_speciale'],
             'statut' => 'en attente',
+            'offre_id' => $validated['offre_id'],
         ]);
 
-        return redirect()->back()->with('success', 'Réservation enregistrée avec succès !');
+        return redirect()->route('package')->with('success', 'Réservation enregistrée avec succès !');
     }
 
-    /**
-     * Approve a reservation.
-     */
     public function approve($id)
     {
         $reservation = Reservation::findOrFail($id);
         $reservation->update(['statut' => 'confirmée']);
-
         return redirect()->route('reservations.index')->with('success', 'Réservation confirmée avec succès !');
     }
 
-    /**
-     * Reject (cancel) a reservation.
-     */
     public function reject($id)
     {
         $reservation = Reservation::findOrFail($id);
         $reservation->update(['statut' => 'annulée']);
-
         return redirect()->route('reservations.index')->with('success', 'Réservation annulée avec succès !');
     }
-    
 }

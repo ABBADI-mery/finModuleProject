@@ -574,7 +574,7 @@
     <main class="main-content">
         <div class="section-header fade-in">
             <h1><i class="fas fa-suitcase"></i> Mes Réservations</h1>
-            <a href="{{ route('booking') }}" class="btn"><i class="fas fa-plus"></i> Nouvelle réservation</a>
+            <a href="{{ route('package') }}" class="btn"><i class="fas fa-plus"></i> Nouvelle réservation</a>
         </div>
 
         <div class="filters fade-in">
