@@ -793,7 +793,7 @@
         </div>
 
         <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
-            <h1><i class="fas fa-map-marked-alt"></i> Vos prochaines destinations</h1>
+            <h1><i class="fas fa-map-marked-alt"></i> Des meilleurs destinations proposés</h1>
             
         </div>
         
@@ -857,16 +857,6 @@
                 <span class="activity-time">Il y a 5 jours</span>
             </div>
             
-            <div class="activity-item">
-                <div class="activity-icon" style="background: rgba(40, 167, 69, 0.1); color: var(--success);">
-                    <i class="fas fa-check-double"></i>
-                </div>
-                <div class="activity-content">
-                    <h3 class="activity-title">Paiement confirmé</h3>
-                    <p class="activity-text">Votre paiement de 1 250€ a été accepté</p>
-                </div>
-                <span class="activity-time">Il y a 1 semaine</span>
-            </div>
         </div>
 
         <div class="section-header" style="margin-top: 3rem;" data-aos="fade-up">
