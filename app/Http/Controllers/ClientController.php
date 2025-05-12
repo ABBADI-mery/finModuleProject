@@ -232,4 +232,10 @@ class ClientController extends Controller
 
         return redirect()->route('client.reservations')->with('success', 'Réservation mise à jour avec succès.');
     }
+
+
+    public function plans()
+{
+    return view('client.plans');
+}
 }

@@ -105,6 +105,7 @@ Route::prefix('client')->name('client.')->middleware(['auth', 'role:client'])->g
     Route::get('/voyages', [ClientController::class, 'voyages'])->name('voyages');
     Route::get('/profil', [ClientController::class, 'profil'])->name('profil');
     Route::put('/profil', [ClientController::class, 'updateProfile'])->name('updateProfile');
+    Route::get('/plans', [ClientController::class, 'plans'])->name('plans');
 });
 
 

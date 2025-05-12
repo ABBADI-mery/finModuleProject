@@ -511,32 +511,31 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="brand">
-            <i class="fas fa-route brand-icon"></i>
-            <span class="brand-name">FM Voyage</span>
+   <nav class="navbar">
+    <div class="brand">
+        <i class="fas fa-route brand-icon"></i>
+        <span class="brand-name">FM Voyage</span>
+    </div>
+    
+    <div class="nav-menu">
+        <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+        <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
+        <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
+        <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
+        <a href="{{ route('client.plans') }}" ><i class="fas fa-map-marked-alt"></i> Planification</a>
+    </div>
+    
+    <div class="user-profile">
+        <div class="user-avatar">
+            {{ strtoupper(substr(auth()->user()->client->first_name, 0, 1)) }}
         </div>
-        <div class="nav-menu">
-            <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
-            <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
-            <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
-            <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
-            <a href="{{ route('client.profil') }}" class="active"><i class="fas fa-user-cog"></i> Profil</a>
+        <span>{{ auth()->user()->client->first_name }}</span>
+        <div class="user-dropdown">
+            <a href="{{ route('client.profil') }}"><i class="fas fa-user-cog"></i> Profil</a>
+            <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
         </div>
-        <div class="user-profile">
-            <div class="user-avatar">
-                @if (auth()->user()->client && auth()->user()->client->profile_picture)
-                    <img src="{{ asset('storage/profiles/' . auth()->user()->client->profile_picture) }}" alt="Profile Picture">
-                @else
-                    <span>{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
-                @endif
-            </div>
-            <span>{{ auth()->user()->name }}</span>
-            <div class="user-dropdown">
-                <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-            </div>
-        </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="main-content">
         <div class="section-header fade-in">

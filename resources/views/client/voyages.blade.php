@@ -46,6 +46,7 @@
             padding-top: 90px;
         }
 
+         /* Navigation Horizontale Fixe */
         .navbar {
             position: fixed;
             top: 0;
@@ -57,45 +58,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2.5rem;
-            height: 90px;
+            padding: 0 2rem;
+            height: 80px;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .brand-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--primary);
         }
 
         .brand-name {
             font-weight: 700;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--primary);
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-menu a {
             text-decoration: none;
             color: var(--dark);
             font-weight: 500;
-            padding: 0.5rem 0;
+            padding: 1rem 0;
             position: relative;
             transition: var(--transition);
         }
 
         .nav-menu a:hover {
             color: var(--primary);
-            transform: translateY(-2px);
         }
 
         .nav-menu a.active {
@@ -106,25 +106,25 @@
         .nav-menu a.active::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: var(--primary);
-            border-radius: 4px;
+            border-radius: 3px 3px 0 0;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             cursor: pointer;
             position: relative;
         }
 
         .user-avatar {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--primary-light);
             display: flex;
@@ -132,7 +132,6 @@
             justify-content: center;
             color: var(--primary);
             font-weight: 600;
-            font-size: 1.2rem;
         }
 
         .user-dropdown {
@@ -142,13 +141,13 @@
             background: var(--white);
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
-            padding: 1.2rem 0;
-            min-width: 220px;
+            padding: 1rem 0;
+            min-width: 200px;
             display: none;
             z-index: 100;
             transform: translateY(10px);
             opacity: 0;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .user-profile:hover .user-dropdown {
@@ -159,7 +158,7 @@
 
         .user-dropdown a {
             display: block;
-            padding: 0.8rem 1.8rem;
+            padding: 0.75rem 1.5rem;
             color: var(--dark);
             text-decoration: none;
             transition: var(--transition);
@@ -169,6 +168,7 @@
             background: var(--primary-light);
             color: var(--primary);
         }
+
 
         .main-content {
             padding: 3rem;
@@ -529,34 +529,35 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="brand">
-            <i class="fas fa-route brand-icon"></i>
-            <span class="brand-name">FM Voyage</span>
+   <nav class="navbar">
+    <div class="brand">
+        <i class="fas fa-route brand-icon"></i>
+        <span class="brand-name">FM Voyage</span>
+    </div>
+    
+    <div class="nav-menu">
+        <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
+        <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
+        <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
+        <a href="{{ route('client.voyages') }}"><i class="fas fa-calendar-alt"></i> Voyages</a>
+        <a href="{{ route('client.plans') }}" ><i class="fas fa-map-marked-alt"></i> Planification</a>
+    </div>
+    
+    <div class="user-profile">
+        <div class="user-avatar">
+            {{ strtoupper(substr(auth()->user()->client->first_name, 0, 1)) }}
         </div>
-
-        <div class="nav-menu">
-            <a href="{{ route('client.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a>
-            <a href="{{ route('client.reservations') }}"><i class="fas fa-suitcase"></i> Mes réservations</a>
-            <a href="{{ route('client.assurances') }}"><i class="fas fa-shield-alt"></i> Assurance</a>
-            <a href="{{ route('client.voyages') }}" class="active"><i class="fas fa-calendar-alt"></i> Voyages</a>
+        <span>{{ auth()->user()->client->first_name }}</span>
+        <div class="user-dropdown">
             <a href="{{ route('client.profil') }}"><i class="fas fa-user-cog"></i> Profil</a>
+            <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
         </div>
-        
-        <div class="user-profile">
-            <div class="user-avatar">
-                {{ strtoupper(substr(auth()->user()->client->first_name, 0, 1)) }}
-            </div>
-            <span>{{ auth()->user()->client->first_name }}</span>
-            <div class="user-dropdown">
-                <a href="{{ route('home') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-            </div>
-        </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="main-content">
         <div class="section-header fade-in">
-            <h1><i class="fas fa-globe-europe"></i> Voyages Proposés</h1>
+            <h1><i class="fas fa-globe-europe"></i> Offres Prochaines</h1>
             <div class="view-toggle">
                 <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
                 <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
