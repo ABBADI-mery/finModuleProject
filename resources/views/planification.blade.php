@@ -1228,7 +1228,7 @@
                 for (let i = 1; i <= jours; i++) {
                     itineraire += `
                         <div class="timeline-item">
-                            <div class="timeline-title">Jour ${i}: ${i === 1 ? 'Arrivée' : (i === jours ? 'Départ' : 'Exploration')}</div>
+                            <div class="timeline-title">Jour ${i}: ${i === 1 ? 'Départ' : (i === jours ? 'Arrivée' : 'Exploration')}</div>
                             <div class="timeline-desc">
                     `;
 

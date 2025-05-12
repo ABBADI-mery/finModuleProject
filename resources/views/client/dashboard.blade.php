@@ -754,43 +754,37 @@
                 </div>
             </div>
             
-            <div class="card card-3d" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-header">
-                    <h3 class="card-title">Prochaine réservation</h3>
-                    <i class="fas fa-calendar-day card-icon"></i>
-                </div>
-                <div class="card-body">
-                    <div class="stat-value" style="font-size: 1.5rem; color: var(--dark);">15 Juin 2023</div>
-                    <div class="stat-label">Paris → New York</div>
-                    <div style="margin-top: 0.5rem;">
-                        <span class="badge">
-                            <i class="fas fa-plane"></i> Vol + Hôtel
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card card-3d" data-aos="fade-up" data-aos-delay="400">
-                <div class="card-header">
-                    <h3 class="card-title">Points fidélité</h3>
-                    <i class="fas fa-gem card-icon"></i>
-                </div>
-                <div class="card-body">
-                    <div class="stat-value" style="color: var(--success);">
-                        1,250
-                    </div>
-                    <div class="stat-label">Points disponibles</div>
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Niveau Silver</span>
-                            <span>75%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <!-- Carte statique : Astuce du jour -->
+<div class="card card-3d" data-aos="fade-up" data-aos-delay="300">
+    <div class="card-header">
+        <h3 class="card-title">Astuce du jour</h3>
+        <i class="fas fa-lightbulb card-icon"></i>
+    </div>
+    <div class="card-body">
+        <div class="stat-value" style="font-size: 1rem; color: var(--dark);">
+            Vérifiez la validité de votre passeport ✈
+        </div>
+        <div class="stat-label" style="margin-top: 0.5rem;">
+            Avant de réserver un voyage à l’étranger
+        </div>
+    </div>
+</div>
+
+<!-- Carte statique : Destination recommandée -->
+<div class="card card-3d" data-aos="fade-up" data-aos-delay="400">
+    <div class="card-header">
+        <h3 class="card-title">Destination recommandée</h3>
+        <i class="fas fa-map-marker-alt card-icon"></i>
+    </div>
+    <div class="card-body">
+        <div class="stat-value" style="color: var(--primary); font-size: 1.2rem;">
+            Bali - Décembre 2025
+        </div>
+        <div class="stat-label">
+            Soleil, plages et culture locale 🌴
+        </div>
+    </div>
+</div>
         </div>
 
         <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
