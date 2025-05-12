@@ -828,37 +828,9 @@
             </div>
         </div>
 
-        <div class="section-header" style="margin-top: 2rem;" data-aos="fade-up">
-            <h1><i class="fas fa-clock-rotate-left"></i> Dernières activités</h1>
-            <a href="{{ route('planification') }}" class="btn">
-                <i class="fas fa-arrow-right"></i> gérer votre plan préfére
-            </a>
-        </div>
         
-        <div class="card fade-in" data-aos="fade-up">
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-plane"></i>
-                </div>
-                <div class="activity-content">
-                    <h3 class="activity-title">Réservation effectuée</h3>
-                    <p class="activity-text">Vous avez réservé un vol pour New York (JFK) le 15 juin 2023</p>
-                </div>
-                <span class="activity-time">Il y a 2 jours</span>
-            </div>
-            
-            <div class="activity-item">
-                <div class="activity-icon" style="background: rgba(255, 193, 7, 0.1); color: var(--warning);">
-                    <i class="fas fa-hotel"></i>
-                </div>
-                <div class="activity-content">
-                    <h3 class="activity-title">Hôtel réservé</h3>
-                    <p class="activity-text">Hôtel The Ritz-Carlton New York pour 7 nuits</p>
-                </div>
-                <span class="activity-time">Il y a 5 jours</span>
-            </div>
-            
-        </div>
+        
+        
 
         <div class="section-header" style="margin-top: 3rem;" data-aos="fade-up">
             <h1><i class="fas fa-lightbulb"></i> Conseils de voyage</h1>
